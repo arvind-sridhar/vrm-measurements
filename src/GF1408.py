@@ -9,7 +9,6 @@ Created on Apr 12, 2017
 
 import sys
 from PyQt4 import QtGui
-import GF1408_tools
 from GF1408_tools.GF1408_GUI import GF1408_GUI
 
 
