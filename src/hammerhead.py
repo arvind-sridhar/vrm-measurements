@@ -10,9 +10,12 @@ class Hammerhead():
 
     def initH(self):
 #        self.ADDR = '192.168.1.200'
-#         self.ADDR = '9.4.208.191' #hh2 
-#        self.ADDR = '9.4.208.190' #hh1 -before
+
+#       self.ADDR = '9.4.208.191' #hh2 
+#       self.ADDR = '9.4.208.190' #hh1 -before
+
         self.ADDR = '9.4.208.196' #hh3
+        
         #TODO: Fix address
 #        self.ADDR = 'hh3'
         self.CHANNEL = 0
@@ -40,7 +43,12 @@ class Hammerhead():
         return self.isConnected
     
     def disconnect(self):
-        self.s.close()
+        if(self.isConnected):
+            print('disconnecting...')
+            self.s.close()
+            self.isConnected = False
+            self.initH()
+            print('done.')
     
     def write(self, addr, data):
 #        print addr, data
