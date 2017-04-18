@@ -13,6 +13,7 @@ class Hammerhead():
 #         self.ADDR = '9.4.208.191' #hh2 
 #        self.ADDR = '9.4.208.190' #hh1 -before
         self.ADDR = '9.4.208.196' #hh3
+        #TODO: Fix address
 #        self.ADDR = 'hh3'
         self.CHANNEL = 0
         self.PORT = 55555
@@ -30,6 +31,7 @@ class Hammerhead():
             print('connecting...')
             self.s.connect((self.ADDR, self.PORT))
         except Exception as e:
+            
             raise Exception('Something\'s wrong with %s:%d. Exception type is %s' % (self.ADDR, self.PORT, e))
             self.isConnected = False
         else:

@@ -81,4 +81,5 @@ class BIDI_PARAMETER():
         
         self.BIDI.updateRegister(self,newValue)
 
+
         

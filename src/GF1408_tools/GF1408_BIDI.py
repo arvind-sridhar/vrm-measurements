@@ -26,5 +26,5 @@ class GF1408_BIDI(BIDI_REGISTERS):
         
         self.PHASE_SEL_0 = BIDI_PARAMETER.linear('SEL_0', 12, 2, self)
         self.PHASE_SEL_1 = BIDI_PARAMETER.linear('SEL_1', 14, 2, self)
-        
-        
+        self.PHASE_SEL_2 = BIDI_PARAMETER.linear('SEL_2', 16, 2, self)
+        self.PHASE_SEL_3 = BIDI_PARAMETER.linear('SEL_3', 18, 2, self)
