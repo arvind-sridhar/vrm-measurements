@@ -11,7 +11,7 @@ from GF1408_CONST import CONST
 from PyQt4 import QtGui, QtCore
 from GF1408_tools import GF1408_BIDI,GUI_Parent
 from GUI_LoadCTRL import LoadControl_Class
-from GUI_Hammerhead import EquipmentGui_Class
+from GF1408_tools.GUI_Equipment import EquipmentGui_Class
 from GUI_DPWM import DPWMControl_Class
 
 
