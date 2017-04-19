@@ -3,6 +3,8 @@ Created on Apr 19, 2017
 
 @author: rid
 '''
+from xlrd.formula import num2strg
+
 
 class GuiTools(object):
     '''
@@ -29,4 +31,20 @@ class GuiTools(object):
         for obj in GuiTools.layout_widgets(self.mainLayout):
             if hasattr(obj, 'isEnabled'):
                 obj.setEnabled(en)
-                
+
+
+    def onChangeComboBox(self):
+        
+        sender = self.parent.sender()
+        self.parent.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + sender.currentText()) 
+    
+    def onChangeSpinBox(self):
+        sender = self.parent.sender()
+        self.parent.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + num2strg(sender.value())) 
+      
+    # Hammer Head Functions
+    
+    def onChangeCheckBox(self):
+        sender = self.parent.sender()
+        self.parent.statusBar().showMessage(sender.accessibleName() + ' was changed to ' +  num2strg(sender.isChecked())) 
+      

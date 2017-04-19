@@ -70,7 +70,7 @@ class GF1408_GUI(QtGui.QMainWindow):
         h0Layout.addWidget(v0Box)
         h0Layout.addWidget(self.DPWM_GUI.GroupBox)
          
-        h0Box.setMaximumWidth(450)
+        h0Box.setMaximumWidth(500)
         #v0Box.setMaximumWidth(100)
         return h0Box        
     

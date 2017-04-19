@@ -12,7 +12,7 @@ Created on Apr 18, 2017
 class CONST():
     
     
-    HAMMERHEAD_CONNECT_AND_INIT  = "Connect + Init Hammerhead"
+    HAMMERHEAD_CONNECT_AND_INIT  = "Init Hammerhead"
     HAMMERHEAD_DISCONNECT  = "Disconnect"
     HAMMERHEAD_INIT     = "Init"
     EXIT = "Exit"
@@ -61,4 +61,8 @@ class CONST():
     VALUE= "Value"
     NAME= "Name"
     REFERENCE = "Reference"
-    
+    INSTRUMENTS_CONNECT_AND_INIT = "Init instruments"
+    ONOFF= "On/Off"
+    VINon = "VinOn"
+    Vdon = "VdOn"
+    FGon = "FGOn"

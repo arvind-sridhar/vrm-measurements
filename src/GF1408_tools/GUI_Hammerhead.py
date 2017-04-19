@@ -9,42 +9,62 @@ Created on Apr 18, 2017
 from threading import Thread
 from PyQt4 import QtGui,QtCore
 from GF1408_CONST import CONST
-import PyQt4
+from GUI_Parent import GuiTools
 
-class EquipmentGui_Class(object):
+class EquipmentGui_Class(GuiTools):
     '''
     classdocs
     '''
     
-    WIDTH = 250
+    WIDTH = 400
     HEIGHT = 300
     
     MAX_VIN = 1600 #mV
     MAX_IIN = 200 #mA
     MAX_VD = 800
     MAX_ID = 250
-    MAX_FAC = 0.8
+    MAX_FAC = 800
     MAX_FDC = 0.0
     MAX_FF = 8000
 
     def __init__(self, parent):
         
+        Layout1 = QtGui.QVBoxLayout()
+        Layout_Inner = QtGui.QHBoxLayout()
+        
         GridLayout = QtGui.QGridLayout();
+        
+        Box = QtGui.QWidget()
+        Box.setLayout(Layout_Inner)
+        Box.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        Layout_Inner.layout().setContentsMargins(0, 0, 0, 0)
+        
+        Box2 = QtGui.QWidget()
+        Box2.setLayout(GridLayout)
+        Box2.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        
         
         # Connect and Init Hammerhead
         Button_Connect = QtGui.QPushButton(CONST.HAMMERHEAD_CONNECT_AND_INIT, parent)
         Button_Connect.setAccessibleName(CONST.HAMMERHEAD_CONNECT_AND_INIT)
         Button_Connect.clicked.connect(self.onClickButton)
         
-        GridLayout.addWidget(Button_Connect,0,0,1,4);
-        ##################
-        # Equipemt Table #
-        ##################
+        Button_ConnectINST = QtGui.QPushButton(CONST.INSTRUMENTS_CONNECT_AND_INIT, parent)
+        Button_ConnectINST.setAccessibleName(CONST.INSTRUMENTS_CONNECT_AND_INIT)
+        Button_ConnectINST.clicked.connect(self.onClickButton)
         
+        Layout_Inner.addWidget(Button_Connect)
+        Layout_Inner.addWidget(Button_ConnectINST)
+        Layout1.addWidget(Box)
+        Layout1.addWidget(Box2)
+        
+        ################ Equipemt Table ################
         
         FONT=QtGui.QFont( "Times", 10, QtGui.QFont.Serif);
         
         # Table Heading
+        Label_State = QtGui.QLabel(CONST.ONOFF,parent)
+        Label_State.setAlignment(QtCore.Qt.AlignLeft)
         Label_Name = QtGui.QLabel(CONST.NAME,parent)
         Label_Reference = QtGui.QLabel(CONST.REFERENCE,parent)
         Label_Reference.setAlignment(QtCore.Qt.AlignHCenter)
@@ -53,12 +73,14 @@ class EquipmentGui_Class(object):
         Label_Sync = QtGui.QLabel(CONST.SYNC,parent)
         Label_Sync.setAlignment(QtCore.Qt.AlignRight)
         
-        GridLayout.addWidget(Label_Name,1,0)
-        GridLayout.addWidget(Label_Reference,1,1)
-        GridLayout.addWidget(Label_Value,1,2)
-        GridLayout.addWidget(Label_Sync,1,3)
+        POS = 0;
+        GridLayout.addWidget(Label_State,POS,0)
+        GridLayout.addWidget(Label_Name,POS,1)
+        GridLayout.addWidget(Label_Reference,POS,2)
+        GridLayout.addWidget(Label_Value,POS,3)
+        GridLayout.addWidget(Label_Sync,POS,4)
+        POS = POS+1;
         
-        POS = 2;
         def createInstrumentGroup(_LABEL,_MAXVAL,_UNIT):
             Label = QtGui.QLabel(_LABEL,parent)
             Label.setFont(FONT)
@@ -68,16 +90,18 @@ class EquipmentGui_Class(object):
             SpinBox.setSuffix(_UNIT)
             SpinBox.setAlignment(QtCore.Qt.AlignRight)
             SpinBox.setAccessibleName(_LABEL)
+            SpinBox.valueChanged.connect(self.onChangeSpinBox)
             Label_IST = QtGui.QLabel("1600"+_UNIT,parent)
             CheckBox_Sync = QtGui.QCheckBox("",parent)
             CheckBox_Sync.setAccessibleName(_LABEL+CONST.SYNC)
-            CheckBox_Sync.setLayoutDirection(QtCore.Qt.RightToLeft)            
+            CheckBox_Sync.setLayoutDirection(QtCore.Qt.RightToLeft)    
+            CheckBox_Sync.clicked.connect(self.onChangeCheckBox)        
             _POS = POS;
-                     
-            GridLayout.addWidget(Label,_POS,0)
-            GridLayout.addWidget(SpinBox,_POS,1)
-            GridLayout.addWidget(Label_IST,_POS,2)
-            GridLayout.addWidget(CheckBox_Sync,_POS,3)
+            
+            GridLayout.addWidget(Label,_POS,1)
+            GridLayout.addWidget(SpinBox,_POS,2)
+            GridLayout.addWidget(Label_IST,_POS,3)
+            GridLayout.addWidget(CheckBox_Sync,_POS,4)
             _POS = _POS+1;
             
             return _POS
@@ -90,8 +114,19 @@ class EquipmentGui_Class(object):
         POS=createInstrumentGroup(CONST.EQ_FREQ_DC,self.MAX_FDC,CONST.UNIT_MV)
         POS=createInstrumentGroup(CONST.EQ_FREQ_F,self.MAX_FF,CONST.UNIT_MHZ)
         
+        def createTurnOnBox(_name,_row,_size):
+            CheckBox = QtGui.QCheckBox("",parent)
+            CheckBox.setAccessibleName(_name)
+            GridLayout.addWidget(CheckBox,_row,0,2,_size)
+            CheckBox.clicked.connect(self.onChangeCheckBox)        
+          
+        
+        createTurnOnBox(CONST.VINon,1,1)
+        createTurnOnBox(CONST.Vdon,3,1)
+        createTurnOnBox(CONST.FGon,5,1)
+        
         gb_Hammerhead = QtGui.QGroupBox(CONST.EQUIPMENT)
-        gb_Hammerhead.setLayout(GridLayout)
+        gb_Hammerhead.setLayout(Layout1)
         gb_Hammerhead.setMaximumWidth(self.WIDTH)
         gb_Hammerhead.setAlignment(QtCore.Qt.AlignHCenter)
         
