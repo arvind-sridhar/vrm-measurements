@@ -9,7 +9,7 @@ Created on Apr 18, 2017
 
 
 from PyQt4 import QtGui, QtCore
-from GF1408_CONST import *
+from GF1408_CONST import CONST
 from GF1408_tools import GUI_Parent
 
 class LoadControl_Class(GUI_Parent.GuiTools):
@@ -22,26 +22,26 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         
         super(LoadControl_Class,self).__init__(parent)
         
-        CheckBox_ENLOAD = QtGui.QCheckBox(GF1408_CONST.EN_LOADCTRL,parent) # Enable Clock
-        CheckBox_ENLOAD.setAccessibleName(GF1408_CONST.EN_LOADCTRL)
-        CheckBox_LOAD_SLOWCHANGE = QtGui.QCheckBox(GF1408_CONST.EN_LOADPROG,parent) # Enable LOADPROG
-        CheckBox_LOAD_SLOWCHANGE.setAccessibleName(GF1408_CONST.EN_LOADPROG)
+        CheckBox_ENLOAD = QtGui.QCheckBox(CONST.EN_LOADCTRL,parent) # Enable Clock
+        CheckBox_ENLOAD.setAccessibleName(CONST.EN_LOADCTRL)
+        CheckBox_LOAD_SLOWCHANGE = QtGui.QCheckBox(CONST.EN_LOADPROG,parent) # Enable LOADPROG
+        CheckBox_LOAD_SLOWCHANGE.setAccessibleName(CONST.EN_LOADPROG)
         # Load CLK
-        Label_LOADCLK = QtGui.QLabel(GF1408_CONST.LOADCLK + ":",parent)
+        Label_LOADCLK = QtGui.QLabel(CONST.LOADCLK + ":",parent)
         ComboBox_LOADCLK = QtGui.QComboBox(parent)  
         values = QtCore.QStringList()
         values << "CK2" << "CK4" << "CK8" << "CK16";
-        ComboBox_LOADCLK.setAccessibleName(GF1408_CONST.LOADCLK)
+        ComboBox_LOADCLK.setAccessibleName(CONST.LOADCLK)
         ComboBox_LOADCLK.addItems(values)
         
         
         # Load 
-        Label_LOADEN = QtGui.QLabel(GF1408_CONST.LOADEN + ":",parent)
+        Label_LOADEN = QtGui.QLabel(CONST.LOADEN + ":",parent)
         SpinBox_LOADEN = QtGui.QSpinBox(parent)
         SpinBox_LOADEN.setMaximumWidth(80)
-        SpinBox_LOADEN.setRange(0,GF1408_CONST.LOAD_BITS-1)
-        SpinBox_LOADEN.setSuffix(GF1408_CONST.LOAD_UNITS)
-        SpinBox_LOADEN.setAccessibleName(GF1408_CONST.LOADEN)
+        SpinBox_LOADEN.setRange(0,CONST.LOAD_BITS-1)
+        SpinBox_LOADEN.setSuffix(CONST.LOAD_UNITS)
+        SpinBox_LOADEN.setAccessibleName(CONST.LOADEN)
         
         GridLayout = QtGui.QGridLayout();
         GridLayout.addWidget(CheckBox_ENLOAD ,0,0,1,2);
@@ -51,7 +51,7 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         GridLayout.addWidget(Label_LOADEN ,3,0);
         GridLayout.addWidget(SpinBox_LOADEN ,3,1);
         
-        gb_LOAD=QtGui.QGroupBox(GF1408_CONST.LOADCTRL)
+        gb_LOAD=QtGui.QGroupBox(CONST.LOADCTRL)
         gb_LOAD.setLayout(GridLayout)
         gb_LOAD.setFixedWidth(175)
         gb_LOAD.setFixedHeight(125)

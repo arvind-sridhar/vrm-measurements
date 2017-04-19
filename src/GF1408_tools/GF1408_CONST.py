@@ -9,10 +9,10 @@ Created on Apr 18, 2017
 '''
 
 
-class GF1408_CONST():
+class CONST():
     
     
-    HAMMERHEAD_CONNECT  = "Connect"
+    HAMMERHEAD_CONNECT_AND_INIT  = "Connect + Init Hammerhead"
     HAMMERHEAD_DISCONNECT  = "Disconnect"
     HAMMERHEAD_INIT     = "Init"
     EXIT = "Exit"
@@ -42,4 +42,23 @@ class GF1408_CONST():
     LOAD_BITS = 32
     LOAD_UNITS = u' × 13Ω'
     
+    EQUIPMENT = "Equipment"
+    EQ_VIN = "V<sub>in</sub>"
+    EQ_INMAX = "I<sub>in,max</sub>"
+    
+    EQ_Vd = "V<sub>d</sub>"
+    EQ_IdMAX = "I<sub>d,max</sub>"
+    
+    EQ_FREQ_AC = "V<sub>clk</sub>"
+    EQ_FREQ_DC = "V<sub>clk,DC</sub>"
+    EQ_FREQ_F = "f<sub>clk</sub>"
+    
+    UNIT_MV = " mV"
+    UNIT_MA = " mA"
+    UNIT_MHZ = " MHz"
+    
+    SYNC = "Sync"
+    VALUE= "Value"
+    NAME= "Name"
+    REFERENCE = "Reference"
     

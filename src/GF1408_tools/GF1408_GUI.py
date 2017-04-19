@@ -7,11 +7,11 @@ Created on Apr 12, 2017
 @author: rid
 '''
 
-from GF1408_CONST import *
+from GF1408_CONST import CONST
 from PyQt4 import QtGui, QtCore
 from GF1408_tools import GF1408_BIDI,GUI_Parent
 from GUI_LoadCTRL import LoadControl_Class
-from GUI_Hammerhead import HammerheadGui_Class
+from GUI_Hammerhead import EquipmentGui_Class
 from GUI_DPWM import DPWMControl_Class
 
 
@@ -52,11 +52,12 @@ class GF1408_GUI(QtGui.QMainWindow):
         self.show()
     
     def initButtons(self):
+        
         v0Box, v0Layout = self.addVWidget()
         h0Box, h0Layout = self.addHWidget()   
         
         self.Load_GUI = LoadControl_Class(self)
-        self.HammerHead_GUI = HammerheadGui_Class(self)
+        self.HammerHead_GUI = EquipmentGui_Class(self)
         self.DPWM_GUI = DPWMControl_Class(self)
         
         # TODO: remove comment
@@ -69,7 +70,7 @@ class GF1408_GUI(QtGui.QMainWindow):
         h0Layout.addWidget(v0Box)
         h0Layout.addWidget(self.DPWM_GUI.GroupBox)
          
-        h0Box.setMaximumWidth(375)
+        h0Box.setMaximumWidth(450)
         #v0Box.setMaximumWidth(100)
         return h0Box        
     
@@ -101,9 +102,9 @@ class GF1408_GUI(QtGui.QMainWindow):
         self.buttonClicked() # print out pressed button
         try:
             
-            if self.sender().text() == GF1408_CONST.HAMMERHEAD_INIT:
+            if self.sender().text() == CONST.HAMMERHEAD_INIT:
                 self.initHammerhead()                   
-            elif self.sender().text() == GF1408_CONST.EXIT:
+            elif self.sender().text() == CONST.EXIT:
                 self.close() 
             else:
                 print(self.sender()) 

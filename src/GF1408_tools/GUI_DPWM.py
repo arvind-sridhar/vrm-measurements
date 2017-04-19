@@ -9,7 +9,7 @@ Created on Apr 18, 2017
 
 
 from PyQt4 import QtGui, QtCore
-from GF1408_CONST import *
+from GF1408_CONST import CONST
 from xlrd.formula import num2strg
 from GUI_Parent import GuiTools
 
@@ -24,14 +24,14 @@ class DPWMControl_Class(GuiTools):
         Constructor
         '''
         super(DPWMControl_Class,self).__init__(parent)
-        CheckBox_ENDPWM = QtGui.QCheckBox(GF1408_CONST.EN_DPWM,parent) # Enable DPWM
-        CheckBox_ENDPWM.setAccessibleName(GF1408_CONST.EN_DPWM)
-        CheckBox_RSTDPWM = QtGui.QCheckBox(GF1408_CONST.RST_DPWM,parent) # Reset DPWM
-        CheckBox_RSTDPWM.setAccessibleName(GF1408_CONST.RST_DPWM)
+        CheckBox_ENDPWM = QtGui.QCheckBox(CONST.EN_DPWM,parent) # Enable DPWM
+        CheckBox_ENDPWM.setAccessibleName(CONST.EN_DPWM)
+        CheckBox_RSTDPWM = QtGui.QCheckBox(CONST.RST_DPWM,parent) # Reset DPWM
+        CheckBox_RSTDPWM.setAccessibleName(CONST.RST_DPWM)
         
-        Label_DUTY = QtGui.QLabel(GF1408_CONST.DUTY,parent)
+        Label_DUTY = QtGui.QLabel(CONST.DUTY,parent)
         
-        BitWidth = GF1408_CONST.DUTY_BITS # Duty Cycle
+        BitWidth = CONST.DUTY_BITS # Duty Cycle
         Scale_Dec = 2
         DoubleSpinBox_DUTY = QtGui.QDoubleSpinBox(parent)
         DoubleSpinBox_DUTY.setMaximumWidth(80)
@@ -39,7 +39,7 @@ class DPWMControl_Class(GuiTools):
         DoubleSpinBox_DUTY.setSingleStep(10**Scale_Dec*2**(-1*(BitWidth-1)))
         DoubleSpinBox_DUTY.setRange(0,10**(Scale_Dec)*(1-2**(-1*(BitWidth-1))))
         DoubleSpinBox_DUTY.setSuffix(' %')
-        DoubleSpinBox_DUTY.setAccessibleName(GF1408_CONST.DUTY)
+        DoubleSpinBox_DUTY.setAccessibleName(CONST.DUTY)
         DoubleSpinBox_DUTY.lineEdit().setReadOnly(True)
         
         
@@ -58,14 +58,14 @@ class DPWMControl_Class(GuiTools):
             return SpinBox_DT
             
             
-        SpinBox_DTN = getDTSpinBox(GF1408_CONST.DT_STEP_N, GF1408_CONST.DT_BITS_N, GF1408_CONST.DT_N)
-        SpinBox_DTP = getDTSpinBox(GF1408_CONST.DT_STEP_P, GF1408_CONST.DT_BITS_P, GF1408_CONST.DT_P)
+        SpinBox_DTN = getDTSpinBox(CONST.DT_STEP_N, CONST.DT_BITS_N, CONST.DT_N)
+        SpinBox_DTP = getDTSpinBox(CONST.DT_STEP_P, CONST.DT_BITS_P, CONST.DT_P)
         
-        Label_DTN = QtGui.QLabel(GF1408_CONST.DT_N + ":",parent)
-        Label_DTP = QtGui.QLabel(GF1408_CONST.DT_P+ ":",parent)
+        Label_DTN = QtGui.QLabel(CONST.DT_N + ":",parent)
+        Label_DTP = QtGui.QLabel(CONST.DT_P+ ":",parent)
         
-        CheckBox_ENPHASES = QtGui.QCheckBox(GF1408_CONST.EN_ALLPHASES,parent) # Enable all phases
-        CheckBox_ENPHASES.setAccessibleName(GF1408_CONST.EN_ALLPHASES)
+        CheckBox_ENPHASES = QtGui.QCheckBox(CONST.EN_ALLPHASES,parent) # Enable all phases
+        CheckBox_ENPHASES.setAccessibleName(CONST.EN_ALLPHASES)
         # EN_PHASE
         def getEN_PHASE(name):
             CheckBox_ENPHx = QtGui.QCheckBox(name,parent) 
@@ -96,7 +96,7 @@ class DPWMControl_Class(GuiTools):
         self.CheckBox_ENPH=[None] * 4
         self.ComboBox_ENPH=[None] * 4
         for phase in range(1,5):
-            CheckBox_ENPHx,ComboBox_ENPHx = getEN_PHASE(GF1408_CONST.PHASE +' '+ num2strg(phase))
+            CheckBox_ENPHx,ComboBox_ENPHx = getEN_PHASE(CONST.PHASE +' '+ num2strg(phase))
             GridLayout.addWidget(CheckBox_ENPHx,start_EN+phase-1,0 )
             GridLayout.addWidget(ComboBox_ENPHx,start_EN+phase-1,1 )
             CheckBox_ENPHx.clicked.connect(parent.onChangeCheckBox)
@@ -112,7 +112,7 @@ class DPWMControl_Class(GuiTools):
             if hasattr(button, 'valueChanged'):
                 button.valueChanged.connect(parent.onChangeSpinBox)
         
-        gb_DPWM=QtGui.QGroupBox(GF1408_CONST.DPWM)
+        gb_DPWM=QtGui.QGroupBox(CONST.DPWM)
         gb_DPWM.setLayout(GridLayout)
         gb_DPWM.setFixedWidth(175)
         gb_DPWM.setFixedHeight(280)

@@ -110,12 +110,13 @@ class Hammerhead():
         return self.readRange(addrR)
     
     def init(self):
+        print('Initializing...')
         self.s.sendall(bytes('debug '+str(self.DEBUGLEVEL)+'\n'))#, 'ascii'))
         self.s.sendall(bytes('c '+str(self.CHANNEL)+'\n'))#, 'ascii'))
         self.s.sendall(bytes('s '+str(self.HHSPEED)+'\n'))#, 'ascii'))
         self.s.sendall(bytes('m '+str(self.MODE)+'\n'))#, 'ascii'))
         self.s.sendall(bytes('i\n'))#, 'ascii'))
-        
+        print('done.')
 
     def reverseBits(self, i, nbits):
         ibin = bin(i)[2:]
