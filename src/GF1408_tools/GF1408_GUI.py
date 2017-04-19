@@ -22,7 +22,7 @@ from xlrd.formula import num2strg
 
 class GF1408_GUI(QtGui.QMainWindow):
     
-    WINDOW_SIZE=(500,500)
+    WINDOW_SIZE=(370,725)
     WINDOW_NAME='CarrICool GF1408 - Control Window'
     
     PYQT_SIGNAL = QtCore.pyqtSignal()
@@ -37,17 +37,16 @@ class GF1408_GUI(QtGui.QMainWindow):
         
         vMainBox, vMainLayout = self.addVWidget()
         self.setCentralWidget(vMainBox)    
-        hMainBox, hMainLayout = self.addHWidget()
         vMainLayout.addWidget(self.initButtons())
-        vMainLayout.addWidget(hMainBox)
-        #hMainLayout.addWidget(self.setOnMeasButtons())
-        #hMainLayout.addWidget(self.setSweepButtons())
+        vMainLayout.layout().setContentsMargins(10,10, 10, 10)
         
         
         # Initi Window
         self.statusBar()
-        self.setGeometry( 25, 20,self.WINDOW_SIZE[0],self.WINDOW_SIZE[1])
+        self.setGeometry( 50, 50,self.WINDOW_SIZE[0],self.WINDOW_SIZE[1])
         self.setFixedSize(self.WINDOW_SIZE[0],self.WINDOW_SIZE[1])
+        #self.setFixedSize(vMainLayout.layout().sizeHint() )
+        
         self.setWindowTitle(self.WINDOW_NAME)
         self.show()
     
@@ -65,12 +64,13 @@ class GF1408_GUI(QtGui.QMainWindow):
         #self.Load_GUI.setEnabled(False)
         
         v0Layout.addWidget(self.HammerHead_GUI.GroupBox)
+        v0Layout.addWidget(self.DPWM_GUI.GroupBox)
         v0Layout.addWidget(self.Load_GUI.GroupBox)
         
         h0Layout.addWidget(v0Box)
-        h0Layout.addWidget(self.DPWM_GUI.GroupBox)
+        
          
-        h0Box.setMaximumWidth(500)
+        #h0Box.setMaximumWidth(350)
         #v0Box.setMaximumWidth(100)
         return h0Box        
     

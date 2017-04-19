@@ -12,7 +12,7 @@ import hammerhead  #
 # from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 import numpy as np
 from PyQt4 import QtGui, QtCore
-
+from INSTRUMENTS import *
 from PyQt4.QtGui import *
 import xlwt
 import xlrd

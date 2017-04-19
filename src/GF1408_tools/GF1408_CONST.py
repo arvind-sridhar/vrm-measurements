@@ -45,7 +45,7 @@ class CONST():
     EQUIPMENT = "Equipment"
     EQ_VIN = "V<sub>in</sub>"
     EQ_INMAX = "I<sub>in,max</sub>"
-
+    EQ_VOUT = "V<sub>out</sub>"
     EQ_Vd = "V<sub>d</sub>"
     EQ_IdMAX = "I<sub>d,max</sub>"
 
@@ -66,3 +66,5 @@ class CONST():
     VINon = "VinOn"
     Vdon = "VdOn"
     FGon = "FGOn"
+    VOuton = "VOuton"
+        

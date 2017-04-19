@@ -18,7 +18,7 @@ class EquipmentGui_Class( GuiTools ):
     classdocs
     '''
 
-    WIDTH = 400
+    WIDTH = 350
     HEIGHT = 300
 
     MAX_VIN = 1600  # mV
@@ -126,7 +126,23 @@ class EquipmentGui_Class( GuiTools ):
         createTurnOnBox( CONST.VINon, 1, 2 )
         createTurnOnBox( CONST.Vdon, 3, 2 )
         createTurnOnBox( CONST.FGon, 5, 3 )
-
+        
+        
+        _POS = 5+4;
+        createTurnOnBox( CONST.VOuton, _POS, 1 )
+        Label = QtGui.QLabel( CONST.EQ_VOUT, parent )
+        Label.setFont( FONT )
+        Label_IST = QtGui.QLabel( "-" + CONST.UNIT_MV, parent )
+        Label_IST.setAlignment( QtCore.Qt.AlignHCenter )
+        CheckBox_Sync = QtGui.QCheckBox( "", parent )
+        CheckBox_Sync.setAccessibleName( CONST.VOuton + CONST.SYNC )
+        CheckBox_Sync.setLayoutDirection( QtCore.Qt.RightToLeft )
+        CheckBox_Sync.clicked.connect( self.onChangeCheckBox )
+        
+        GridLayout.addWidget( Label, _POS, 1 )
+        GridLayout.addWidget( Label_IST, _POS, 3 )
+        GridLayout.addWidget( CheckBox_Sync, _POS, 4 )
+            
         gb_Hammerhead = QtGui.QGroupBox( CONST.EQUIPMENT )
         gb_Hammerhead.setLayout( Layout1 )
         gb_Hammerhead.setMaximumWidth( self.WIDTH )

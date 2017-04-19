@@ -16,7 +16,9 @@ class LoadControl_Class(GUI_Parent.GuiTools):
     '''
     classdocs
     '''
-    
+    WIDTH = 350
+    HEIGHT = 150
+
 
     def __init__(self, parent):
         
@@ -46,16 +48,16 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         GridLayout = QtGui.QGridLayout();
         GridLayout.addWidget(CheckBox_ENLOAD ,0,0,1,2);
         GridLayout.addWidget(CheckBox_LOAD_SLOWCHANGE ,1,0,1,2);
-        GridLayout.addWidget(Label_LOADCLK ,2,0);
-        GridLayout.addWidget(ComboBox_LOADCLK ,2,1);
-        GridLayout.addWidget(Label_LOADEN ,3,0);
-        GridLayout.addWidget(SpinBox_LOADEN ,3,1);
+        GridLayout.addWidget(Label_LOADCLK ,0,2);
+        GridLayout.addWidget(ComboBox_LOADCLK ,0,3);
+        GridLayout.addWidget(Label_LOADEN ,1,2);
+        GridLayout.addWidget(SpinBox_LOADEN ,1,3);
         
         gb_LOAD=QtGui.QGroupBox(CONST.LOADCTRL)
         gb_LOAD.setLayout(GridLayout)
-        gb_LOAD.setFixedWidth(175)
+        gb_LOAD.setFixedWidth( self.WIDTH)
         gb_LOAD.setFixedHeight(125)
-        
+        gb_LOAD.setAlignment( QtCore.Qt.AlignHCenter )
         # Set Events
         CheckBox_ENLOAD.clicked.connect(parent.onChangeCheckBox)
         CheckBox_LOAD_SLOWCHANGE.clicked.connect(parent.onChangeCheckBox)
@@ -65,3 +67,7 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         # Assignments
         self.GroupBox = gb_LOAD
         self.mainLayout = GridLayout
+        
+       
+       
+        
