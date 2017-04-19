@@ -11,8 +11,9 @@ Created on Apr 18, 2017
 from PyQt4 import QtGui, QtCore
 from GF1408_CONST import *
 from xlrd.formula import num2strg
+from GUI_Parent import GuiTools
 
-class DPWMControl_Class(object):
+class DPWMControl_Class(GuiTools):
     '''
     classdocs
     '''
@@ -22,7 +23,7 @@ class DPWMControl_Class(object):
         '''
         Constructor
         '''
-        
+        super(DPWMControl_Class,self).__init__(parent)
         CheckBox_ENDPWM = QtGui.QCheckBox(GF1408_CONST.EN_DPWM,parent) # Enable DPWM
         CheckBox_ENDPWM.setAccessibleName(GF1408_CONST.EN_DPWM)
         CheckBox_RSTDPWM = QtGui.QCheckBox(GF1408_CONST.RST_DPWM,parent) # Reset DPWM
@@ -89,13 +90,19 @@ class DPWMControl_Class(object):
         GridLayout.addWidget(SpinBox_DTN,9,1 )
         GridLayout.addWidget(SpinBox_DTP,10,1 )
         GridLayout.addWidget(CheckBox_ENPHASES,3,0,1,2 )
+        
+        
         start_EN = 5
+        self.CheckBox_ENPH=[None] * 4
+        self.ComboBox_ENPH=[None] * 4
         for phase in range(1,5):
             CheckBox_ENPHx,ComboBox_ENPHx = getEN_PHASE(GF1408_CONST.PHASE +' '+ num2strg(phase))
             GridLayout.addWidget(CheckBox_ENPHx,start_EN+phase-1,0 )
             GridLayout.addWidget(ComboBox_ENPHx,start_EN+phase-1,1 )
             CheckBox_ENPHx.clicked.connect(parent.onChangeCheckBox)
             ComboBox_ENPHx.activated.connect(parent.onChangeComboBox)
+            self.CheckBox_ENPH[phase-1]=CheckBox_ENPHx
+            self.ComboBox_ENPH[phase-1]=ComboBox_ENPHx
           
         # Set bindings for buttons
         AllButtons = [CheckBox_ENDPWM, CheckBox_RSTDPWM,CheckBox_ENPHASES,DoubleSpinBox_DUTY,SpinBox_DTN,SpinBox_DTP ]
@@ -111,4 +118,17 @@ class DPWMControl_Class(object):
         gb_DPWM.setFixedHeight(280)
         
         self.GroupBox = gb_DPWM
-    
+        self.mainLayout = GridLayout
+        '''
+        self.CheckBox_ENDPWM = CheckBox_ENDPWM
+        self.CheckBox_RSTDPWM = CheckBox_RSTDPWM
+        self.Label_DUTY = Label_DUTY
+        self.DoubleSpinBox_DUTY = DoubleSpinBox_DUTY
+        self.Label_DTN = Label_DTN
+        self.Label_DTP = Label_DTP
+        self.SpinBox_DTN = SpinBox_DTN
+        self.SpinBox_DTP = SpinBox_DTP
+        self.CheckBox_ENPHASES = CheckBox_ENPHASES
+        self.CheckBox_ENDPWM = CheckBox_ENDPWM
+        self.CheckBox_ENDPWM = CheckBox_ENDPWM
+        '''

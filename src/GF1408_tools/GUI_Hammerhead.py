@@ -76,13 +76,13 @@ class HammerheadGui_Class(object):
         
         self.Button_Connect.setEnabled(False);
         parent = self.parent
-        
+        connected = parent.h.isConnected
         def finishedConnect():
         
             self.Button_Connect.setEnabled(True);
-            self.Button_Init.setEnabled(parent.h.isConnected)
+            self.Button_Init.setEnabled(connected)
             
-            if(parent.h.isConnected):
+            if(connected):
                 parent.status('Connected')
                 newtext = GF1408_CONST.HAMMERHEAD_DISCONNECT
             else:
@@ -93,6 +93,7 @@ class HammerheadGui_Class(object):
         
         parent.PYQT_SIGNAL.connect(finishedConnect)
         Thread(target=self.async_connectHH).start() 
+        parent.isConnected(connected)
     
     def async_connectHH(self):
 
@@ -104,6 +105,7 @@ class HammerheadGui_Class(object):
                 parent.h.connect()
         except Exception as e:
             print(str(e))
+            
         parent.PYQT_SIGNAL.emit()
 
     

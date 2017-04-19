@@ -19,11 +19,8 @@ import xlrd
 import time
 #import subprocess
 
-import agilent
-import keithley
-import agilentDC
-import devices
-import agilent8648D
+from INSTRUMENTS import devices
+
 #
 class SCmeas(QtGui.QMainWindow):
     def __init__(self):

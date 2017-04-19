@@ -9,10 +9,11 @@ Created on Apr 12, 2017
 
 from GF1408_CONST import *
 from PyQt4 import QtGui, QtCore
-from GF1408_tools import GF1408_BIDI
+from GF1408_tools import GF1408_BIDI,GUI_Parent
 from GUI_LoadCTRL import LoadControl_Class
 from GUI_Hammerhead import HammerheadGui_Class
 from GUI_DPWM import DPWMControl_Class
+
 
 import hammerhead
 from xlrd.formula import num2strg
@@ -57,6 +58,10 @@ class GF1408_GUI(QtGui.QMainWindow):
         self.Load_GUI = LoadControl_Class(self)
         self.HammerHead_GUI = HammerheadGui_Class(self)
         self.DPWM_GUI = DPWMControl_Class(self)
+        
+        # TODO: remove comment
+        #self.DPWM_GUI.setEnabled(False)
+        #self.Load_GUI.setEnabled(False)
         
         v0Layout.addWidget(self.HammerHead_GUI.GroupBox)
         v0Layout.addWidget(self.Load_GUI.GroupBox)
@@ -134,4 +139,9 @@ class GF1408_GUI(QtGui.QMainWindow):
             self.h.disconnect()
             eventQCloseEvent.accept()
         else:
-            eventQCloseEvent.ignore()
+            eventQCloseEvent.ignore()   
+    
+    def isConnected(self,connected):
+        self.DPWM_GUI.setEnabled(connected)
+        self.Load_GUI.setEnabled(connected)
+        

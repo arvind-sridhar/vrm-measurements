@@ -9,19 +9,19 @@ Created on Apr 18, 2017
 
 
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import *
 from GF1408_CONST import *
+from GF1408_tools import GUI_Parent
 
-class LoadControl_Class(object):
+class LoadControl_Class(GUI_Parent.GuiTools):
     '''
     classdocs
     '''
     
 
     def __init__(self, parent):
-        '''
-        Constructor
-        '''
+        
+        super(LoadControl_Class,self).__init__(parent)
+        
         CheckBox_ENLOAD = QtGui.QCheckBox(GF1408_CONST.EN_LOADCTRL,parent) # Enable Clock
         CheckBox_ENLOAD.setAccessibleName(GF1408_CONST.EN_LOADCTRL)
         CheckBox_LOAD_SLOWCHANGE = QtGui.QCheckBox(GF1408_CONST.EN_LOADPROG,parent) # Enable LOADPROG
@@ -64,3 +64,4 @@ class LoadControl_Class(object):
         
         # Assignments
         self.GroupBox = gb_LOAD
+        self.mainLayout = GridLayout
