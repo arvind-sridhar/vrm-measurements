@@ -69,13 +69,13 @@ class DPWMControl_Class( GuiTools ):
         CheckBox_ENPHASES = QtGui.QCheckBox( CONST.EN_ALLPHASES, parent )  # Enable all phases
         CheckBox_ENPHASES.setAccessibleName( CONST.EN_ALLPHASES )
         # EN_PHASE
-        def getEN_PHASE( name ):
+        def getEN_PHASE( name, attrSHIFT,attrEN ):
             CheckBox_ENPHx = QtGui.QCheckBox( name, parent )
-            CheckBox_ENPHx.setAccessibleName( name + '_EN' )
+            CheckBox_ENPHx.setAccessibleName( attrEN )
             ComboBox_ENPHx = QtGui.QComboBox( parent )
             values = QtCore.QStringList()
             values << u"0°" << u"90°" << u"180°" << u"270°";
-            ComboBox_ENPHx.setAccessibleName( name + '_SHIFT' )
+            ComboBox_ENPHx.setAccessibleName( attrSHIFT )
             ComboBox_ENPHx.addItems( values )
             return CheckBox_ENPHx, ComboBox_ENPHx
 
@@ -99,14 +99,20 @@ class DPWMControl_Class( GuiTools ):
         
         self.CheckBox_ENPH = [None] * 4
         self.ComboBox_ENPH = [None] * 4
-        for phase in range( 1, 5 ):
-            CheckBox_ENPHx, ComboBox_ENPHx = getEN_PHASE( CONST.PHASE + ' ' + num2strg( phase ) )
-            GridLayout.addWidget( CheckBox_ENPHx, start_EN + phase - 1, 0+colPadd )
-            GridLayout.addWidget( ComboBox_ENPHx, start_EN + phase - 1, 1+colPadd )
+        BIDI = parent.BIDI
+        
+        
+        for phase in range( 0, 4 ):
+            name =  CONST.PHASE + ' ' + num2strg( phase+1 )
+            attr_SEL = getattr(BIDI, "SEL_"+num2strg( phase )).name 
+            attr_EN = getattr(BIDI, "EN_PH_"+num2strg( phase )).name 
+            CheckBox_ENPHx, ComboBox_ENPHx = getEN_PHASE( name,attr_SEL,attr_EN )
+            GridLayout.addWidget( CheckBox_ENPHx, start_EN + phase , 0+colPadd )
+            GridLayout.addWidget( ComboBox_ENPHx, start_EN + phase , 1+colPadd )
             CheckBox_ENPHx.clicked.connect( self.onChangeCheckBox )
             ComboBox_ENPHx.activated.connect( self.onChangeComboBox )
-            self.CheckBox_ENPH[phase - 1] = CheckBox_ENPHx
-            self.ComboBox_ENPH[phase - 1] = ComboBox_ENPHx
+            self.CheckBox_ENPH[phase ] = CheckBox_ENPHx
+            self.ComboBox_ENPH[phase ] = ComboBox_ENPHx
 
         # Set bindings for buttons
         AllButtons = [CheckBox_ENDPWM, CheckBox_RSTDPWM, CheckBox_ENPHASES, DoubleSpinBox_DUTY, SpinBox_DTN, SpinBox_DTP ]

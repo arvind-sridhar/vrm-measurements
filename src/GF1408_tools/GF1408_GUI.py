@@ -9,7 +9,7 @@ Created on Apr 12, 2017
 
 from GF1408_CONST import CONST
 from PyQt4 import QtGui, QtCore
-from GF1408_tools import GF1408_BIDI,GUI_Parent
+from GF1408_tools import GF1408_BIDI
 from GUI_LoadCTRL import LoadControl_Class
 from GF1408_tools.GUI_Equipment import EquipmentGui_Class
 from GUI_DPWM import DPWMControl_Class
@@ -30,18 +30,18 @@ class GF1408_GUI(QtGui.QMainWindow):
     def __init__(self):
         super(GF1408_GUI, self).__init__()
         self.h = hammerhead.Hammerhead()
+        self.BIDI = GF1408_BIDI.GF1408_BIDI(self.h)
         self.initUI()
-        #self.BIDI = GF1408_BIDI()
+        
         
     def initUI(self):
         
         vMainBox, vMainLayout = self.addVWidget()
         self.setCentralWidget(vMainBox)    
-        vMainLayout.addWidget(self.initButtons())
+        vMainLayout.addWidget(self.getGUIElements())
         vMainLayout.layout().setContentsMargins(10,10, 10, 10)
         
-        
-        # Initi Window
+        # Init Window
         self.statusBar()
         self.setGeometry( 50, 50,self.WINDOW_SIZE[0],self.WINDOW_SIZE[1])
         self.setFixedSize(self.WINDOW_SIZE[0],self.WINDOW_SIZE[1])
@@ -50,10 +50,9 @@ class GF1408_GUI(QtGui.QMainWindow):
         self.setWindowTitle(self.WINDOW_NAME)
         self.show()
     
-    def initButtons(self):
+    def getGUIElements(self):
         
-        v0Box, v0Layout = self.addVWidget()
-        h0Box, h0Layout = self.addHWidget()   
+        v0Box, v0Layout = self.addVWidget()  
         
         self.Load_GUI = LoadControl_Class(self)
         self.HammerHead_GUI = EquipmentGui_Class(self)
@@ -66,13 +65,7 @@ class GF1408_GUI(QtGui.QMainWindow):
         v0Layout.addWidget(self.HammerHead_GUI.GroupBox)
         v0Layout.addWidget(self.DPWM_GUI.GroupBox)
         v0Layout.addWidget(self.Load_GUI.GroupBox)
-        
-        h0Layout.addWidget(v0Box)
-        
-         
-        #h0Box.setMaximumWidth(350)
-        #v0Box.setMaximumWidth(100)
-        return h0Box        
+        return v0Box        
     
     def addVWidget(self):
         Box = QtGui.QWidget()

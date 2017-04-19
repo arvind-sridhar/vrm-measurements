@@ -4,27 +4,33 @@ Created on Apr 13, 2017
 @author: rid
 '''
 
-from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
-from GF1408_tools.BIDI_REGISTERS import BIDI_PARAMETER
-import hammerhead # the serial interface board
+from BIDI_REGISTERS import BIDI_REGISTERS
+import numpy
 
+class GF1408_BIDI_REGISTERLIST():
 
-class GF1408_BIDI(BIDI_REGISTERS):
+    EN_PH_0 = [True,8,1]
+    EN_PH_1 = [True,9,1]
+    EN_PH_2 = [True,10,1]
+    EN_PH_3 = [True,11,1]
     
+    SEL_0 = [True, 12,2]
+    SEL_1 = [True, 14,2]
+    SEL_2 = [True, 16,2]
+    SEL_3 = [True, 18,2]
+    
+    LOAD_EN = [True, 24,32]
+
+
+class GF1408_BIDI( BIDI_REGISTERS ):
+
     BIDI_SIZE = 24
 
-    def __init__(self,hammerhead):
+    def __init__( self, _hammerhead ):
         '''
         Constructor
         '''
-        super(GF1408_BIDI, self).__init__(self.BIDI_SIZE,hammerhead)
-        self.initRegisters(self);
-        
-        
-        
-    def initRegisters(self):
-        
-        self.PHASE_SEL_0 = BIDI_PARAMETER.linear('SEL_0', 12, 2, self)
-        self.PHASE_SEL_1 = BIDI_PARAMETER.linear('SEL_1', 14, 2, self)
-        self.PHASE_SEL_2 = BIDI_PARAMETER.linear('SEL_2', 16, 2, self)
-        self.PHASE_SEL_3 = BIDI_PARAMETER.linear('SEL_3', 18, 2, self)
+        super( GF1408_BIDI, self ).__init__( self.BIDI_SIZE, _hammerhead, GF1408_BIDI_REGISTERLIST )
+
+
+

@@ -41,9 +41,9 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         Label_LOADEN = QtGui.QLabel(CONST.LOADEN + ":",parent)
         SpinBox_LOADEN = QtGui.QSpinBox(parent)
         SpinBox_LOADEN.setMaximumWidth(80)
-        SpinBox_LOADEN.setRange(0,CONST.LOAD_BITS-1)
+        SpinBox_LOADEN.setRange(0,CONST.LOAD_BITS)
         SpinBox_LOADEN.setSuffix(CONST.LOAD_UNITS)
-        SpinBox_LOADEN.setAccessibleName(CONST.LOADEN)
+        SpinBox_LOADEN.setAccessibleName(parent.BIDI.LOAD_EN.name)
         
         GridLayout = QtGui.QGridLayout();
         GridLayout.addWidget(CheckBox_ENLOAD ,0,0,1,2);
