@@ -74,11 +74,11 @@ class EquipmentGui_Class(GuiTools):
         Label_Sync.setAlignment(QtCore.Qt.AlignRight)
         
         POS = 0;
-        GridLayout.addWidget(Label_State,POS,0)
-        GridLayout.addWidget(Label_Name,POS,1)
-        GridLayout.addWidget(Label_Reference,POS,2)
-        GridLayout.addWidget(Label_Value,POS,3)
-        GridLayout.addWidget(Label_Sync,POS,4)
+        GridLayout.addWidget(Label_State,       POS,0)
+        GridLayout.addWidget(Label_Name,        POS,1)
+        GridLayout.addWidget(Label_Reference,   POS,2)
+        GridLayout.addWidget(Label_Value,       POS,3)
+        GridLayout.addWidget(Label_Sync,        POS,4)
         POS = POS+1;
         
         def createInstrumentGroup(_LABEL,_MAXVAL,_UNIT):
@@ -91,7 +91,8 @@ class EquipmentGui_Class(GuiTools):
             SpinBox.setAlignment(QtCore.Qt.AlignRight)
             SpinBox.setAccessibleName(_LABEL)
             SpinBox.valueChanged.connect(self.onChangeSpinBox)
-            Label_IST = QtGui.QLabel("1600"+_UNIT,parent)
+            Label_IST = QtGui.QLabel("-"+_UNIT,parent)
+            Label_IST.setAlignment(QtCore.Qt.AlignHCenter)
             CheckBox_Sync = QtGui.QCheckBox("",parent)
             CheckBox_Sync.setAccessibleName(_LABEL+CONST.SYNC)
             CheckBox_Sync.setLayoutDirection(QtCore.Qt.RightToLeft)    
@@ -106,24 +107,24 @@ class EquipmentGui_Class(GuiTools):
             
             return _POS
         
-        POS=createInstrumentGroup(CONST.EQ_VIN,self.MAX_VIN,CONST.UNIT_MV)
-        POS=createInstrumentGroup(CONST.EQ_INMAX,self.MAX_IIN,CONST.UNIT_MA)
-        POS=createInstrumentGroup(CONST.EQ_Vd,self.MAX_VD,CONST.UNIT_MV)
-        POS=createInstrumentGroup(CONST.EQ_IdMAX,self.MAX_ID,CONST.UNIT_MA)
-        POS=createInstrumentGroup(CONST.EQ_FREQ_AC,self.MAX_FAC,CONST.UNIT_MV)
-        POS=createInstrumentGroup(CONST.EQ_FREQ_DC,self.MAX_FDC,CONST.UNIT_MV)
-        POS=createInstrumentGroup(CONST.EQ_FREQ_F,self.MAX_FF,CONST.UNIT_MHZ)
+        POS=createInstrumentGroup(CONST.EQ_VIN,     self.MAX_VIN,   CONST.UNIT_MV)
+        POS=createInstrumentGroup(CONST.EQ_INMAX,   self.MAX_IIN,   CONST.UNIT_MA)
+        POS=createInstrumentGroup(CONST.EQ_Vd,      self.MAX_VD,    CONST.UNIT_MV)
+        POS=createInstrumentGroup(CONST.EQ_IdMAX,   self.MAX_ID,    CONST.UNIT_MA)
+        POS=createInstrumentGroup(CONST.EQ_FREQ_AC, self.MAX_FAC,   CONST.UNIT_MV)
+        POS=createInstrumentGroup(CONST.EQ_FREQ_DC, self.MAX_FDC,   CONST.UNIT_MV)
+        POS=createInstrumentGroup(CONST.EQ_FREQ_F,  self.MAX_FF,    CONST.UNIT_MHZ)
         
         def createTurnOnBox(_name,_row,_size):
             CheckBox = QtGui.QCheckBox("",parent)
             CheckBox.setAccessibleName(_name)
-            GridLayout.addWidget(CheckBox,_row,0,2,_size)
+            GridLayout.addWidget(CheckBox,_row,0,_size,1)
             CheckBox.clicked.connect(self.onChangeCheckBox)        
           
         
-        createTurnOnBox(CONST.VINon,1,1)
-        createTurnOnBox(CONST.Vdon,3,1)
-        createTurnOnBox(CONST.FGon,5,1)
+        createTurnOnBox(CONST.VINon,1,  2)
+        createTurnOnBox(CONST.Vdon, 3,  2)
+        createTurnOnBox(CONST.FGon, 5,  3)
         
         gb_Hammerhead = QtGui.QGroupBox(CONST.EQUIPMENT)
         gb_Hammerhead.setLayout(Layout1)
