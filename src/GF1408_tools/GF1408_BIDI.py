@@ -29,56 +29,56 @@ class GF1408_BIDI_REGISTERLIST():
     LOAD_EN = [True, 2 * 12 + 0, 32, "static_mapLOADEN2int"]
     LOAD_CTRL_EN = [True, 4 * 12 + 8, 1]
     LOAD_CTRL_PROG = [True, 4 * 12 + 9, 1]
-    LOAD_CTRL_SEL_CLK = [True, 4 * 12 + 10, 2]
+    LOAD_CTRL_SEL_CLK = [True, 4 * 12 + 10, 2, "static_mapLOADCLK2int"]
 
     @classmethod
-    def static_mapSEL2int( BIDI_PARAM, degree_String ):
-        newStr = ""
-        for char in degree_String:
-            if char in ( "0123456789" ):
-                newStr = newStr + char
-        return int( int( newStr ) / 90 )
+    def static_mapSEL2int(BIDI_PARAM, degree_String:str)->int:
+        return GF1408_CONST.CONST.DEG_STR.index(degree_String )
 
     @classmethod
-    def static_mapLOADEN2int( BIDI_PARAM, loaden_int:int ):
+    def static_mapLOADEN2int(BIDI_PARAM, loaden_int:int):
 
         ResblockCount = 4
-        LoadCount = int( loaden_int )
+        LoadCount = int(loaden_int)
         loadNums = [0] * ResblockCount
 
-        for count in range( ResblockCount, 0, -1 ):
-            if( count > 0 ):
-                distributedLoad = int( LoadCount / count )
+        for count in range(ResblockCount, 0, -1):
+            if(count > 0):
+                distributedLoad = int(LoadCount / count)
             else:
                 distributedLoad = count
-            for i in range( 0, count ):
+            for i in range(0, count):
                 loadNums[i] += distributedLoad
             LoadCount = LoadCount - count * distributedLoad
 
         CODE = 0
         BitWidth = GF1408_BIDI_REGISTERLIST.LOAD_EN[2] / ResblockCount
-        for i in range( 0, 4 ):
-            CODE += ( 2 ** loadNums[i] - 1 ) * 2 ** ( i * BitWidth )
+        for i in range(0, 4):
+            CODE += (2 ** loadNums[i] - 1) * 2 ** (i * BitWidth)
 
-        return int( CODE )
-
-    @classmethod
-    def static_mapDT2int( BIDI_PARAM, DT_int:int ) -> int:
-        return int( int( DT_int ) / GF1408_CONST.CONST.DT_STEP_N ) - 1
+        return int(CODE)
 
     @classmethod
-    def static_mapDUTYcycle2int( BIDI_PARAM, DUTY_float:float ) -> int:
-        return int( DUTY_float / ( 100.0 * 2 ** ( -GF1408_CONST.CONST.DUTY_BITS ) ) )
+    def static_mapDT2int(BIDI_PARAM, DT_int:int) -> int:
+        return int(int(DT_int) / GF1408_CONST.CONST.DT_STEP_N) - 1
 
-class GF1408_BIDI( BIDI_REGISTERS ):
+    @classmethod
+    def static_mapDUTYcycle2int(BIDI_PARAM, DUTY_float:float) -> int:
+        return int(DUTY_float / (100.0 * 2 ** (-GF1408_CONST.CONST.DUTY_BITS)))
+
+    @classmethod
+    def static_mapLOADCLK2int(BIDI_PARAM, CKString:str) -> int:
+        return GF1408_CONST.CONST.LOAD_CK_ARR.index(CKString)
+
+class GF1408_BIDI(BIDI_REGISTERS):
 
     BIDI_SIZE = 24
 
-    def __init__( self, _hammerhead ):
+    def __init__(self, _hammerhead):
         '''
         Constructor
         '''
-        super( GF1408_BIDI, self ).__init__( self.BIDI_SIZE, _hammerhead, GF1408_BIDI_REGISTERLIST )
+        super(GF1408_BIDI, self).__init__(self.BIDI_SIZE, _hammerhead, GF1408_BIDI_REGISTERLIST)
 
 
 

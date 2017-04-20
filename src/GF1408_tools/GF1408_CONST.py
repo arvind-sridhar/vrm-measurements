@@ -40,6 +40,7 @@ class CONST():
     LOADEN = "Set Load"
     LOAD_BITS = 32
     LOAD_UNITS = u' × 17Ω'
+    LOAD_CK_ARR = ["CK2", "CK4" , "CK8" , "CK16"];
 
     EQUIPMENT = "Equipment"
     EQ_VIN = "V<sub>in</sub>"
@@ -67,5 +68,6 @@ class CONST():
     FGon = "FGOn"
     VOuton = "VOuton"
     
-    DEG_STR = [u"0°", u"90°" , u"180°" , u"270°"];
+    DEG_STR = [u"0°", u"90°" , u"180°" , u"270°"]
+    
         

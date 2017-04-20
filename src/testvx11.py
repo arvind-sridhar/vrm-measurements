@@ -6,56 +6,56 @@ GPIBADDR = "9.4.68.123"
 # New box
 GPIBADDR = "9.4.68.124"
 GPIBNAME = 'hpib'
-#GPIBADDR = "0.4.68.123"
+# GPIBADDR = "0.4.68.123"
 MODE = 'visa'
 
-#rm = visa.ResourceManager()
+# rm = visa.ResourceManager()
 
 
-#import visa
-#rm = visa.ResourceManager('@py')
-#rm.list_resources()
-#inst = rm.open_resource("GPIB::%i::INSTR" % 5)
-#inst = rm.open_resource("TCPIP::9.4.68.124::GPIB::%i::INSTR" % 5)
-#print(inst.query("*IDN?"))
+# import visa
+# rm = visa.ResourceManager('@py')
+# rm.list_resources()
+# inst = rm.open_resource("GPIB::%i::INSTR" % 5)
+# inst = rm.open_resource("TCPIP::9.4.68.124::GPIB::%i::INSTR" % 5)
+# print(inst.query("*IDN?"))
 
 
 rm = visa.ResourceManager()
 
-for i in range(3,5):
+for i in range(3, 5):
     if False and MODE is 'vx11':
-        #instr = vxi11.Instrument(GPIBADDRESS, GPIBNAME+","+str(i))
+        # instr = vxi11.Instrument(GPIBADDRESS, GPIBNAME+","+str(i))
         print 1
     else:
         instr = visa.instrument("GPIB::%i::INSTR" % i)
 
     try:
-        print('ID '+str(i)+': '+instr.ask("*IDN?"))
+        print('ID ' + str(i) + ': ' + instr.ask("*IDN?"))
     except:
-        print('ID '+str(i)+':')
+        print('ID ' + str(i) + ':')
 
          
 # listInstruments(GPIBADDR)
-#E8251A
+# E8251A
 siggenTest = False
 if (siggenTest):
     siggen = vxi11.Instrument(GPIBADDR, "hpib,20")
     siggen.write("*RST")
     siggen.write("*CLS")
     siggen.write("SYST:LANG SCPI")
-    print('siggen outp stat:'+siggen.ask('OUTP:STAT?'))
+    print('siggen outp stat:' + siggen.ask('OUTP:STAT?'))
     siggen.write("OUTP ON")
-    print('siggen outp stat:'+siggen.ask('OUTP:STAT?'))
+    print('siggen outp stat:' + siggen.ask('OUTP:STAT?'))
     siggen.write("FREQ 0.45GHZ")
-    print('siggen freq:'+siggen.ask('FREQ?'))
+    print('siggen freq:' + siggen.ask('FREQ?'))
     siggen.write("FREQ 12GHZ")
-    print('siggen freq:'+siggen.ask('FREQ?'))
+    print('siggen freq:' + siggen.ask('FREQ?'))
     siggen.write("POW -5DBM")
-    print('siggen pow:'+siggen.ask('POW?'))
+    print('siggen pow:' + siggen.ask('POW?'))
     siggen.write("POW 50mV")
-    print('siggen pow:'+siggen.ask('POW?'))
+    print('siggen pow:' + siggen.ask('POW?'))
 
-#HP8780A
+# HP8780A
 siggenTestV2 = False
 if (siggenTestV2):
     siggen = vxi11.Instrument(GPIBADDR, "hpib,18")
@@ -81,67 +81,67 @@ if (siggenTestV2):
 #    siggen.write("POW 50mV")
 #    print('siggen pow:'+siggen.ask('POW?'))
 
-#E3644A
+# E3644A
 pwrsuppTest = False
 if (pwrsuppTest):
     pwrsupp = vxi11.Instrument(GPIBADDR, "hpib,30")
     pwrsupp.write("*RST")
     pwrsupp.write("*CLS")
     pwrsupp.write("*VOLT:PROT:LEV 1.4V")
-    print('pwrsupp volt?:'+pwrsupp.ask("VOLT?"))
+    print('pwrsupp volt?:' + pwrsupp.ask("VOLT?"))
     pwrsupp.write("VOLT 1.2V")
-    print('pwrsupp volt?:'+pwrsupp.ask("VOLT?"))
-    print('pwrsupp curr?:'+pwrsupp.ask("CURR?"))
+    print('pwrsupp volt?:' + pwrsupp.ask("VOLT?"))
+    print('pwrsupp curr?:' + pwrsupp.ask("CURR?"))
     pwrsupp.write("VOLT:PROT:LEV 1.4V")
-    print('pwrsupp volt lim?:'+pwrsupp.ask("VOLT:PROT:LEV?"))
+    print('pwrsupp volt lim?:' + pwrsupp.ask("VOLT:PROT:LEV?"))
     pwrsupp.write("VOLT 1.6V")
-    print('pwrsupp volt?:'+pwrsupp.ask("VOLT?"))
-    print('pwrsupp volt prot trip?:'+pwrsupp.ask("VOLT:PROT:TRIP?"))
-    print('pwrsupp volt state?:'+pwrsupp.ask("VOLT:PROT:STAT?"))
-    print('pwrsupp meas volt?:'+pwrsupp.ask("MEAS:VOLT?"))
-    print('pwrsupp meas curr?:'+pwrsupp.ask("MEAS:CURR?"))
+    print('pwrsupp volt?:' + pwrsupp.ask("VOLT?"))
+    print('pwrsupp volt prot trip?:' + pwrsupp.ask("VOLT:PROT:TRIP?"))
+    print('pwrsupp volt state?:' + pwrsupp.ask("VOLT:PROT:STAT?"))
+    print('pwrsupp meas volt?:' + pwrsupp.ask("MEAS:VOLT?"))
+    print('pwrsupp meas curr?:' + pwrsupp.ask("MEAS:CURR?"))
     pwrsupp.write("VOLT:RANG P20V")
-    print('pwrsupp volt rang?:'+pwrsupp.ask("VOLT:RANG?"))
+    print('pwrsupp volt rang?:' + pwrsupp.ask("VOLT:RANG?"))
     pwrsupp.write("VOLT:RANG P8V")
-    print('pwrsupp volt rang?:'+pwrsupp.ask("VOLT:RANG?"))
+    print('pwrsupp volt rang?:' + pwrsupp.ask("VOLT:RANG?"))
 
-#N6705A
+# N6705A
 pwrsupp2Test = False
 if (pwrsupp2Test):
     pwrsupp2 = vxi11.Instrument(GPIBADDR, "hpib,7")
     pwrsupp2.write("*RST")
     pwrsupp2.write("*CLS")
-    print('pwrsupp2 volt?:'+pwrsupp2.ask("VOLT? (@1:4)"))
+    print('pwrsupp2 volt?:' + pwrsupp2.ask("VOLT? (@1:4)"))
     pwrsupp2.write("VOLT 1.2V,(@1)")
-    print('pwrsupp2 volt?:'+pwrsupp2.ask("VOLT? (@1:4)"))
-    print('pwrsupp2 volt prot?:'+pwrsupp2.ask("VOLT:PROT:LEV? (@1:4)"))
+    print('pwrsupp2 volt?:' + pwrsupp2.ask("VOLT? (@1:4)"))
+    print('pwrsupp2 volt prot?:' + pwrsupp2.ask("VOLT:PROT:LEV? (@1:4)"))
     pwrsupp2.write("VOLT:PROT:LEV 1.4V,(@1:4)")
-    print('pwrsupp2 volt prot?:'+pwrsupp2.ask("VOLT:PROT:LEV? (@1:4)"))
+    print('pwrsupp2 volt prot?:' + pwrsupp2.ask("VOLT:PROT:LEV? (@1:4)"))
     pwrsupp2.write("OUTP ON,(@1:4)")
-    print('pwrsupp2 outp?:'+pwrsupp2.ask("OUTP? (@1:4)"))
+    print('pwrsupp2 outp?:' + pwrsupp2.ask("OUTP? (@1:4)"))
     pwrsupp2.write("VOLT:PROT:LEV 1.5V,(@1:4)")
-    print('pwrsupp2 prot?:'+pwrsupp2.ask("VOLT:PROT:LEV? (@1:4)"))
+    print('pwrsupp2 prot?:' + pwrsupp2.ask("VOLT:PROT:LEV? (@1:4)"))
     pwrsupp2.write("CURR:LEV 0.5A,(@1:4)")
-    print('pwrsupp2 curr lev?:'+pwrsupp2.ask("CURR:LEV? (@1:4)"))
-    print('pwrsupp2 meas volt?:'+pwrsupp2.ask("MEAS:VOLT? (@1:4)"))
-    print('pwrsupp2 meas curr?:'+pwrsupp2.ask("MEAS:CURR? (@1:4)"))
-    print('pwrsupp2 volt rang?:'+pwrsupp2.ask("VOLT:RANG? (@1:4)"))
+    print('pwrsupp2 curr lev?:' + pwrsupp2.ask("CURR:LEV? (@1:4)"))
+    print('pwrsupp2 meas volt?:' + pwrsupp2.ask("MEAS:VOLT? (@1:4)"))
+    print('pwrsupp2 meas curr?:' + pwrsupp2.ask("MEAS:CURR? (@1:4)"))
+    print('pwrsupp2 volt rang?:' + pwrsupp2.ask("VOLT:RANG? (@1:4)"))
     pwrsupp2.write("VOLT:RANG 5,(@1:4)")
-    print('pwrsupp2 volt rang?:'+pwrsupp2.ask("VOLT:RANG? (@1:4)"))
+    print('pwrsupp2 volt rang?:' + pwrsupp2.ask("VOLT:RANG? (@1:4)"))
     pwrsupp2.write("VOLT:SENS:SOUR INT,(@1:4)")
-    print('pwrsupp2 volt sens sour?:'+pwrsupp2.ask("VOLT:SENS:SOUR? (@1:4)"))
+    print('pwrsupp2 volt sens sour?:' + pwrsupp2.ask("VOLT:SENS:SOUR? (@1:4)"))
     pwrsupp2.write("VOLT:SENS:SOUR EXT,(@1:2)")
-    print('pwrsupp2 volt sens sour?:'+pwrsupp2.ask("VOLT:SENS:SOUR? (@1:4)"))
+    print('pwrsupp2 volt sens sour?:' + pwrsupp2.ask("VOLT:SENS:SOUR? (@1:4)"))
     # Allow local access to device
     pwrsupp2.write("SYST:COMM:RLST LOC")
 
 
-#Infinium 86100C
+# Infinium 86100C
 scopeTest = False
 if (scopeTest):
     scope = vxi11.Instrument(GPIBADDR, "hpib,7")
 #    siggen = vxi11.Instrument(GPIBADDR, "hpib,20")
-    print('ID '+str(24)+': '+scope.ask("*IDN?"))
+    print('ID ' + str(24) + ': ' + scope.ask("*IDN?"))
 #    scope.write("*RST")
 #    scope.write("*CLS")
 #    scope.write("ACQUIRE:COUNT 1")
@@ -154,18 +154,18 @@ if (scopeTest):
 #    print(scope.ask("MEAS:DELT? CHANNEL3,CHANNEL4"))
 #    siggen.write("PHAS:REF")
 #    siggen.write("PHAS 60DEG")
-    #scope.write("CAL:SKEW CHANNEL3,5PS")
+    # scope.write("CAL:SKEW CHANNEL3,5PS")
     scope.write("CHANNEL1:RANGE 900mV")
     scope.write("MEAS:SOUR CHANNEL1")
-    print('scope meas vamp?:'+scope.ask("MEAS:VPP?"))
+    print('scope meas vamp?:' + scope.ask("MEAS:VPP?"))
     time.sleep(2)
-    print('scope meas vamp?:'+scope.ask("MEAS:VPP?"))
+    print('scope meas vamp?:' + scope.ask("MEAS:VPP?"))
     time.sleep(2)
-    print('scope meas vamp?:'+scope.ask("MEAS:VAMP?"))
+    print('scope meas vamp?:' + scope.ask("MEAS:VAMP?"))
     time.sleep(2)
-    print('scope meas vamp?:'+scope.ask("MEAS:VAMP?"))
+    print('scope meas vamp?:' + scope.ask("MEAS:VAMP?"))
     time.sleep(2)
-    print('scope meas vamp?:'+scope.ask("MEAS:VAMP?"))
+    print('scope meas vamp?:' + scope.ask("MEAS:VAMP?"))
 
 
 #    print('scope meas freq?:'+scope.ask("MEAS:FREQ?"))

@@ -21,77 +21,77 @@ from xlrd.formula import num2strg
 
 
 
-class GF1408_GUI( QtWidgets.QMainWindow ):
+class GF1408_GUI(QtWidgets.QMainWindow):
 
-    WINDOW_SIZE = ( 370, 725 )
+    WINDOW_SIZE = (370, 725)
     WINDOW_NAME = 'CarrICool GF1408 - Control Window'
 
     PYQT_SIGNAL = QtCore.pyqtSignal()
 
-    def __init__( self ):
-        super( GF1408_GUI, self ).__init__()
+    def __init__(self):
+        super(GF1408_GUI, self).__init__()
         self.h = hammerhead.Hammerhead()
-        self.BIDI = GF1408_BIDI.GF1408_BIDI( self.h )
+        self.BIDI = GF1408_BIDI.GF1408_BIDI(self.h)
 
         self.initUI()
 
-    def initUI( self ):
-
+    def initUI(self):
+    
         vMainBox, vMainLayout = self.addVWidget()
-        self.setCentralWidget( vMainBox )
-        vMainLayout.addWidget( self.getGUIElements() )
-        vMainLayout.layout().setContentsMargins( 10, 10, 10, 10 )
+        self.setCentralWidget(vMainBox)
+        vMainLayout.addWidget(self.getGUIElements())
+        vMainLayout.layout().setContentsMargins(10, 10, 10, 10)
 
         # Init Window
         self.statusBar()
-        self.setGeometry( 50, 50, self.WINDOW_SIZE[0], self.WINDOW_SIZE[1] )
-        self.setFixedSize( self.WINDOW_SIZE[0], self.WINDOW_SIZE[1] )
+        self.setGeometry(50, 50, self.WINDOW_SIZE[0], self.WINDOW_SIZE[1])
+        self.setFixedSize(self.WINDOW_SIZE[0], self.WINDOW_SIZE[1])
         # self.setFixedSize(vMainLayout.layout().sizeHint() )
 
-        self.setWindowTitle( self.WINDOW_NAME )
+        self.setWindowTitle(self.WINDOW_NAME)
         self.show()
 
-    def getGUIElements( self ):
+    def getGUIElements(self):
 
         v0Box, v0Layout = self.addVWidget()
 
-        self.Load_GUI = LoadControl_Class( self )
-        self.HammerHead_GUI = EquipmentGui_Class( self )
-        self.DPWM_GUI = DPWMControl_Class( self )
+        self.Load_GUI = LoadControl_Class(self)
+        self.HammerHead_GUI = EquipmentGui_Class(self)
+        self.DPWM_GUI = DPWMControl_Class(self)
 
         # TODO: remove comment
         # self.DPWM_GUI.setEnabled(False)
         # self.Load_GUI.setEnabled(False)
 
-        v0Layout.addWidget( self.HammerHead_GUI.GroupBox )
-        v0Layout.addWidget( self.DPWM_GUI.GroupBox )
-        v0Layout.addWidget( self.Load_GUI.GroupBox )
+        v0Layout.addWidget(self.HammerHead_GUI.GroupBox)
+        v0Layout.addWidget(self.DPWM_GUI.GroupBox)
+        v0Layout.addWidget(self.Load_GUI.GroupBox)
         return v0Box
 
-    def addVWidget( self ):
+    def addVWidget(self):
         Box = QtWidgets.QWidget()
         Layout = QtWidgets.QVBoxLayout()
-        Box.setLayout( Layout )
-        Box.setContentsMargins( QtCore.QMargins( 0, 0, 0, 0 ) )
-        Layout.layout().setContentsMargins( 0, 0, 0, 0 )
+        Box.setLayout(Layout)
+        Box.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        Layout.layout().setContentsMargins(0, 0, 0, 0)
         return Box, Layout
 
-    def addHWidget( self ):
+    def addHWidget(self):
         Box = QtWidgets.QWidget()
         Layout = QtWidgets.QHBoxLayout()
-        Box.setLayout( Layout )
-        Box.setContentsMargins( QtCore.QMargins( 0, 0, 0, 0 ) )
-        Layout.layout().setContentsMargins( 0, 0, 0, 0 )
+        Box.setLayout(Layout)
+        Box.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        Layout.layout().setContentsMargins(0, 0, 0, 0)
         return Box, Layout
 
-    def buttonClicked( self ):
+    def buttonClicked(self):
         sender = self.sender()
-        self.statusBar().showMessage( sender.text() + ' was pressed' )
+        self.statusBar().showMessage(sender.text() + ' was pressed')
 
-    def status( self, text:str )->None:
-        self.statusBar().showMessage( text )
+    def status(self, text:str) -> None:
+        self.statusBar().showMessage(text)
 
-    def onClickButton( self ):
+    def onClickButton(self):
 
         self.buttonClicked()  # print out pressed button
         try:
@@ -101,41 +101,41 @@ class GF1408_GUI( QtWidgets.QMainWindow ):
             elif self.sender().text() == CONST.EXIT:
                 self.close()
             else:
-                print( self.sender() )
+                print(self.sender())
         except Exception as e:
-            print( str( e ) )
+            print(str(e))
 
 
-    def onChangeComboBox( self ):
+    def onChangeComboBox(self):
 
 
         sender = self.sender()
-        self.statusBar().showMessage( sender.accessibleName() + ' was changed to ' + sender.currentText() )
+        self.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + sender.currentText())
 
-    def onChangeSpinBox( self ):
+    def onChangeSpinBox(self):
         sender = self.sender()
-        self.statusBar().showMessage( sender.accessibleName() + ' was changed to ' + num2strg( sender.value() ) )
+        self.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + num2strg(sender.value()))
 
     # Hammer Head Functions
 
-    def onChangeCheckBox( self ):
+    def onChangeCheckBox(self):
         sender = self.sender()
-        self.statusBar().showMessage( sender.accessibleName() + ' was changed to ' + num2strg( sender.isChecked() ) )
+        self.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + num2strg(sender.isChecked()))
 
 
-    def closeEvent ( self, eventQCloseEvent ):
-        answer = QtWidgets.QMessageBox.question ( 
+    def closeEvent (self, eventQCloseEvent):
+        answer = QtWidgets.QMessageBox.question (
             self,
             'Exit',
             'Are you sure you want to quit ?',
             QtWidgets.QMessageBox.Yes,
-            QtWidgets.QMessageBox.No )
-        if ( answer == QtWidgets.QMessageBox.Yes ) or ( False ):
+            QtWidgets.QMessageBox.No)
+        if (answer == QtWidgets.QMessageBox.Yes) or (False):
             self.h.disconnect()
             eventQCloseEvent.accept()
         else:
             eventQCloseEvent.ignore()
 
-    def isConnected( self, connected:bool ):
-        self.DPWM_GUI.setEnabled( connected )
-        self.Load_GUI.setEnabled( connected )
+    def isConnected(self, connected:bool):
+        self.DPWM_GUI.setEnabled(connected)
+        self.Load_GUI.setEnabled(connected)

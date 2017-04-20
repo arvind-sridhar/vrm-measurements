@@ -32,7 +32,7 @@ class SAR1Control(QtGui.QMainWindow):
         self.lblC.move(270, 50)
 
         self.leR2 = QtGui.QLineEdit("0", self)
-        self.leR2.move(30,90)
+        self.leR2.move(30, 90)
         self.btnR2 = QtGui.QPushButton("Set Reg 0", self)
         self.btnR2.move(150, 90)
         self.btnR2.setObjectName("R0")
@@ -41,7 +41,7 @@ class SAR1Control(QtGui.QMainWindow):
         self.lblR2.move(270, 90)
         
         self.leR3 = QtGui.QLineEdit("0", self)
-        self.leR3.move(30,130)
+        self.leR3.move(30, 130)
         self.btnR3 = QtGui.QPushButton("Set Reg 1", self)
         self.btnR3.move(150, 130)
         self.btnR3.setObjectName("R1")
@@ -49,17 +49,17 @@ class SAR1Control(QtGui.QMainWindow):
         self.lblR3 = QtGui.QLabel('-', self)
         self.lblR3.move(270, 130)
         
-        #self.leR4 = QtGui.QLineEdit("0", self)
+        # self.leR4 = QtGui.QLineEdit("0", self)
 #        self.leR4.move(30,170)
         self.btnR4 = QtGui.QPushButton("Init Converter", self)
         self.btnR4.move(150, 170)
         self.btnR4.setObjectName("InitConverter")
         self.btnR4.clicked.connect(self.writeReg)            
-        #self.lblR4 = QtGui.QLabel('-', self)
+        # self.lblR4 = QtGui.QLabel('-', self)
 #        self.lblR4.move(270, 170)
         
         self.leR5 = QtGui.QLineEdit("0", self)
-        self.leR5.move(30,210)
+        self.leR5.move(30, 210)
         self.leR5.setObjectName("SetLoadInt")
         self.leR5.returnPressed.connect(self.writeReg)
         self.btnR5 = QtGui.QPushButton("Set Load Int", self)
@@ -127,7 +127,7 @@ class SAR1Control(QtGui.QMainWindow):
     def writeReg(self):
         try:
             if self.sender().objectName() == "R0":
-                #print self.leR2.text()
+                # print self.leR2.text()
                 self.h.writera(0, self.leR2.text())
             if self.sender().objectName() == "R1":
                 self.h.writera(1, self.leR3.text())
@@ -186,14 +186,14 @@ class SAR1Control(QtGui.QMainWindow):
 #            self.h.writera(0, 0b110000000000) # stop_clk=1, select_init=1, load_int=0        
 #            self.h.writera(0, 0b100000000000) # stop_clk=1, select_init=0, load_int=0
 #            self.h.writera(0, 0b000000000000) # stop_clk=0, select_init=0, load_int=0
-            self.h.writera(1, 0b000001111100) # gear=0, short_offsetcomp=0, c_offset=11111
-            self.h.writera(0, 0b000000000000) # stop_clk=0, select_init=0, load_int=0
-            self.h.writera(0, 0b000000000001) # stop_clk=1, select_init=0, load_int=0
-            self.h.writera(0, 0b000000000011) # stop_clk=1, select_init=1, load_int=0
-            self.h.writera(0, 0b000000000010) # stop_clk=0, select_init=1, load_int=0
-            self.h.writera(0, 0b000000000011) # stop_clk=1, select_init=1, load_int=0        
-            self.h.writera(0, 0b000000000001) # stop_clk=1, select_init=0, load_int=0
-            self.h.writera(0, 0b000000000000) # stop_clk=0, select_init=0, load_int=0
+            self.h.writera(1, 0b000001111100)  # gear=0, short_offsetcomp=0, c_offset=11111
+            self.h.writera(0, 0b000000000000)  # stop_clk=0, select_init=0, load_int=0
+            self.h.writera(0, 0b000000000001)  # stop_clk=1, select_init=0, load_int=0
+            self.h.writera(0, 0b000000000011)  # stop_clk=1, select_init=1, load_int=0
+            self.h.writera(0, 0b000000000010)  # stop_clk=0, select_init=1, load_int=0
+            self.h.writera(0, 0b000000000011)  # stop_clk=1, select_init=1, load_int=0        
+            self.h.writera(0, 0b000000000001)  # stop_clk=1, select_init=0, load_int=0
+            self.h.writera(0, 0b000000000000)  # stop_clk=0, select_init=0, load_int=0
         except Exception as e: 
             self.statusBar().showMessage(str(e))
         else:
@@ -205,9 +205,9 @@ class SAR1Control(QtGui.QMainWindow):
         elif int(self.leR5.text()) > 31:
             print '%s > 31 is not allowed' % int(self.leR5.text())
         else:                
-            print '{0:011b}'.format(int(self.leR5.text())<<2),', ', int('{0:011b}'.format(int(self.leR5.text())<<2), 2)
+            print '{0:011b}'.format(int(self.leR5.text()) << 2), ', ', int('{0:011b}'.format(int(self.leR5.text()) << 2), 2)
            
-            self.h.writera(0, int('{0:011b}'.format(int(self.leR5.text())<<2), 2))
+            self.h.writera(0, int('{0:011b}'.format(int(self.leR5.text()) << 2), 2))
 
 def main():
     

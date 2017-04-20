@@ -7,7 +7,7 @@ Toke Meyer Andersen, April 2013
 """
 
 import sys, os
-import hammerhead#
+import hammerhead  #
 # import mplCanvas
 # from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 import numpy as np
@@ -16,7 +16,7 @@ from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import *
 import xlwt
 import xlrd
-#from PyQt4.QtCore import *
+# from PyQt4.QtCore import *
 import time
 import subprocess
 
@@ -25,7 +25,7 @@ import agilent
 import keithley
 import agilentDC
 import devices
-#import keithleyOut
+# import keithleyOut
 
 class prettyfloat(float):
     def __repr__(self):
@@ -45,7 +45,7 @@ class SCmeas(QtGui.QMainWindow):
     
     def __init__(self):
         super(SCmeas, self).__init__()
-        self.AREA = 8.6347e-003 # (0.2594mm x 0.0333mm) converter area in mm^2
+        self.AREA = 8.6347e-003  # (0.2594mm x 0.0333mm) converter area in mm^2
         
         self.DEFAULTVOUT = 850
         self.DEFAULTVIN = 1800
@@ -56,21 +56,21 @@ class SCmeas(QtGui.QMainWindow):
         self.DEFAULTFREQSWEEP = [20, 200]
         self.DEFAULTVGEAR = 890
         
-        self.FREQLIM = [20, 200.1] # MHz
-        self.IOUTLIM = [1, 3000] # mA
-        self.IINLIM = [1, 1000] # mA
-        self.VINLIM = [1700, 2200] # mV
+        self.FREQLIM = [20, 200.1]  # MHz
+        self.IOUTLIM = [1, 3000]  # mA
+        self.IINLIM = [1, 1000]  # mA
+        self.VINLIM = [1700, 2200]  # mV
         self.VOUTLIM = [500, 1350]
         
-        self.ETAPLOT = [0, 100] # %
-        self.RHOPLOT = [0, 10] # W/mm^2
-        self.IOUTPLOT = [0, 50] # W/mm^2
-        self.VOUTPLOT = [0, 1000] # W/mm^2
+        self.ETAPLOT = [0, 100]  # %
+        self.RHOPLOT = [0, 10]  # W/mm^2
+        self.IOUTPLOT = [0, 50]  # W/mm^2
+        self.VOUTPLOT = [0, 1000]  # W/mm^2
         
         self.DEFAULTSETTLETIME = 0.5
-        self.DEFAULTPOINTS = [11, 16] # freq points, Vout points
+        self.DEFAULTPOINTS = [11, 16]  # freq points, Vout points
         
-        self.DEFAULTADJUSTVINVOUT = [True, True, True] # Vin adjust, Vout adjust, Vin & vout adjust
+        self.DEFAULTADJUSTVINVOUT = [True, True, True]  # Vin adjust, Vout adjust, Vin & vout adjust
         
         self.clearDataLists()
         self.initUI()
@@ -343,7 +343,7 @@ class SCmeas(QtGui.QMainWindow):
 #         tab.addTab(self.createEtaRhoTab(), 'eta && rho plots')
 #         tab.addTab(self.createIoutVoutTab(), 'Iout && Vout plots')
         v0Layout.addWidget(tab)
-        #self.updateAllPlots()
+        # self.updateAllPlots()
 
         v0Box.setMaximumWidth(1050)
         return v0Box 
@@ -484,7 +484,7 @@ class SCmeas(QtGui.QMainWindow):
         print('agilent = ' + self.agilent.initme(self.devices, '34970A'))      
     def keithleyInInit(self):
         self.keithleyIn = keithley.Keithley()
-        print('keithleyIn = ' + self.keithleyIn.initme(self.devices, '2400', self.DEFAULTVIN*1e-3, self.VINLIM[1]*1e-3))         
+        print('keithleyIn = ' + self.keithleyIn.initme(self.devices, '2400', self.DEFAULTVIN * 1e-3, self.VINLIM[1] * 1e-3))         
         self.lblVink.setText('-')    
         self.lblIin.setText('-')
         self.updateVinLbl()
@@ -492,7 +492,7 @@ class SCmeas(QtGui.QMainWindow):
         self.updateVinOn()        
     def keithleyOutInit(self):
         self.keithleyOut = keithley.Keithley()
-        print('keithleyOut = ' + self.keithleyOut.initme(self.devices, '2420', self.DEFAULTVOUT*1e-3, self.VOUTLIM[1]*1e-3))          
+        print('keithleyOut = ' + self.keithleyOut.initme(self.devices, '2420', self.DEFAULTVOUT * 1e-3, self.VOUTLIM[1] * 1e-3))          
         self.lblVoutk.setText('-')
         self.lblIout.setText('-')
         self.updateVoutLbl()
@@ -617,7 +617,7 @@ class SCmeas(QtGui.QMainWindow):
         self.keithleyOut.outputOff()  
         self.updateAllLbl()
     def isAllOn(self):
-        if self.hp.getOutput()=='ON' and self.keithleyIn.getOutput()=='1' and self.keithleyOut.getOutput()=='1' and self.sourceGear.getOutput()=='1':
+        if self.hp.getOutput() == 'ON' and self.keithleyIn.getOutput() == '1' and self.keithleyOut.getOutput() == '1' and self.sourceGear.getOutput() == '1':
             return True
         else:
             print 'Not all measurement equipment is turned on -> No measurements performed'
@@ -627,11 +627,11 @@ class SCmeas(QtGui.QMainWindow):
     def setClicked(self):
         self.buttonClicked()
         try:
-            Iinmax  = float(self.leIinmax.text())
+            Iinmax = float(self.leIinmax.text())
             Ioutmax = float(self.leIoutmax.text())
-            Freq    = float(self.leFreq.text())
-            Vin     = float(self.leVin.text())
-            Vout    = float(self.leVout.text())
+            Freq = float(self.leFreq.text())
+            Vin = float(self.leVin.text())
+            Vout = float(self.leVout.text())
             if self.sender().text() == "Set max Iin [mA]" or self.sender().objectName() == "Set max Iin [mA]":
                 self.setIinmax(Iinmax)
             if self.sender().text() == "Set max Iout [mA]" or self.sender().objectName() == "Set max Iout [mA]":
@@ -652,11 +652,11 @@ class SCmeas(QtGui.QMainWindow):
             print(str(e))            
     def setIinmax(self, Iinmax):
         if self.withinLim(Iinmax, self.IINLIM[1], self.IINLIM[0]):
-            self.keithleyIn.setIlim(Iinmax*1e-3)
+            self.keithleyIn.setIlim(Iinmax * 1e-3)
             self.updateIinmaxLbl()       
     def setIoutmax(self, Ioutmax):
         if self.withinLim(Ioutmax, self.IOUTLIM[1], self.IOUTLIM[0]):
-            self.keithleyOut.setIlim(Ioutmax*1e-3)
+            self.keithleyOut.setIlim(Ioutmax * 1e-3)
             self.updateIoutmaxLbl()         
     def setFreq(self, Freq):
         if self.withinLim(Freq, self.FREQLIM[1], self.FREQLIM[0]):
@@ -664,12 +664,12 @@ class SCmeas(QtGui.QMainWindow):
             self.updateFreqLbl()                
     def setVin(self, Vin):
         if self.withinLim(Vin, self.VINLIM[1], self.VINLIM[0]):        
-            self.keithleyIn.setV(Vin*1e-3)
+            self.keithleyIn.setV(Vin * 1e-3)
             self.updateVinLbl()    
             self.leVin.setText(str(f2(Vin)))
     def setVout(self, Vout):
         if self.withinLim(Vout, self.VOUTLIM[1], self.VOUTLIM[0]):  
-            self.keithleyOut.setV(Vout*1e-3)
+            self.keithleyOut.setV(Vout * 1e-3)
             self.updateVoutLbl() 
             self.leVout.setText(str(f2(Vout)))  
     def setGear(self, state):
@@ -801,31 +801,31 @@ class SCmeas(QtGui.QMainWindow):
     def measVink(self):
         QtGui.QApplication.processEvents()
         Vink = self.agilent.measVink()
-        self.lblVink.setText(f2(Vink*1e3) + ' mV')
+        self.lblVink.setText(f2(Vink * 1e3) + ' mV')
         return Vink    
     def measVoutk(self):
         QtGui.QApplication.processEvents()
         Voutk = self.agilent.measVoutk()
-        self.lblVoutk.setText(f2(Voutk*1e3) + ' mV')
-        if Voutk*1e3 < self.VOUTLIM[0]:
+        self.lblVoutk.setText(f2(Voutk * 1e3) + ' mV')
+        if Voutk * 1e3 < self.VOUTLIM[0]:
             self.allOff()
-            print 'Vout={0} mV is measured too low, all eqipment is turned off'.format(Voutk*1e3)
+            print 'Vout={0} mV is measured too low, all eqipment is turned off'.format(Voutk * 1e3)
             return
         else:   
             return Voutk  
     def measIin(self):
-        if self.keithleyIn.getOutput()=='1':
+        if self.keithleyIn.getOutput() == '1':
             QtGui.QApplication.processEvents()
             Iin = self.keithleyIn.measI()
-            self.lblIin.setText(f2(Iin*1e3) + ' mA')
+            self.lblIin.setText(f2(Iin * 1e3) + ' mA')
             return Iin 
         else:
             print 'KeithleyIn is not on -> no measurement performed ...'
     def measIout(self):
-        if self.keithleyOut.getOutput()=='1':
+        if self.keithleyOut.getOutput() == '1':
             QtGui.QApplication.processEvents()
             Iout = -self.keithleyOut.measI()
-            self.lblIout.setText(f2(Iout*1e3) + ' mA')
+            self.lblIout.setText(f2(Iout * 1e3) + ' mA')
             return Iout
         else:
             print 'KeithleyOut is not on -> no measurement performed ...'
@@ -836,7 +836,7 @@ class SCmeas(QtGui.QMainWindow):
             Iin = self.measIin()
             Iout = self.measIout()
             [eta, rho, Rload, Pin, Pout] = self.calc(Vink, Voutk, Iin, Iout)
-            self.lblAll.setText(('eta = {0}% \n rho = {1} W/mm2'.format(f2(eta*100), f2(rho))))
+            self.lblAll.setText(('eta = {0}% \n rho = {1} W/mm2'.format(f2(eta * 100), f2(rho))))
             return Vink, Voutk, Iin, Iout
     def plotIncremental(self):
         return True if self.checkPlotIncremental.isChecked() else False
@@ -874,7 +874,7 @@ class SCmeas(QtGui.QMainWindow):
         time.sleep(self.DEFAULTSETTLETIME)
         [Vink, Voutk, Iin, Iout] = self.measAll()
         [eta, rho, Rload, Pin, Pout] = self.calc(Vink, Voutk, Iin, Iout)
-        rowData = [f1(Freq), f2(Iin*1e3), f2(Iout*1e3), f1(Vink*1e3), f1(float(self.keithleyIn.getV())*1e3), f1(Voutk*1e3), f1(float(self.keithleyOut.getV())*1e3), f2(Rload), f2(Pin*1e3), f2(Pout*1e3), f2(eta*100), f2(rho)]
+        rowData = [f1(Freq), f2(Iin * 1e3), f2(Iout * 1e3), f1(Vink * 1e3), f1(float(self.keithleyIn.getV()) * 1e3), f1(Voutk * 1e3), f1(float(self.keithleyOut.getV()) * 1e3), f2(Rload), f2(Pin * 1e3), f2(Pout * 1e3), f2(eta * 100), f2(rho)]
         self.freqData.append(Freq)
         self.etaData.append(eta)
         self.rhoData.append(rho)
@@ -888,9 +888,9 @@ class SCmeas(QtGui.QMainWindow):
         VinOld = float(self.leVin.text())      
         FreqOld = self.ns2mhz(self.hp.getFreq())  
         Fmin = float(self.leFmin.text())
-        Fmax    = float(self.leFmax.text())   
+        Fmax = float(self.leFmax.text())   
         
-        Freq = np.logspace(np.log10(Fmin), np.log10(Fmax), num=self.leFreqPoints.text(), base = 10)
+        Freq = np.logspace(np.log10(Fmin), np.log10(Fmax), num=self.leFreqPoints.text(), base=10)
         Vout = float(self.leVout.text())
         Vin = float(self.leVin.text())
         
@@ -900,7 +900,7 @@ class SCmeas(QtGui.QMainWindow):
 #         self.ioutPlot.setXAxis(Fmin, Fmax, 10, 'fsw [MHz]', 0)
 #         self.voutPlot.setXAxis(Fmin, Fmax, 10, 'fsw [MHz]', 0)        
         
-        for i in range(0,len(Freq)):
+        for i in range(0, len(Freq)):
             QtGui.QApplication.processEvents()
             self.updateTableRow(self.measTbl, i, self.measSweepSingle(Freq[i], Vout, Vin))
 #             if self.plotIncremental():
@@ -928,9 +928,9 @@ class SCmeas(QtGui.QMainWindow):
 #         self.ioutPlot.setXAxis(Voutmin, Voutmax, 10, 'Vout [mV]', 0)
 #         self.voutPlot.setXAxis(Voutmin, Voutmax, 10, 'Not in use', 0)
         
-        for i in range(0,len(Vout)):
+        for i in range(0, len(Vout)):
             QtGui.QApplication.processEvents()   
-            self.sourceGear.setV(1 if Vout[i]>=VgearChange else 0)
+            self.sourceGear.setV(1 if Vout[i] >= VgearChange else 0)
             self.updateGearLbl()
             self.updateTableRow(self.measTbl, i, self.measSweepSingle(Freq, Vout[i], Vin))               
 #             if self.plotIncremental():
@@ -940,7 +940,7 @@ class SCmeas(QtGui.QMainWindow):
         self.setVin(VinOld)
         self.setVout(VoutOld)   
 #        self.keithleyOut.setV(VoutOld)
-        self.setGear('HIGH' if VoutOld>=VgearChange else 'LOW') 
+        self.setGear('HIGH' if VoutOld >= VgearChange else 'LOW') 
     def measSweepFreqVout(self):
         if self.isAllOn() == False: return
         if self.checkFreqVoutLimits() == False: return
@@ -950,22 +950,22 @@ class SCmeas(QtGui.QMainWindow):
             VinOld = float(self.leVin.text())            
             Vin = float(self.leVin.text())
             Fmin = float(self.leFmin.text())
-            Fmax    = float(self.leFmax.text())
-            Freq = np.logspace(np.log10(Fmin), np.log10(Fmax), num=self.leFreqPoints.text(), base = 10)
+            Fmax = float(self.leFmax.text())
+            Freq = np.logspace(np.log10(Fmin), np.log10(Fmax), num=self.leFreqPoints.text(), base=10)
             Voutmin = float(self.leVoutmin.text())
             Voutmax = float(self.leVoutmax.text())
             VgearChange = float(self.leVgear.text())
             Vout = np.linspace(Voutmin, Voutmax , num=self.leVoutPoints.text())   
             xlsfiles = list()
             
-            for i in range(0,len(Vout)):
-                self.setGear('HIGH' if Vout[i]>=VgearChange else 'LOW')
+            for i in range(0, len(Vout)):
+                self.setGear('HIGH' if Vout[i] >= VgearChange else 'LOW')
                 self.clearSweep()
                 self.etaPlot.setXAxis(Fmin, Fmax, 10, 'fsw [MHz]', 0)
                 self.rhoPlot.setXAxis(Fmin, Fmax, 10, 'fsw [MHz]', 0)
                 self.ioutPlot.setXAxis(Fmin, Fmax, 10, 'fsw [MHz]', 0)
                 self.voutPlot.setXAxis(Fmin, Fmax, 10, 'fsw [MHz]', 0)
-                for j in range(0,len(Freq)):
+                for j in range(0, len(Freq)):
                     QtGui.QApplication.processEvents()   
                     self.updateTableRow(self.measTbl, j, self.measSweepSingle(Freq[j], Vout[i], Vin))
 #                    if self.plotIncremental():
@@ -977,7 +977,7 @@ class SCmeas(QtGui.QMainWindow):
             self.setFreq(FreqOld)    
             self.setVin(VinOld)
             self.setVout(VoutOld)   
-            self.setGear('HIGH' if VoutOld>=VgearChange else 'LOW') 
+            self.setGear('HIGH' if VoutOld >= VgearChange else 'LOW') 
             self.allOff()
             
             self.combine_xls(self.leSweepVoutFsw.text(), xlsfiles)
@@ -986,14 +986,14 @@ class SCmeas(QtGui.QMainWindow):
                                      
     def checkFreqVoutLimits(self):
             Fmin = float(self.leFmin.text())
-            Fmax    = float(self.leFmax.text())        
+            Fmax = float(self.leFmax.text())        
             if Fmin < self.FREQLIM[0]:
                 print '{0} < min = {1} -> not processed'.format(Fmin, self.FMINLIM[0]); return False
             elif Fmax > self.FREQLIM[1]:
                 print '{0} > max = {1} -> not processed'.format(Fmax, self.FMAXLIM[1]); return False
             elif Fmax < Fmin:
                 print 'Fmax < Fmin -> not processed'; return False         
-            FreqPoints  = int(self.leFreqPoints.text())
+            FreqPoints = int(self.leFreqPoints.text())
             if FreqPoints > 100:
                 FreqPoints = 100; print ('Freq points set to %s' % FreqPoints)
             elif FreqPoints < 1:
@@ -1007,7 +1007,7 @@ class SCmeas(QtGui.QMainWindow):
                 print '{0} > max = {1} -> not processed'.format(Voutmax, self.VOUTLIM[1]); return False
             elif Voutmax < Voutmin:
                 print 'Voutmax < Voutmin -> not processed'; return False
-            VoutPoints  = int(self.leVoutPoints.text())
+            VoutPoints = int(self.leVoutPoints.text())
             if VoutPoints > 100:
                 VoutPoints = 100; print ('Vout points set to %s' % VoutPoints)
             elif VoutPoints < 1:
@@ -1017,11 +1017,11 @@ class SCmeas(QtGui.QMainWindow):
     def adjustVin(self, Vintarget):
         Vink = float(self.measVink())
 #        print Vintarget, Vink*1e3, float(self.leVin.text()) + (Vintarget - Vink*1e3)
-        self.setVin(float(self.leVin.text()) + (Vintarget - Vink*1e3))
+        self.setVin(float(self.leVin.text()) + (Vintarget - Vink * 1e3))
     def adjustVout(self, Vouttarget):
         Voutk = float(self.measVoutk())
 #        print Vouttarget, Voutk*1e3, float(self.leVout.text()) + (Vouttarget - Voutk*1e3)
-        self.setVout( float(self.leVout.text()) + (Vouttarget - Voutk*1e3))
+        self.setVout(float(self.leVout.text()) + (Vouttarget - Voutk * 1e3))
     def adjustVinVout(self, Vintarget, Vouttarget):
         self.adjustVin(Vintarget)
         self.adjustVout(Vouttarget)
@@ -1057,7 +1057,7 @@ class SCmeas(QtGui.QMainWindow):
     def updateTableRow(self, table, row, rowData):
         for i in range(0, len(rowData)):
             item = QTableWidgetItem(str(rowData[i]))
-            item.setFlags(QtCore.Qt.ItemIsEnabled) # makes cells read-only
+            item.setFlags(QtCore.Qt.ItemIsEnabled)  # makes cells read-only
             table.setItem(row, i, item)            
                                       
     def tableIsEmpty(self, table):
@@ -1076,7 +1076,7 @@ class SCmeas(QtGui.QMainWindow):
         for i in range(0, table.rowCount()):
             for j in range(0, table.columnCount()):
                 item = QTableWidgetItem(str(''))
-                item.setFlags(QtCore.Qt.ItemIsEnabled) # makes cells read-only
+                item.setFlags(QtCore.Qt.ItemIsEnabled)  # makes cells read-only
                 table.setItem(i, j, item) 
                 
     def saveTable(self, table, filename, sheetname):
@@ -1090,7 +1090,7 @@ class SCmeas(QtGui.QMainWindow):
                     for j in range(0, table.columnCount()):
                         if self.cellIsEmpty(table, i, j) == False:
                             sheet.write(0, j, self.hHeader[j])                                  
-                            sheet.write(i+1, j, float(table.item(i, j).text()))
+                            sheet.write(i + 1, j, float(table.item(i, j).text()))
                 wbk.save(filename)
                 print '%s was saved' % filename
                 
@@ -1100,33 +1100,33 @@ class SCmeas(QtGui.QMainWindow):
             file_read = xlrd.open_workbook(xlsfiles[m])
             sh_read = file_read.sheet_by_index(0)
 #            sh_write = wbk.add_sheet(str.split(str.split(xlsfiles[m],'.')[0],'_')[2])
-            sh_write = wbk.add_sheet(str.split(xlsfiles[m],'.')[0])
+            sh_write = wbk.add_sheet(str.split(xlsfiles[m], '.')[0])
             for j in range(len(sh_read.col_values(0))):
                 for i in range(len(sh_read.row_values(0))):
-                    sh_write.write(j,i,sh_read.cell(j,i).value)
+                    sh_write.write(j, i, sh_read.cell(j, i).value)
         wbk.save(filename)              
                                  
 #------------------------------------------------------------------------------    
     def updateIinmaxLbl(self):
-        self.lblIinmax.setText(f0(float(self.keithleyIn.getIlim())*1e3) + ' mA')
+        self.lblIinmax.setText(f0(float(self.keithleyIn.getIlim()) * 1e3) + ' mA')
     def updateIoutmaxLbl(self):
-        self.lblIoutmax.setText(f0(float(self.keithleyOut.getIlim())*1e3) + ' mA') 
+        self.lblIoutmax.setText(f0(float(self.keithleyOut.getIlim()) * 1e3) + ' mA') 
     def updateFreqLbl(self):
         self.lblFreq.setText(f2(self.ns2mhz(self.hp.getFreq())) + ' MHz')
     def updateVinLbl(self):
-        self.lblVin.setText(f2(float(self.keithleyIn.getV())*1e3) + ' mV') 
+        self.lblVin.setText(f2(float(self.keithleyIn.getV()) * 1e3) + ' mV') 
     def updateVoutLbl(self):
-        self.lblVout.setText(f2(float(self.keithleyOut.getV())*1e3) + ' mV')
+        self.lblVout.setText(f2(float(self.keithleyOut.getV()) * 1e3) + ' mV')
     def updateGearLbl(self):     
         self.lblGear.setText('HIGH' if float(self.sourceGear.getV()) > 0.8 else 'LOW')      
     def updateFreqOn(self):
-        self.lblFreqOn.setText('ON' if self.hp.getOutput()=='ON' else 'OFF')
+        self.lblFreqOn.setText('ON' if self.hp.getOutput() == 'ON' else 'OFF')
     def updateVinOn(self):
-        self.lblVinOn.setText('ON' if self.keithleyIn.getOutput()=='1' else 'OFF')
+        self.lblVinOn.setText('ON' if self.keithleyIn.getOutput() == '1' else 'OFF')
     def updateVoutOn(self):
-        self.lblVoutOn.setText('ON' if self.keithleyOut.getOutput()=='1' else 'OFF')
+        self.lblVoutOn.setText('ON' if self.keithleyOut.getOutput() == '1' else 'OFF')
     def updateGearOn(self):
-        self.lblGearOn.setText('ON' if self.sourceGear.getOutput()=='1' else 'OFF')   
+        self.lblGearOn.setText('ON' if self.sourceGear.getOutput() == '1' else 'OFF')   
     def updateAllLbl(self):
         self.updateIinmaxLbl()
         self.updateIoutmaxLbl()
@@ -1146,11 +1146,11 @@ class SCmeas(QtGui.QMainWindow):
 
 #------------------------------------------------------------------------------        
     def calc(self, Vin, Vout, Iin, Iout):
-        Pin = Vin*Iin
-        Pout = Vout*Iout     
-        Rload = Vout/Iout
-        eta = Pout/Pin
-        rho = Pout/self.AREA
+        Pin = Vin * Iin
+        Pout = Vout * Iout     
+        Rload = Vout / Iout
+        eta = Pout / Pin
+        rho = Pout / self.AREA
         return eta, rho, Rload, Pin, Pout
         
     def closeEvent(self, event):
@@ -1175,9 +1175,9 @@ class SCmeas(QtGui.QMainWindow):
         return WithinLim
           
     def ns2mhz(self, ns):
-        return 1/float(ns)*1e-6
+        return 1 / float(ns) * 1e-6
     def mhz2ns(self, mhz):
-        return 1/float(mhz)*1e-6    
+        return 1 / float(mhz) * 1e-6    
 
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Escape:
@@ -1188,7 +1188,7 @@ class SCmeas(QtGui.QMainWindow):
     def confirmOverwrite(self, filename):
         if os.path.isfile(filename):
             quit_msg = "Overwrite %s?" % filename
-            reply = QtGui.QMessageBox.question(self, 'Message', 
+            reply = QtGui.QMessageBox.question(self, 'Message',
             quit_msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
             if reply == QtGui.QMessageBox.Yes:
                 self.removeFile(filename)
@@ -1202,14 +1202,14 @@ class SCmeas(QtGui.QMainWindow):
 
     def removeFile(self, files):
         if type(files) is list:
-            for i in range(0,len(files)):
+            for i in range(0, len(files)):
                 os.remove(files[i])
         else:
             os.remove(files)
                     
     def openFile(self, filename):
         if os.path.isfile(filename):
-            os.startfile(os.getcwd() +'\\' + filename)
+            os.startfile(os.getcwd() + '\\' + filename)
         else:
             print('%s does not exist' % filename)
             

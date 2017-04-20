@@ -1,10 +1,10 @@
 from __future__ import division
 from PyQt4.QtGui import *
 
-#from PyQt4.QtCore import *
+# from PyQt4.QtCore import *
 import numpy as np
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-#import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
 def f3(x):
@@ -71,7 +71,7 @@ class MplCanvas(FigureCanvas):
         self.axes.grid(True)
         self.axes.set_ylabel(label)
         self.axes.set_ylim(Min, Max)
-        self.axes.set_yticks([round(x, decimal) for x in np.linspace(Min, Max, Ticks+1)])
+        self.axes.set_yticks([round(x, decimal) for x in np.linspace(Min, Max, Ticks + 1)])
         self.axes.hold(True)
         
     def setXAxis(self, Min, Max, Ticks, label, decimal):
@@ -127,16 +127,16 @@ class MplCanvas(FigureCanvas):
 #        print self.t, self.data
 #        self.axes.legend()
         
-        #handles, labels = self.get_legend_handles_labels()
+        # handles, labels = self.get_legend_handles_labels()
 
         # reverse the order
-        #self.legend(handles[::-1], labels[::-1])
+        # self.legend(handles[::-1], labels[::-1])
         
 
         
         
 
-#def linspace(start, stop, n):
+# def linspace(start, stop, n):
 #    if n == 1:
 #        yield stop
 #        return

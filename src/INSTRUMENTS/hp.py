@@ -1,11 +1,11 @@
 import visa
-#import devices
+# import devices
 
 class Hp():
     def __init__(self):
-        self.DEFAULTFREQ   = 10e-9
-        self.DEFAULTHIGH   = 1
-        self.DEFAULTLOW    = 0
+        self.DEFAULTFREQ = 10e-9
+        self.DEFAULTHIGH = 1
+        self.DEFAULTLOW = 0
         
 #        self.initme()
         
@@ -33,17 +33,17 @@ class Hp():
         self.setHigh(self.DEFAULTHIGH)
         self.setLow(self.DEFAULTLOW)
       
-    def setFreq(self,per):
+    def setFreq(self, per):
         self.hp.write("PULS:TIM:PER %s" % per)      
         
-    def setHigh(self,high):
+    def setHigh(self, high):
         self.hp.write("PULS:LEV:HIGH %s" % high)
         
-    def setLow(self,low):
+    def setLow(self, low):
         self.hp.write("PULS:LEV:LOW %s" % low)
         
     def getFreq(self):
-        return self.hp.ask("PULS:TIM:PER?") # manual p 29
+        return self.hp.ask("PULS:TIM:PER?")  # manual p 29
 
     def setOutput(self, state):
         if state == 'ON':
@@ -72,7 +72,7 @@ class Hp():
         self.hp.write("OUTP:PULS:CSTate OFF")  
         
     def getOutput(self):
-        return self.hp.ask("OUTP:PULS:STAT?") # manual p 29
+        return self.hp.ask("OUTP:PULS:STAT?")  # manual p 29
         
     def close(self):
         try:

@@ -1,14 +1,14 @@
 import visa
-#import devices
+# import devices
 
 class Agilent8648D():
     def __init__(self):
-        self.DEFAULTFREQ   = 2000 # MHz
-        self.DEFAULTAMPLITUDE  = 500 # mV
+        self.DEFAULTFREQ = 2000  # MHz
+        self.DEFAULTAMPLITUDE = 500  # mV
                 
     def initme(self, devices, unique, defaultFreq, defaultAmplitude):
-        self.DEFAULTFREQ   = defaultFreq # MHz
-        self.DEFAULTAMPLITUDE  = defaultAmplitude # mV
+        self.DEFAULTFREQ = defaultFreq  # MHz
+        self.DEFAULTAMPLITUDE = defaultAmplitude  # mV
         
         self.device = devices.findUnique(unique)
         self.device.write("*RST")
@@ -29,7 +29,7 @@ class Agilent8648D():
         self.device.write("POW:AMPL {0} mV".format(amplitude))
         
     def getAmplitude(self):
-        return ((10**(float(self.device.ask("POW:AMPL?"))/10))/20)**0.5
+        return ((10 ** (float(self.device.ask("POW:AMPL?")) / 10)) / 20) ** 0.5
         
     def getFreq(self):
         return float(self.device.ask("FREQ:CW?")) 

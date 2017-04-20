@@ -32,18 +32,18 @@ Pedro A. M. Bezerra, October 2015
 # # 5. Make sure run-bidisrv.speedy is running (not without .speedy!)
 # class Hammerhead()
 
-import sys, os # the os module provides dozens of functions for interacting with the operational system
-import hammerhead # the serial interface board
-#import mplCanvas
-#from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
-import numpy as np # np is an alias pointing to numpy, but at this point numpy is not linked to numpy.
+import sys, os  # the os module provides dozens of functions for interacting with the operational system
+import hammerhead  # the serial interface board
+# import mplCanvas
+# from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
+import numpy as np  # np is an alias pointing to numpy, but at this point numpy is not linked to numpy.
 from PyQt4 import QtGui, QtCore
 
 from PyQt4.QtGui import *
 import xlwt
 import xlrd
 import time
-#import subprocess
+# import subprocess
 
 import agilent
 import keithley
@@ -62,32 +62,32 @@ class Demo1Buck1W(QtGui.QMainWindow):
         self.DEFAULTLOADPROG = 1        
         self.DEFAULTRLOAD = 10        
  # Reg 01 Constants              
-        self.DEFAULTDUTYCYCLE = 8 # varies from 0 to 15
-        self.DEFAULTWAVESEL0 = 0 # varies from 0 to 3
-        self.DEFAULTWAVESEL1 = 1 # varies from 0 to 3
-        self.DEFAULTWAVESEL2 = 2 # varies from 0 to 3
-        self.DEFAULTWAVESEL3 = 3 # varies from 0 to 3
+        self.DEFAULTDUTYCYCLE = 8  # varies from 0 to 15
+        self.DEFAULTWAVESEL0 = 0  # varies from 0 to 3
+        self.DEFAULTWAVESEL1 = 1  # varies from 0 to 3
+        self.DEFAULTWAVESEL2 = 2  # varies from 0 to 3
+        self.DEFAULTWAVESEL3 = 3  # varies from 0 to 3
  # Reg 02 Constants         
-        self.DEFAULTDEADTIME1 = 0 # set to the minimum (Check the logic)
-        self.DEFAULTDEADTIME2 = 0 # set to the minimum
-        self.DEFAULTPHSENABLE0 = 1 # 1 to turn on
-        self.DEFAULTPHSENABLE1 = 1 # 1 to turn on
-        self.DEFAULTPHSENABLE2= 1 # 1 to turn on 
-        self.DEFAULTPHSENABLE3= 1 # 1 to turn on
-        self.DEFAULTCOUNTERNABLE= 0 # 0 to work
+        self.DEFAULTDEADTIME1 = 0  # set to the minimum (Check the logic)
+        self.DEFAULTDEADTIME2 = 0  # set to the minimum
+        self.DEFAULTPHSENABLE0 = 1  # 1 to turn on
+        self.DEFAULTPHSENABLE1 = 1  # 1 to turn on
+        self.DEFAULTPHSENABLE2 = 1  # 1 to turn on 
+        self.DEFAULTPHSENABLE3 = 1  # 1 to turn on
+        self.DEFAULTCOUNTERNABLE = 0  # 0 to work
  # ---------------------------------------------------------
         
-        self.AREA = 1.9680 # converter area incl controller excl load in mm^2 - 4*(0.78*0.8-4*0.1*0.33)
+        self.AREA = 1.9680  # converter area incl controller excl load in mm^2 - 4*(0.78*0.8-4*0.1*0.33)
         
         self.DEFAULTMODERLOADVOUT = 'Rsense'
-        self.DEFAULTVIN = 2000 # mV
-        self.DEFAULTVREF = 850 # mV
-        self.DEFAULTVINHALFREF = 850 # mV        
-        self.DEFAULTVLOGIC = 1000 # mV
-        self.DEFAULTFREQ = 4000 # MHz
-        self.DEFAULTFREQAMPLITUDE = 500 # mV
-        self.DEFAULTFREQOFFSET = 500 # mV
-        self.DEFAULTVRES = 1000 # mV
+        self.DEFAULTVIN = 2000  # mV
+        self.DEFAULTVREF = 850  # mV
+        self.DEFAULTVINHALFREF = 850  # mV        
+        self.DEFAULTVLOGIC = 1000  # mV
+        self.DEFAULTFREQ = 4000  # MHz
+        self.DEFAULTFREQAMPLITUDE = 500  # mV
+        self.DEFAULTFREQOFFSET = 500  # mV
+        self.DEFAULTVRES = 1000  # mV
         
         self.DEFAULTIINLIM = 8000
 #         self.DEFAULTVOUTSWEEP = [1100, 1100]
@@ -104,31 +104,31 @@ class Demo1Buck1W(QtGui.QMainWindow):
         self.DEFAULTOFFSET = 5 
         
         
-        self.FREQLIM = [10, 4000.1] # MHz
-        self.FREQAMPLITUDELIM = [100, 1000] # mV
-        self.FREQOFFSETLIM = [100, 1000] # mV
-        self.IOUTLIM = [1, 3000] # mA
-        self.IINLIM = [1, 10000] # mA
-        self.VINLIM = [1500, 3200] # mV
+        self.FREQLIM = [10, 4000.1]  # MHz
+        self.FREQAMPLITUDELIM = [100, 1000]  # mV
+        self.FREQOFFSETLIM = [100, 1000]  # mV
+        self.IOUTLIM = [1, 3000]  # mA
+        self.IINLIM = [1, 10000]  # mA
+        self.VINLIM = [1500, 3200]  # mV
         self.VOUTMINLIM = 500
-        self.VREFLIM = [500, 1250] # mV
-        self.VINHALFREFLIM = [200, 1200] # mV        
-        self.VLOGICLIM = [800, 1200] # mV
+        self.VREFLIM = [500, 1250]  # mV
+        self.VINHALFREFLIM = [200, 1200]  # mV        
+        self.VLOGICLIM = [800, 1200]  # mV
         
-        self.ETAPLOT = [0, 100] # %
-        self.RHOPLOT = [0, 10] # W/mm^2
-        self.IOUTPLOT = [0, 50] # W/mm^2
-        self.VOUTPLOT = [0, 1000] # W/mm^2
+        self.ETAPLOT = [0, 100]  # %
+        self.RHOPLOT = [0, 10]  # W/mm^2
+        self.IOUTPLOT = [0, 50]  # W/mm^2
+        self.VOUTPLOT = [0, 1000]  # W/mm^2
         
 #         self.DEFAULTSETTLETIME = 3
         DEFAULTSLEEPTIME = 0.5
         self.DEFAULTRETENTION = 0;
         self.DEFAULTADJUSTVIN = True
-        self.DEFAULTVINTARGET = 1800 # mV
+        self.DEFAULTVINTARGET = 1800  # mV
         self.DEFAULTADJUSTVREF = True
-        self.DEFAULTVREFMIN = 700 # mV
-        self.DEFAULTVREFMAX = 1100 # mV
-        self.DEFAULTVREFSTEP = 50 # mV
+        self.DEFAULTVREFMIN = 700  # mV
+        self.DEFAULTVREFMAX = 1100  # mV
+        self.DEFAULTVREFSTEP = 50  # mV
         self.DEFAULTRLOADRANGE = [1, 31]
         self.DEFAULTRLOADSTEP = 1
         
@@ -320,12 +320,12 @@ class Demo1Buck1W(QtGui.QMainWindow):
         self.lblLoadEnable = QtGui.QLabel('LoadEnable: -', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblResetCounter, self.lblLoadProg, self.lblLoadEnable))      
         self.leResetCounter = QtGui.QLineEdit(str(self.DEFAULTRESETCOUNTER), self)
-        self.leLoadProg= QtGui.QLineEdit(str(self.DEFAULTLOADPROG), self)
+        self.leLoadProg = QtGui.QLineEdit(str(self.DEFAULTLOADPROG), self)
         self.leLoadEnable = QtGui.QLineEdit(str(self.DEFAULTLOADENABLE), self)
         v0Layout.addWidget(self.addHTripleWidget(self.leResetCounter, self.leLoadProg, self.leLoadEnable))
         self.lblRloadMax = QtGui.QLabel('Rload max: -', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblRloadMax, self.lblEmpty(), self.lblEmpty()))
-        self.leRloadMax= QtGui.QLineEdit(str(self.DEFAULTRLOAD), self)
+        self.leRloadMax = QtGui.QLineEdit(str(self.DEFAULTRLOAD), self)
         v0Layout.addWidget(self.addHTripleWidget(self.leRloadMax, self.lblEmpty(), self.lblEmpty()))
 # Bottom
         self.btnSetRegister00 = QtGui.QPushButton("Set Register 00", self)
@@ -339,14 +339,14 @@ class Demo1Buck1W(QtGui.QMainWindow):
         self.lblWaveSel0 = QtGui.QLabel('WaveSel0: -', self)
         self.lblWaveSel1 = QtGui.QLabel('WaveSel1: -', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblDutyCycle, self.lblWaveSel0, self.lblWaveSel1))         
-        self.leDutyCycle= QtGui.QLineEdit(str(self.DEFAULTDUTYCYCLE), self)
-        self.leWaveSel0= QtGui.QLineEdit(str(self.DEFAULTWAVESEL0), self)
+        self.leDutyCycle = QtGui.QLineEdit(str(self.DEFAULTDUTYCYCLE), self)
+        self.leWaveSel0 = QtGui.QLineEdit(str(self.DEFAULTWAVESEL0), self)
         self.leWaveSel1 = QtGui.QLineEdit(str(self.DEFAULTWAVESEL1), self)     
         v0Layout.addWidget(self.addHTripleWidget(self.leDutyCycle, self.leWaveSel0, self.leWaveSel1))               
         self.lblWaveSel2 = QtGui.QLabel('WaveSel2: -', self)
         self.lblWaveSel3 = QtGui.QLabel('WaveSel3: -', self)        
         v0Layout.addWidget(self.addHTripleWidget(self.lblWaveSel2, self.lblWaveSel3, self.lblEmpty())) 
-        self.leWaveSel2= QtGui.QLineEdit(str(self.DEFAULTWAVESEL2), self)
+        self.leWaveSel2 = QtGui.QLineEdit(str(self.DEFAULTWAVESEL2), self)
         self.leWaveSel3 = QtGui.QLineEdit(str(self.DEFAULTWAVESEL3), self)     
         v0Layout.addWidget(self.addHTripleWidget(self.leWaveSel2, self.leWaveSel3, self.lblEmpty()))  
 # Bottom
@@ -357,17 +357,17 @@ class Demo1Buck1W(QtGui.QMainWindow):
 # Register 10
         self.lblRegister10 = QtGui.QLabel('Register 10', self)   
         v0Layout.addWidget(self.lblRegister10)
-        self.lblDeadTime1 = QtGui.QLabel('DeadTime1: -', self)    #four bits
+        self.lblDeadTime1 = QtGui.QLabel('DeadTime1: -', self)  # four bits
         self.lblDeadTime2 = QtGui.QLabel('DeadTime2: -', self)
-        self.lblPhsEnable0 = QtGui.QLabel('PhsEnable0: -', self)    # 1 to turn on
+        self.lblPhsEnable0 = QtGui.QLabel('PhsEnable0: -', self)  # 1 to turn on
         v0Layout.addWidget(self.addHTripleWidget(self.lblDeadTime1, self.lblDeadTime2, self.lblPhsEnable0))          
-        self.leDeadTime1= QtGui.QLineEdit(str(self.DEFAULTDEADTIME1), self)
-        self.leDeadTime2= QtGui.QLineEdit(str(self.DEFAULTDEADTIME2), self)
+        self.leDeadTime1 = QtGui.QLineEdit(str(self.DEFAULTDEADTIME1), self)
+        self.leDeadTime2 = QtGui.QLineEdit(str(self.DEFAULTDEADTIME2), self)
         self.lePhsEnable0 = QtGui.QLineEdit(str(self.DEFAULTPHSENABLE0), self)     
         v0Layout.addWidget(self.addHTripleWidget(self.leDeadTime1, self.leDeadTime2, self.lePhsEnable0))
-        self.lblPhsEnable1 = QtGui.QLabel('PhsEnable1: -', self)    # 1 to turn on
-        self.lblPhsEnable2 = QtGui.QLabel('PhsEnable2: -', self)    # 1 to turn on
-        self.lblPhsEnable3 = QtGui.QLabel('PhsEnable3: -', self)    # 1 to turn on
+        self.lblPhsEnable1 = QtGui.QLabel('PhsEnable1: -', self)  # 1 to turn on
+        self.lblPhsEnable2 = QtGui.QLabel('PhsEnable2: -', self)  # 1 to turn on
+        self.lblPhsEnable3 = QtGui.QLabel('PhsEnable3: -', self)  # 1 to turn on
         v0Layout.addWidget(self.addHTripleWidget(self.lblPhsEnable1, self.lblPhsEnable2, self.lblPhsEnable3))
         self.lePhsEnable1 = QtGui.QLineEdit(str(self.DEFAULTPHSENABLE1), self)     
         self.lePhsEnable2 = QtGui.QLineEdit(str(self.DEFAULTPHSENABLE2), self)  
@@ -376,7 +376,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
         
         self.lblCounterEnable = QtGui.QLabel('CounterEnable: -', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblCounterEnable, self.lblEmpty(), self.lblEmpty()))
-        self.leCounterEnable= QtGui.QLineEdit(str(self.DEFAULTCOUNTERNABLE), self)
+        self.leCounterEnable = QtGui.QLineEdit(str(self.DEFAULTCOUNTERNABLE), self)
         v0Layout.addWidget(self.addHTripleWidget(self.leCounterEnable, self.lblEmpty(), self.lblEmpty()))        
  
  # Bottom
@@ -1056,11 +1056,11 @@ class Demo1Buck1W(QtGui.QMainWindow):
 
                  
                     
-                    self.addr0 = '0000{0}{1}{2}{3}'.format(RloadMax, LoadProg, LoadEnable, ResetCounter) # [Last First]
+                    self.addr0 = '0000{0}{1}{2}{3}'.format(RloadMax, LoadProg, LoadEnable, ResetCounter)  # [Last First]
 #                     self.addr0 = '{0}'.format(RloadMax) # [Last First]
 
 #                    self.addr0 = '111111111111'
-                    self.h.writerd(0, int(self.addr0,2))
+                    self.h.writerd(0, int(self.addr0, 2))
                     self.status('{0} is written to the bidi addr 0'.format(self.addr0))
 #                     if self.sender().text() == "Set ESL Reg" or self.sender().objectName() == "Set Enable" or self.sender().objectName() == "Set State" or self.sender().objectName() == "Set Load":
 #                     if any(self.sender().text() in s for s in ["Set ESL Reg", "Set Enable", "Set Load"]):
@@ -1170,7 +1170,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
                     self.addr1 = '{0}{1}{2}{3}{4}'.format(WaveSel0, WaveSel1, WaveSel2, WaveSel3, DutyCycle)
 #                    self.h.write('{0:011b}'.format(1), int(self.addr1,2))
 #                     self.addr1 = '11111111111'
-                    self.h.writerd(1, int(self.addr1,2))
+                    self.h.writerd(1, int(self.addr1, 2))
 #                    print self.addr1
                     self.status('{0} is written to the bidi addr 1'.format(self.addr1))
                     
@@ -1229,7 +1229,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
                     self.addr2 = '{0}{1}{2}{3}{4}{5}{6}'.format(DeadTime2, DeadTime1, PhsEnable0, PhsEnable1, PhsEnable2, PhsEnable3, CounterEnable)
 #                    self.h.write('{0:011b}'.format(1), int(self.addr1,2))
 #                     self.addr1 = '11111111111'
-                    self.h.writerd(int('10',2), int(self.addr2,2))
+                    self.h.writerd(int('10', 2), int(self.addr2, 2))
 #                    print self.addr1
                     self.status('{0} is written to the bidi addr 10'.format(self.addr2))
                     
@@ -1284,7 +1284,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
             if self.sender().text() == "Sweep Load":
                 self.measSweepLoad()
             if self.sender().text() == "Sweep Load && Vref":
-                self.measSweepLoadVrefVout(skipOverwrite = False)         
+                self.measSweepLoadVrefVout(skipOverwrite=False)         
             if self.sender().text() == "Meas Everything!":
                 self.measEverything()                
             if self.sender().text() == "Clear table only":  
@@ -1302,12 +1302,12 @@ class Demo1Buck1W(QtGui.QMainWindow):
     def measVink(self):
         QtGui.QApplication.processEvents()
         Vink = self.agilent.measVink()
-        self.lblVink.setText(f2(Vink*1e3) + ' mV')
+        self.lblVink.setText(f2(Vink * 1e3) + ' mV')
         return Vink    
     def measVref(self):
         QtGui.QApplication.processEvents()
         Vref = self.agilent.measVref()
-        self.lblVref.setText(f2(Vref*1e3) + ' mV')
+        self.lblVref.setText(f2(Vref * 1e3) + ' mV')
         if self.modeRloadVout == 'Vsense':
             self.measVoutk()
         return Vref       
@@ -1328,17 +1328,17 @@ class Demo1Buck1W(QtGui.QMainWindow):
             Voutk = self.keithleyOut.measV()
 #             Voutk = self.agilent.measVoutk()
 #             Voutk = self.keithleyVoutk.measV()
-            self.lblRloadVout.setText(f2(Voutk*1e3) + ' mV')
-            if Voutk*1e3 < self.VOUTMINLIM:
+            self.lblRloadVout.setText(f2(Voutk * 1e3) + ' mV')
+            if Voutk * 1e3 < self.VOUTMINLIM:
                 self.allOff()
-                print('Vout={0} mV is measured too low, all eqipment is turned off'.format(Voutk*1e3))
+                print('Vout={0} mV is measured too low, all eqipment is turned off'.format(Voutk * 1e3))
             else: return Voutk
         else: self.status('KeithleyIn is not on -> no measurement performed ...')
     def measIin(self):
         if self.vinIsOn():
             QtGui.QApplication.processEvents()
             Iin = self.keithleyIn.measI()
-            self.lblIin.setText(f2(Iin*1e3) + ' mA')
+            self.lblIin.setText(f2(Iin * 1e3) + ' mA')
             return Iin 
         else: self.status('KeithleyIn is not on -> no measurement performed ...')
     def measRload(self):
@@ -1348,21 +1348,21 @@ class Demo1Buck1W(QtGui.QMainWindow):
         Rload1 = float(self.keithleyOut.measR())
         Rload2 = float(self.keithleyOut.measR())
         Rload3 = float(self.keithleyOut.measR())
-        Rload = (Rload1 + Rload2 + Rload3)/3
+        Rload = (Rload1 + Rload2 + Rload3) / 3
         self.lblRloadVout.setText(f3(Rload) + ' Ohm')
         self.keithleyOut.outputOff()
         return Rload
     def measAllRload(self):
         QtGui.QApplication.processEvents()
-        self.Rload = list() # reset the list
+        self.Rload = list()  # reset the list
         if self.vinIsOn():
             self.vinOnOff()
-        self.modeRloadVout = 'Vsense' # will be toggled to Rsense
+        self.modeRloadVout = 'Vsense'  # will be toggled to Rsense
         self.measToggleRloadVout()
         self.keithleyOut.outputOn()
         self.setEnable(1)
 #        for i in range(self.DEFAULTRLOADRANGE[0], self.DEFAULTRLOADRANGE[1]+1): # i = 0..31
-        for i in range(0, 31+1): # i = 0..31
+        for i in range(0, 31 + 1):  # i = 0..31
             self.setLoad(i)
 #             self.Rload.append(float(self.keithleyOut.measR()))
             self.Rload.append(self.measRload())
@@ -1380,14 +1380,14 @@ class Demo1Buck1W(QtGui.QMainWindow):
 #         self.setVref( float(self.leVref.text()) + (Vouttarget - Voutk*1e3))
     def adjustVin(self, sleepTime=0.5):
         Vink_current = float(self.measVink())
-        Vink_new = float(self.leVin.text()) + (float(self.leTargetVink.text()) - Vink_current*1e3)
+        Vink_new = float(self.leVin.text()) + (float(self.leTargetVink.text()) - Vink_current * 1e3)
         self.setVin(Vink_new)
         time.sleep(sleepTime)
         print ("Vink_current = ", Vink_current, "Vink_new = ", Vink_new)
 #         return Vink
     def adjustVout(self):
         Voutk = float(self.measVoutk())
-        Vref = float(self.leVref.text()) + (float(self.leTargetVoutk.text()) - Voutk*1e3)
+        Vref = float(self.leVref.text()) + (float(self.leTargetVoutk.text()) - Voutk * 1e3)
         self.setVref(Vref)
         print ("Voutk = ", Voutk, "Vref = ", Vref)        
     def measAdjustVink(self):
@@ -1405,10 +1405,10 @@ class Demo1Buck1W(QtGui.QMainWindow):
 #             Vin = float(self.leTargetVink.text())
 #             Vout = float(self.leTargetVoutk.text())
             for i in range(0, 2):
-                self.adjustVin(sleepTime = i/2)
+                self.adjustVin(sleepTime=i / 2)
                 self.adjustVout()
                 self.adjustVout()
-                self.adjustVin(sleepTime = i/2)
+                self.adjustVin(sleepTime=i / 2)
 #                 time.sleep(i/2)
             self.measVink()
             self.measVoutk()
@@ -1422,14 +1422,14 @@ class Demo1Buck1W(QtGui.QMainWindow):
     def measAll(self):
         if self.isAllOn():
             
-            ## Meas Rload all
-            if not self.Rload: # if self.Rload is empty
+            # # Meas Rload all
+            if not self.Rload:  # if self.Rload is empty
                 OldLoad = self.leLoad.text()
                 self.measAllRload()
                 self.vinOnOff()
-                for i in range(0, int(OldLoad)+1):
+                for i in range(0, int(OldLoad) + 1):
                     self.setLoad(i)
-                    self.adjustVin(sleepTime = 0)
+                    self.adjustVin(sleepTime=0)
                 time.sleep(0.25)    
             Rload = self.Rload[int(self.leLoad.text())]    
                             
@@ -1437,7 +1437,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
                 self.measAdjustVinkVoutk()
             elif self.checkMeasAllAdjustVin.isChecked():
                 self.measAdjustVink()
-            for i in range(0, self.measRetention()+1):
+            for i in range(0, self.measRetention() + 1):
                 time.sleep(1)
                 self.leRetention.setText(str(i))
                 QtGui.QApplication.processEvents()
@@ -1466,17 +1466,17 @@ class Demo1Buck1W(QtGui.QMainWindow):
            
             
             [eta, rho, Pin, Pout, Iout] = self.calc(Vink, Voutk, Iin, Rload)
-            rowData = [f1(float(self.leFreq.text())), f2(Iin*1e3), f2(Iout*1e3), f1(Vink*1e3), f1(Vins*1e3), f1(Voutk*1e3), 
-                           f1(Vref*1e3), f4(Rload), f2(Pin*1e3), f2(Pout*1e3), f2(eta*100), f2(rho)]                
+            rowData = [f1(float(self.leFreq.text())), f2(Iin * 1e3), f2(Iout * 1e3), f1(Vink * 1e3), f1(Vins * 1e3), f1(Voutk * 1e3),
+                           f1(Vref * 1e3), f4(Rload), f2(Pin * 1e3), f2(Pout * 1e3), f2(eta * 100), f2(rho)]                
             self.updateTableRow(self.measTbl, self.rowNumber, rowData)
-            self.rowNumber = self.rowNumber+1
+            self.rowNumber = self.rowNumber + 1
             return Vink, Voutk, Vref, Iin, Iout, Rload, eta, rho, Pin, Pout
     def calc(self, Vin, Vout, Iin, Rload):
-        Pin = Vin*Iin
-        Pout = Vout*Vout/Rload
-        Iout = Vout/Rload
-        eta = Pout/Pin
-        rho = Pout/self.AREA
+        Pin = Vin * Iin
+        Pout = Vout * Vout / Rload
+        Iout = Vout / Rload
+        eta = Pout / Pin
+        rho = Pout / self.AREA
         return eta, rho, Pin, Pout, Iout
 #    def measSweepSingle(self):
 #        QtGui.QApplication.processEvents()
@@ -1494,7 +1494,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
     #             self.measAllRload()
     #             self.vinOnOff()
 #             self.setGear(1 if float(self.leVref.text()) >= float(self.leVgear.text()) else 0)
-            for i in range(int(self.leRloadMin.text()), int(self.leRloadMax.text())+1, int(self.leRloadStep.text())):
+            for i in range(int(self.leRloadMin.text()), int(self.leRloadMax.text()) + 1, int(self.leRloadStep.text())):
                 self.setLoad(i)
                 QtGui.QApplication.processEvents()
 #                 [Vink, Voutk, Vref, Iin, Iout, Rload, eta, rho, Pin, Pout] = self.measAll()
@@ -1502,7 +1502,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
 #                 rowData = [f1(float(self.leFreq.text())), f2(Iin*1e3), f2(Iout*1e3), f1(Vink*1e3), f1(float(self.keithleyIn.getV())*1e3), f1(Voutk*1e3), 
 #                            f1(Vref*1e3), f3(Rload), f2(Pin*1e3), f2(Pout*1e3), f2(eta*100), f2(rho)]                
 #                 self.updateTableRow(self.measTbl, self., rowData)
-            self.setLoad(int( (int(self.leRloadMax.text())+1)/2 ), meas=True)
+            self.setLoad(int((int(self.leRloadMax.text()) + 1) / 2), meas=True)
             self.setVin(2200)
             self.setLoad(0, meas=True)
 #             self.measAll()
@@ -1519,7 +1519,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
 #            self.vinOnOff()
             adjustVoutkOld = self.leTargetVoutk.text()
 #             gearOld = self.leGearFixed.text()
-            for j in range(int(self.leVrefMin.text()), int(self.leVrefMax.text())+1, int(self.leVrefStep.text())):
+            for j in range(int(self.leVrefMin.text()), int(self.leVrefMax.text()) + 1, int(self.leVrefStep.text())):
 #                print j, range(int(self.leVrefMin.text()), int(self.leVrefMax.text())+1, int(self.leVrefStep.text()))
                 self.setVref(j)
                 if self.checkMeasAllAdjustVout.isChecked():
@@ -1554,10 +1554,10 @@ class Demo1Buck1W(QtGui.QMainWindow):
                         self.leTargetVink.setText(VintargetList[i])
                         self.leSweepLoadVref.setText('{0}_Vin{1}_Freq{2}_fixedVout'.format(chipName, VintargetList[i], FreqtargetList[k]))
                         self.checkMeasAllAdjustVout.setChecked(True)
-                        self.measSweepLoadVrefVout(skipOverwrite = True)
+                        self.measSweepLoadVrefVout(skipOverwrite=True)
                         self.leSweepLoadVref.setText('{0}_Vin{1}_Freq{2}_fixedVref'.format(chipName, VintargetList[i], FreqtargetList[k]))
                         self.checkMeasAllAdjustVout.setChecked(False)
-                        self.measSweepLoadVrefVout(skipOverwrite = True)
+                        self.measSweepLoadVrefVout(skipOverwrite=True)
                 self.setFreq(freqOld)
                 self.leSweepLoadVref.setText(chipName)
                 self.leTargetVink.setText(vinOld)
@@ -1568,7 +1568,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
 #         self.updateTableColumn(self.measTbl, 1, [self.leTemp.text()])
         if self.vlogicIsOn():
             self.measAllRload()
-            self.Rload.insert(0,self.leTemp.text())
+            self.Rload.insert(0, self.leTemp.text())
             self.updateTableColumn(self.measTbl, self.columnNumber, self.Rload)
             self.columnNumber = self.columnNumber + 1
 #        else: print 'Vlogic is not turned on'
@@ -1593,12 +1593,12 @@ class Demo1Buck1W(QtGui.QMainWindow):
     def updateTableRow(self, table, row, rowData):
         for i in range(0, len(rowData)):
             item = QTableWidgetItem(str(rowData[i]))
-            item.setFlags(QtCore.Qt.ItemIsEnabled) # makes cells read-only
+            item.setFlags(QtCore.Qt.ItemIsEnabled)  # makes cells read-only
             table.setItem(row, i, item)      
     def updateTableColumn(self, table, column, columnData):
         for i in range(0, len(columnData)):
             item = QTableWidgetItem(str(columnData[i]))
-            item.setFlags(QtCore.Qt.ItemIsEnabled) # makes cells read-only
+            item.setFlags(QtCore.Qt.ItemIsEnabled)  # makes cells read-only
             table.setItem(i, column, item)                                       
     def tableIsEmpty(self, table):
         for i in range(0, table.rowCount()):
@@ -1614,10 +1614,10 @@ class Demo1Buck1W(QtGui.QMainWindow):
         for i in range(0, table.rowCount()):
             for j in range(0, table.columnCount()):
                 item = QTableWidgetItem(str(''))
-                item.setFlags(QtCore.Qt.ItemIsEnabled) # makes cells read-only
+                item.setFlags(QtCore.Qt.ItemIsEnabled)  # makes cells read-only
                 table.setItem(i, j, item) 
-        self.rowNumber=0
-        self.columnNumber=0
+        self.rowNumber = 0
+        self.columnNumber = 0
     def saveTable(self, table, filename, sheetname):
         if self.tableIsEmpty(table) == True:
             self.status('Table is empty -> not processed')
@@ -1629,7 +1629,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
                     for j in range(0, table.columnCount()):
                         if self.cellIsEmpty(table, i, j) == False:
                             sheet.write(0, j, self.hHeader[j])                                  
-                            sheet.write(i+1, j, float(table.item(i, j).text()))
+                            sheet.write(i + 1, j, float(table.item(i, j).text()))
                 wbk.save(filename)
                 self.status('{0} was saved'.format(filename))  
     def combine_xls(self, filename, xlsfiles):
@@ -1637,30 +1637,30 @@ class Demo1Buck1W(QtGui.QMainWindow):
         for m in range(len(xlsfiles)):
             file_read = xlrd.open_workbook(xlsfiles[m])
             sh_read = file_read.sheet_by_index(0)
-            sh_write = wbk.add_sheet(str.split(xlsfiles[m],'.')[0])
+            sh_write = wbk.add_sheet(str.split(xlsfiles[m], '.')[0])
             for j in range(len(sh_read.col_values(0))):
                 for i in range(len(sh_read.row_values(0))):
-                    sh_write.write(j,i,sh_read.cell(j,i).value)
+                    sh_write.write(j, i, sh_read.cell(j, i).value)
         wbk.save(filename)              
                                  
 #------------------------------------------------------------------------------
 # Functions to update the labels    
     def updateIinmaxLbl(self):
-        self.lblIinmax.setText(f0(float(self.keithleyIn.getI())*1e3) + ' mA')
+        self.lblIinmax.setText(f0(float(self.keithleyIn.getI()) * 1e3) + ' mA')
     def updateFreqLbl(self):
-        self.lblFreq.setText(f2(self.freq.getFreq()/1e6) + ' MHz')
+        self.lblFreq.setText(f2(self.freq.getFreq() / 1e6) + ' MHz')
     def updateFreqAmplitudeLbl(self):
-        self.lblFreqAmplitude.setText(f1(self.freq.getAmplitude()*1e3) + ' mV')
+        self.lblFreqAmplitude.setText(f1(self.freq.getAmplitude() * 1e3) + ' mV')
     def updateFreqOffsetLbl(self):
-        self.lblFreqOffset.setText(f2(self.freqOffset.getV()*1e3) + ' mV')                
+        self.lblFreqOffset.setText(f2(self.freqOffset.getV() * 1e3) + ' mV')                
     def updateVinLbl(self):
-        self.lblVin.setText(f2(float(self.keithleyIn.getV())*1e3) + ' mV') 
+        self.lblVin.setText(f2(float(self.keithleyIn.getV()) * 1e3) + ' mV') 
     def updateVrefLbl(self):
-        self.lblVref.setText(f0(float(self.vref.getV())*1e3) + ' mV')
+        self.lblVref.setText(f0(float(self.vref.getV()) * 1e3) + ' mV')
     def updateVinhalfrefLbl(self):
-        self.lblVinhalfref.setText(f0(float(self.vinhalfref.getV())*1e3) + ' mV')
+        self.lblVinhalfref.setText(f0(float(self.vinhalfref.getV()) * 1e3) + ' mV')
     def updateVlogicLbl(self):
-        self.lblVlogic.setText(f2(float(self.vlogic.getV())*1e3) + ' mV')                 
+        self.lblVlogic.setText(f2(float(self.vlogic.getV()) * 1e3) + ' mV')                 
     def updateEnableLbl(self):     
         self.lblEnable.setText('Enable: {0}'.format(self.leEnable.text()))             
     def updateLoadLbl(self):     
@@ -1781,7 +1781,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
     def confirmOverwrite(self, filename):
         if os.path.isfile(filename):
             quit_msg = "Overwrite %s?" % filename
-            reply = QtGui.QMessageBox.question(self, 'Message', 
+            reply = QtGui.QMessageBox.question(self, 'Message',
             quit_msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
             if reply == QtGui.QMessageBox.Yes:
                 self.removeFile(filename)
@@ -1794,13 +1794,13 @@ class Demo1Buck1W(QtGui.QMainWindow):
 
     def removeFile(self, files):
         if type(files) is list:
-            for i in range(0,len(files)):
+            for i in range(0, len(files)):
                 os.remove(files[i])
         else: os.remove(files)
                     
     def openFile(self, filename):
         if os.path.isfile(filename):
-            os.startfile(os.getcwd() +'\\' + filename)
+            os.startfile(os.getcwd() + '\\' + filename)
         else: self.status('{0} does not exist'.format(filename))  
             
 def f4(x):

@@ -1,4 +1,4 @@
-#from numpy import *
+# from numpy import *
 import visa
 import agilent8648D
 import agilent   
@@ -15,8 +15,8 @@ class Devices():
         self.instrList()
         
     def findUnique(self, unique):
-        for i in range(0,len(self.visaInstrList)):
-            inst = visa.instrument(self.visaInstrList[i]+'::INSTR')
+        for i in range(0, len(self.visaInstrList)):
+            inst = visa.instrument(self.visaInstrList[i] + '::INSTR')
             if isinstance(unique, int):
                 if str(unique) in self.instrList()[i]:
                     return inst
@@ -30,11 +30,11 @@ class Devices():
     def instrList(self):
         try:
 #            x = visa.get_instruments_list()
-            #for i in range(len(self.visaInstrList),0):
+            # for i in range(len(self.visaInstrList),0):
             #   if not 'GPIB' in self.visaInstrList[i]:
             #      self.visaInstrList.pop(i)
             #     print self.visaInstrList
-            self.visaInstrList = [s for s in visa.get_instruments_list() if 'GPIB' in s] # Removes all non-GPIB entries from the instrument list 
+            self.visaInstrList = [s for s in visa.get_instruments_list() if 'GPIB' in s]  # Removes all non-GPIB entries from the instrument list 
 #            print self.visaInstrList
             return self.visaInstrList
 #        y = [s for s in x if len(s) == 2]
@@ -42,8 +42,8 @@ class Devices():
             print(str(e))
         
     def printInstrList(self):
-        for i in range(0,len(self.visaInstrList)):
-            inst = visa.instrument(self.visaInstrList[i]+'::INSTR')
+        for i in range(0, len(self.visaInstrList)):
+            inst = visa.instrument(self.visaInstrList[i] + '::INSTR')
             print inst.ask("*IDN?")
 #            globals()[self.INSTNAMES[i]]=visa.instrument(self.visaInstrList[i]+'::INSTR')
 #            print globals()[self.INSTNAMES[i]].ask("*IDN?")
