@@ -3,9 +3,10 @@ Created on Apr 19, 2017
 
 @author: rid
 '''
-import numpy
+
+
 from xlrd.formula import num2strg
-import PyQt4
+from PyQt5 import QtWidgets
 
 
 class GuiTools(object):
@@ -43,7 +44,7 @@ class GuiTools(object):
         
         ComboBox = self.parent.sender()
         regName = str(ComboBox.accessibleName())
-        content_Str = unicode(ComboBox.currentText())
+        content_Str = str(ComboBox.currentText())
         self.parent.statusBar().showMessage(regName + ' was changed to ' + content_Str) 
         
         BIDI_REG = self.getRegOrNone(regName)
@@ -62,7 +63,7 @@ class GuiTools(object):
         BIDI_REG = self.getRegOrNone(regName)
         
         if BIDI_REG:
-            if SpinBox.__class__== PyQt4.QtGui.QDoubleSpinBox:
+            if SpinBox.__class__== QtWidgets.QDoubleSpinBox:
                 BIDI_REG.set( float(newContent) )
             else:
                 BIDI_REG.set( int(newContent) )

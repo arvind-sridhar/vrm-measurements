@@ -8,13 +8,13 @@ Created on Apr 12, 2017
 '''
 
 import sys
-from PyQt4 import QtGui
+from PyQt5 import QtWidgets
 from GF1408_tools.GF1408_GUI import GF1408_GUI
 
 
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     a = GF1408_GUI()
     sys.exit(app.exec_())
 

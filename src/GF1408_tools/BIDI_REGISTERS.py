@@ -20,6 +20,7 @@ class BIDI_REGISTERS(object):
         '''
         self.registerCount = _registerCount;
         self.bitCount = _registerCount*self.WORD_LENGTH
+        
         self.registers_Used = numpy.zeros(shape=(_registerCount, self.WORD_LENGTH), dtype=numpy.int)
         self.registers_Bits = numpy.zeros(shape=(_registerCount, self.WORD_LENGTH), dtype=numpy.int)
         self.register_Names = [None]*self.bitCount
@@ -67,7 +68,8 @@ class BIDI_REGISTERS(object):
         self.allBits()[bidi_parameter.bitrange_array] = value_array
         
         # 2. Prepare addresses and bit list
-        UpdatedRegisters=numpy.unique(bidi_parameter.bitrange_array/self.WORD_LENGTH)
+        AlteredAdresses = bidi_parameter.bitrange_array/self.WORD_LENGTH 
+        UpdatedRegisters=numpy.unique( AlteredAdresses.astype(numpy.int) )
         
         # 3. Iterate over updated registers and write to Bidi
         for address in numpy.nditer(UpdatedRegisters):
@@ -75,15 +77,15 @@ class BIDI_REGISTERS(object):
             content = self.registers_Bits[address]
             bitstring = numpy.array2string(content,separator='')[1:-1]
             
-            print bitstring
+            print(bitstring)
+            #TODO: Write the stuff
             #self.HAMMERHEAD.writerd(address, int(bitstring,2))
-            
         return True
 
     def initRegisters( self ):
         
         RegisterClass = self.RegisterListClass
-        Registers = self.RegisterListClass.__dict__.iteritems()
+        Registers = self.RegisterListClass.__dict__.items()
         
         for name, liste in  Registers:
             
@@ -145,7 +147,7 @@ class BIDI_PARAMETER():
         # Convert to binary
         newValue_bin = ("{0:0"+str(Length)+"b}").format(newValue)
         
-        assert len(newValue_bin)<=Length
+        assert(len(newValue_bin)<=Length)
         
         newValue_bin_array  = numpy.zeros(shape=(Length), dtype=numpy.int)
         
@@ -153,9 +155,7 @@ class BIDI_PARAMETER():
         for char in newValue_bin:
             newValue_bin_array[i] = int(char)
             i=i+1
-        print newValue_bin_array
         
+        print(newValue_bin_array)
         self.BIDI.updateRegister(self,newValue_bin_array)
-
-
-        
+    
