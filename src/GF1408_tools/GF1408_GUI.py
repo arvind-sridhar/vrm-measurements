@@ -31,8 +31,9 @@ class GF1408_GUI(QtGui.QMainWindow):
         super(GF1408_GUI, self).__init__()
         self.h = hammerhead.Hammerhead()
         self.BIDI = GF1408_BIDI.GF1408_BIDI(self.h)
-        self.initUI()
         
+        self.initUI()
+        print 1
         
     def initUI(self):
         

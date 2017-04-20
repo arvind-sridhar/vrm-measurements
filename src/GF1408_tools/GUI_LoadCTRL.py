@@ -59,10 +59,10 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         gb_LOAD.setFixedHeight(125)
         gb_LOAD.setAlignment( QtCore.Qt.AlignHCenter )
         # Set Events
-        CheckBox_ENLOAD.clicked.connect(parent.onChangeCheckBox)
-        CheckBox_LOAD_SLOWCHANGE.clicked.connect(parent.onChangeCheckBox)
-        ComboBox_LOADCLK.activated.connect(parent.onChangeComboBox)
-        SpinBox_LOADEN.valueChanged.connect(parent.onChangeSpinBox)
+        CheckBox_ENLOAD.clicked.connect(self.onChangeCheckBox)
+        CheckBox_LOAD_SLOWCHANGE.clicked.connect(self.onChangeCheckBox)
+        ComboBox_LOADCLK.activated.connect(self.onChangeComboBox)
+        SpinBox_LOADEN.valueChanged.connect(self.onChangeSpinBox)
         
         # Assignments
         self.GroupBox = gb_LOAD

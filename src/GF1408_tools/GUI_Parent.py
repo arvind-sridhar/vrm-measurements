@@ -3,7 +3,9 @@ Created on Apr 19, 2017
 
 @author: rid
 '''
+import numpy
 from xlrd.formula import num2strg
+import PyQt4
 
 
 class GuiTools(object):
@@ -32,19 +34,50 @@ class GuiTools(object):
             if hasattr(obj, 'isEnabled'):
                 obj.setEnabled(en)
 
+    def getRegOrNone(self,regName):
+        if hasattr(self.parent.BIDI, regName):
+            return getattr(self.parent.BIDI,regName)
+        return None
 
     def onChangeComboBox(self):
         
-        sender = self.parent.sender()
-        self.parent.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + sender.currentText()) 
+        ComboBox = self.parent.sender()
+        regName = str(ComboBox.accessibleName())
+        content_Str = unicode(ComboBox.currentText())
+        self.parent.statusBar().showMessage(regName + ' was changed to ' + content_Str) 
+        
+        BIDI_REG = self.getRegOrNone(regName)
+    
+        if BIDI_REG:
+            BIDI_REG.set( content_Str)
     
     def onChangeSpinBox(self):
-        sender = self.parent.sender()
-        self.parent.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + num2strg(sender.value())) 
-      
-    # Hammer Head Functions
-    
+        
+        SpinBox = self.parent.sender()
+        regName = str(SpinBox.accessibleName())
+        newContent = SpinBox.value()
+        self.parent.statusBar().showMessage(SpinBox.accessibleName() + ' swas changed to ' + num2strg(newContent)) 
+        
+        
+        BIDI_REG = self.getRegOrNone(regName)
+        
+        if BIDI_REG:
+            if SpinBox.__class__== PyQt4.QtGui.QDoubleSpinBox:
+                BIDI_REG.set( float(newContent) )
+            else:
+                BIDI_REG.set( int(newContent) )
+            
     def onChangeCheckBox(self):
-        sender = self.parent.sender()
-        self.parent.statusBar().showMessage(sender.accessibleName() + ' was changed to ' +  num2strg(sender.isChecked())) 
-      
+        
+        CheckBox = self.parent.sender()
+        regName = str(CheckBox.accessibleName())
+        self.parent.statusBar().showMessage(regName + ' was changed to ' +  num2strg(CheckBox.isChecked()))
+        
+        
+        BIDI_REG = self.getRegOrNone(regName)
+        newContent = int(CheckBox.isChecked())
+                  
+        if BIDI_REG:
+            #print BIDI_REG
+            BIDI_REG.set( newContent)
+            

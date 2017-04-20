@@ -5,7 +5,7 @@ Created on Apr 13, 2017
 '''
 
 import numpy
-import hammerhead # the serial interface board
+#from hammerhead import Hammerhead# the serial interface board
 
 class BIDI_REGISTERS(object):
     '''
@@ -20,11 +20,11 @@ class BIDI_REGISTERS(object):
         '''
         self.registerCount = _registerCount;
         self.bitCount = _registerCount*self.WORD_LENGTH
-        self.registers_Used = numpy.zeros(shape=(_registerCount, self.WORD_LENGTH))
-        self.registers_Bits = numpy.zeros(shape=(_registerCount, self.WORD_LENGTH))
+        self.registers_Used = numpy.zeros(shape=(_registerCount, self.WORD_LENGTH), dtype=numpy.int)
+        self.registers_Bits = numpy.zeros(shape=(_registerCount, self.WORD_LENGTH), dtype=numpy.int)
         self.register_Names = [None]*self.bitCount
         
-        self.HAMMERHEAD = hammerhead;
+        self.HAMMERHEAD = _hammerhead;
         self.RegisterListClass = _RegisterListClass
     
         self.initRegisters()
@@ -60,10 +60,11 @@ class BIDI_REGISTERS(object):
     def updateRegister(self,bidi_parameter,value_array):
         
         # 0. Ensure bitrange is valid
+        
         assert bidi_parameter.bitrange_array.shape == value_array.shape
         
         # 1. Overwrite mentioned registers
-        self.allBits(self)[bidi_parameter.bitrange_array] = value_array
+        self.allBits()[bidi_parameter.bitrange_array] = value_array
         
         # 2. Prepare addresses and bit list
         UpdatedRegisters=numpy.unique(bidi_parameter.bitrange_array/self.WORD_LENGTH)
@@ -73,35 +74,38 @@ class BIDI_REGISTERS(object):
             
             content = self.registers_Bits[address]
             bitstring = numpy.array2string(content,separator='')[1:-1]
-            self.HAMMERHEAD.writerd(address, int(bitstring,2))
+            
+            print bitstring
+            #self.HAMMERHEAD.writerd(address, int(bitstring,2))
             
         return True
 
     def initRegisters( self ):
         
+        RegisterClass = self.RegisterListClass
         Registers = self.RegisterListClass.__dict__.iteritems()
         
         for name, liste in  Registers:
-            if not ("__") in name:
-                
-                BIDIParameter = BIDI_PARAMETER.fromListe(name,liste,self)
+            
+            if not ("__") in name and not ("static") in name:
+                BIDIParameter = BIDI_PARAMETER.fromListe(name,liste,self,RegisterClass)
                 setattr(self, name, BIDIParameter)
-        
-        
-
+            
 
 class BIDI_PARAMETER():
     
     VAL_ISLINEAR = 0
     VAL_BITRANGE = 1
+    VAL_MAPFUN = 3
             
     @staticmethod
     def linear(name, startBit,Length, BIDI):
         return BIDI_PARAMETER(name, numpy.arange(startBit,startBit+Length), BIDI)
     
     @staticmethod
-    def fromListe(name,liste,BIDI):
+    def fromListe(name,liste,BIDI,Registers):
         self = BIDI_PARAMETER
+        
         if( liste[self.VAL_ISLINEAR] ):
             startBit = liste[self.VAL_BITRANGE]
             Length = liste[self.VAL_BITRANGE+1]
@@ -109,10 +113,16 @@ class BIDI_PARAMETER():
         else:
             bitrange = liste[self.VAL_BITRANGE]
         
-        return  BIDI_PARAMETER( name, bitrange, BIDI)
-    
-    def __init__(self,name, bitrange_array, BIDI):    
         
+        if len(liste)>3:
+            #print liste[self.VAL_MAPFUN]
+            fun = getattr(Registers,liste[self.VAL_MAPFUN])
+        else:
+            fun = None    
+        
+        return  BIDI_PARAMETER( name, bitrange, BIDI,fun)
+    
+    def __init__(self,name, bitrange_array, BIDI,mapFun = None):    
         
         assert len(bitrange_array.shape) == 1
         assert bitrange_array.size>0
@@ -121,16 +131,31 @@ class BIDI_PARAMETER():
         self.name = name
         self.bitrange_array = bitrange_array
         
-       
+        self.mapFun = mapFun
         
         BIDI.setRegisterParamter(bitrange_array,name)
         
     def set(self, newValue):
         
-        Length = len(self.bitrange_array)
-        assert newValue<2**Length
+        if self.mapFun != None:
+            newValue = self.mapFun(newValue)
         
-        self.BIDI.updateRegister(self,newValue)
+        Length = len(self.bitrange_array)
+        
+        # Convert to binary
+        newValue_bin = ("{0:0"+str(Length)+"b}").format(newValue)
+        
+        assert len(newValue_bin)<=Length
+        
+        newValue_bin_array  = numpy.zeros(shape=(Length), dtype=numpy.int)
+        
+        i = 0
+        for char in newValue_bin:
+            newValue_bin_array[i] = int(char)
+            i=i+1
+        print newValue_bin_array
+        
+        self.BIDI.updateRegister(self,newValue_bin_array)
 
 
         

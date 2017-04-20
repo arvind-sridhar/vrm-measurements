@@ -26,7 +26,7 @@ class CONST():
     SHIFT = "Shift"
     EN_ALLPHASES = "Enable all phases"
 
-    DUTY_BITS = 5
+    DUTY_BITS = 4
     DT_BITS_N = 3
     DT_BITS_P = 3
     DT_STEP_N = 100  # ps
@@ -38,9 +38,8 @@ class CONST():
     EN_LOADPROG = "Slow change"
     LOADCLK = "Load clock"
     LOADEN = "Set Load"
-    # TODO: Confirm Load unit
     LOAD_BITS = 32
-    LOAD_UNITS = u' × 13Ω'
+    LOAD_UNITS = u' × 17Ω'
 
     EQUIPMENT = "Equipment"
     EQ_VIN = "V<sub>in</sub>"
@@ -67,4 +66,6 @@ class CONST():
     Vdon = "VdOn"
     FGon = "FGOn"
     VOuton = "VOuton"
+    
+    DEG_STR = [u"0°", u"90°" , u"180°" , u"270°"];
         
