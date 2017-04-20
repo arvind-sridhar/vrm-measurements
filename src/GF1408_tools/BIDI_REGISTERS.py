@@ -5,7 +5,7 @@ Created on Apr 13, 2017
 '''
 
 import numpy
-#from hammerhead import Hammerhead# the serial interface board
+import numbers
 
 class BIDI_REGISTERS(object):
     '''
@@ -144,10 +144,14 @@ class BIDI_PARAMETER():
         
         Length = len(self.bitrange_array)
         
+       
+        assert(  isinstance(newValue, numbers.Integral))
+        
         # Convert to binary
         newValue_bin = ("{0:0"+str(Length)+"b}").format(newValue)
         
         assert(len(newValue_bin)<=Length)
+        
         
         newValue_bin_array  = numpy.zeros(shape=(Length), dtype=numpy.int)
         

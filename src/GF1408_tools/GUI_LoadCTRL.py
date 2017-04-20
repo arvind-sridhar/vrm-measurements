@@ -33,7 +33,7 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         Label_LOADCLK = QtWidgets.QLabel(CONST.LOADCLK + ":",parent)
         ComboBox_LOADCLK = QtWidgets.QComboBox(parent)  
         values = ["CK2" , "CK4" , "CK8" , "CK16"]
-        ComboBox_LOADCLK.setAccessibleName(CONST.LOADCLK)
+        ComboBox_LOADCLK.setAccessibleName(parent.BIDI.LOAD_CTRL_SEL_CLK.name)
         ComboBox_LOADCLK.addItems(values)
         
         

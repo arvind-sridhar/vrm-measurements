@@ -88,7 +88,7 @@ class GF1408_GUI( QtWidgets.QMainWindow ):
         sender = self.sender()
         self.statusBar().showMessage( sender.text() + ' was pressed' )
 
-    def status( self, text ):
+    def status( self, text:str )->None:
         self.statusBar().showMessage( text )
 
     def onClickButton( self ):
@@ -136,6 +136,6 @@ class GF1408_GUI( QtWidgets.QMainWindow ):
         else:
             eventQCloseEvent.ignore()
 
-    def isConnected( self, connected ):
+    def isConnected( self, connected:bool ):
         self.DPWM_GUI.setEnabled( connected )
         self.Load_GUI.setEnabled( connected )

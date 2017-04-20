@@ -8,14 +8,19 @@ Created on Apr 12, 2017
 '''
 
 import sys
-from PyQt5 import QtWidgets
+
+from PyQt5.QtWidgets import QApplication
+
+
 from GF1408_tools.GF1408_GUI import GF1408_GUI
+from warnings import catch_warnings
 
 
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)
-    a = GF1408_GUI()
+
+    app = QApplication(sys.argv)
+    GF1408_GUI()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
