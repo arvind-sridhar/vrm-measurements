@@ -28,3 +28,5 @@ The required packages can be installed through the python 3.6 native package man
 	* to run old code, python 2.7 and PyVISA 1.8  might be necessary
 1. lkuluu
 	* example implementation of a measurement setup using the new objects
+	
+	

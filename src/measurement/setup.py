@@ -7,19 +7,20 @@ Lukas Kull, 2013
 """
 
 import math
+
 from measurement import equipment
 from measurement.configFiles import configParent
-#from Common import GF1408_MConfig
 
 
+# from Common import GF1408_MConfig
 class MeasurementSetup():
 #------------------------------------------------------------------------------ 
-    def __init__(self,config:configParent):
+    def __init__(self, config:configParent):
         
         self.DEBUGLEVEL = 0
         # GF1408_MConfig contains the configuration of the equipment, i.e. which type, which connections between instruments.
-        #self.Cfg = GF1408_MConfig.ConfigHybrid()
-        #self.Cfg = GF1408_MConfig.Config()
+        # self.Cfg = GF1408_MConfig.ConfigHybrid()
+        # self.Cfg = GF1408_MConfig.Config()
         self.Cfg = config
         self.measSetupInit = False
         self.setupBackgroundModify = False
@@ -38,8 +39,8 @@ class MeasurementSetup():
             self.MeasurementEquip.setMaxCurrent(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'], self.Cfg.Supply[name]['MaxCurrent'])
             # Reassure that the setting is correct
             curr = self.MeasurementEquip.getMaxCurrent(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
-            if abs(curr-self.Cfg.Supply[name]['MaxCurrent'])/curr>0.05:
-                print('Supply '+name+' setting of MaxCurrent to '+str(self.Cfg.Supply[name]['MaxCurrent'])+' failed.')
+            if abs(curr - self.Cfg.Supply[name]['MaxCurrent']) / curr > 0.05:
+                print('Supply ' + name + ' setting of MaxCurrent to ' + str(self.Cfg.Supply[name]['MaxCurrent']) + ' failed.')
 
             if 'enable4Point' in self.Cfg.Supply[name]:
                 self.setSupply4Point(name, self.Cfg.Supply[name]['enable4Point'])
@@ -56,7 +57,7 @@ class MeasurementSetup():
             self.getSigGenFrequency(name)
             self.getSigGenPowerDBm(name)
             # Phase offset Deg is not implemented in all SigGens
-            #self.getSigGenPhaseOffsetDeg(name)
+            # self.getSigGenPhaseOffsetDeg(name)
         for name in self.Cfg.Scope:
             self.MeasurementEquip.addInstr(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'])
             self.MeasurementEquip.setAveraging(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'], self.Cfg.Scope[name]['Average'])
@@ -76,14 +77,20 @@ class MeasurementSetup():
             if 'DefaultFrequency' in self.Cfg.SigGen[name]:
                 self.setSigGenFrequency(name, self.Cfg.SigGen[name]['DefaultFrequency'])
 
+    def registerEventHandler(self, equipType, name:str, equipProperty, func, scaleFactor=1, units='') -> None:
+        '''Allows updating e.g. UI when instrument changes
+
+        This function allows to register a function, which is called, when the specified instrument changes.
+        eqipProperty can be e.g. Voltage, measureVoltage, Current, measureCurrent, ... see Functions below.
+
+        :param equipType: 'Scope', 'SigGen' or 'Supply'
+        :param name:
+        :param equipProperty: can be e.g. Voltage, measureVoltage, Current, measureCurrent
+        :param func(function): Func takes exactly one argument, which is the value.
+        :param scaleFactor(float):
+        :param units:
+        '''
         
-    # This function allows to register a function, which is called, when
-    # the specified instrument changes.
-    # EquipType can be 'Scope', 'SigGen' or 'Supply'
-    # Func takes exactly one argument, which is the value.
-    # eqipProperty can be e.g. Voltage, measureVoltage, Current, measureCurrent, ...
-    # see Functions below.
-    def registerEventHandler(self, equipType, name, equipProperty, func, scaleFactor = 1, units = ''):
         if (equipType == 'Supply'):
             if not 'EventHandler' in self.Cfg.Supply[name]:
                 self.Cfg.Supply[name]['EventHandler'] = {}
@@ -104,32 +111,34 @@ class MeasurementSetup():
             if not 'EventHandler' in self.Cfg.ControlSkew[name]:
                 self.Cfg.ControlSkew[name]['EventHandler'] = {}
             self.Cfg.ControlSkew[name]['EventHandler'][equipProperty] = {'Func': func, 'ScaleFactor': scaleFactor, 'Units': units}
-
-    #This function is used to return all settings in order to write them to file    
+    
     def getConfiguration(self):
+        '''
+        This function is used to return all settings in order to write them to file
+        '''
         configList = list()
         if (self.measSetupInit):
             for i in self.Cfg.Supply:
                 tmpList = []
-                tmpList.append('Supply:'+i)
-                tmpList.append('SetV:'+str(self.getSupplyVoltage(i))+'V')
-                tmpList.append('Is4Pt:'+str(self.getSupply4Point(i)))
-                tmpList.append('Voltage:'+str(self.measureSupplyVoltage(i))+'V')
-                tmpList.append('Current:'+str(self.measureSupplyCurrent(i))+'A')
+                tmpList.append('Supply:' + i)
+                tmpList.append('SetV:' + str(self.getSupplyVoltage(i)) + 'V')
+                tmpList.append('Is4Pt:' + str(self.getSupply4Point(i)))
+                tmpList.append('Voltage:' + str(self.measureSupplyVoltage(i)) + 'V')
+                tmpList.append('Current:' + str(self.measureSupplyCurrent(i)) + 'A')
                 configList.append(tmpList)
             for i in self.Cfg.SigGen:
                 tmpList = []
-                tmpList.append('SigGen:'+i)
-                tmpList.append('SetPwrDBm:'+str(self.getSigGenPowerDBm(i))+'dBm')
-                tmpList.append('SetFrequency:'+str(self.getSigGenFrequency(i))+'Hz')
+                tmpList.append('SigGen:' + i)
+                tmpList.append('SetPwrDBm:' + str(self.getSigGenPowerDBm(i)) + 'dBm')
+                tmpList.append('SetFrequency:' + str(self.getSigGenFrequency(i)) + 'Hz')
                 configList.append(tmpList)
             for i in self.Cfg.Scope:
                 tmpList = []
-                tmpList.append('Scope:'+i)
-                tmpList.append('VoltageRange:'+str(self.getScopeVoltageRange(i))+'V')
-                tmpList.append('TimeRange:'+str(self.getScopeTimeRange(i))+'s')
-                tmpList.append('Amplitude:'+str(self.getScopeAmplitude(i))+'V')
-                tmpList.append('Frequency:'+str(self.getScopeFrequency(i))+'Hz')
+                tmpList.append('Scope:' + i)
+                tmpList.append('VoltageRange:' + str(self.getScopeVoltageRange(i)) + 'V')
+                tmpList.append('TimeRange:' + str(self.getScopeTimeRange(i)) + 's')
+                tmpList.append('Amplitude:' + str(self.getScopeAmplitude(i)) + 'V')
+                tmpList.append('Frequency:' + str(self.getScopeFrequency(i)) + 'Hz')
                 configList.append(tmpList)
         return configList
     # Simplify by returning the voltage directly when setting
@@ -141,12 +150,10 @@ class MeasurementSetup():
         return self.getSupplyVoltageProtection(name)
     def getSupplyVoltageProtection(self, name):
         val = self.MeasurementEquip.getVoltageProtection(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
-        # Call the EventHandler if registered
         self.sendEvent('Supply', name, 'VoltageProtection', val)
         return val
     def getSupplyVoltage(self, name):
         val = self.MeasurementEquip.getVoltage(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
-        # Call the EventHandler if registered
         self.sendEvent('Supply', name, 'Voltage', val)
         return val
     def setSupplyMaxCurrent(self, name, curr):
@@ -154,20 +161,18 @@ class MeasurementSetup():
         return self.getSupplyVoltage(name)
     def getSupplyMaxCurrent(self, name):
         val = self.MeasurementEquip.getMaxCurrent(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
-        # Call the EventHandler if registered
         self.sendEvent('Supply', name, 'MaxCurrent', val)
         return val
     def measureSupplyVoltage(self, name):
         val = self.MeasurementEquip.measureVoltage(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
-        #val = round(val, 3)
+        # val = round(val, 3)
         self.sendEvent('Supply', name, 'measureVoltage', val)
         return val
     def measureSupplyCurrent(self, name):
         val = self.MeasurementEquip.measureCurrent(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
         self.sendEvent('Supply', name, 'measureCurrent', val)
-        #val = round(val, 5)
+        # val = round(val, 5)
         return val
-    
     def clearSupplyProtection(self, name):
         if self.Cfg.Supply[name]['allow4Point']:
             self.MeasurementEquip.clearProtection(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
@@ -189,12 +194,10 @@ class MeasurementSetup():
         else:
             val = False
         return val
-        
     def getSupply4Point(self, name):
         val = self.MeasurementEquip.get4Point(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
         self.sendEvent('Supply', name, '4Point', val)
         return val
-
     def setSigGenHarmonics(self, name, mode):
         self.MeasurementEquip.reduce_harmonics(self.Cfg.SigGen[name]['GPIB'], mode)
     def setSigGenSNR(self, name, mode):
@@ -204,7 +207,7 @@ class MeasurementSetup():
     def setSigGenPhaseNoise(self, name, mode):
         self.MeasurementEquip.reduce_phasenoise(self.Cfg.SigGen[name]['GPIB'], mode)
 
-    # Simplify by returning the set power directly when setting
+    # TODO:  Simplify by returning the set power directly when setting
     def setSigGenPowerDBm(self, name, power):
         channel = 0
         if 'Channel' in self.Cfg.SigGen[name]:
@@ -222,28 +225,23 @@ class MeasurementSetup():
             scope = self.Cfg.SigGenScopeConnect[name]['Scope']
             if type(scope) is tuple:
                 for i in range(len(scope)):
-                    self.setScopeVoltageRange(scope[i], self.dBmToAmp(power)*self.Cfg.SigGenScopeConnect[name]['AmplitudeScaleFactor'])
+                    self.setScopeVoltageRange(scope[i], self.dBmToAmp(power) * self.Cfg.SigGenScopeConnect[name]['AmplitudeScaleFactor'])
             else:
-                self.setScopeVoltageRange(scope, self.dBmToAmp(power)*self.Cfg.SigGenScopeConnect[name]['AmplitudeScaleFactor'])
+                self.setScopeVoltageRange(scope, self.dBmToAmp(power) * self.Cfg.SigGenScopeConnect[name]['AmplitudeScaleFactor'])
         return val
-
     def setSigGenPowerDBmIncr(self, name, incr):
         channel = 0
         if 'Channel' in self.Cfg.SigGen[name]:
             channel = self.Cfg.SigGen[name]['Channel']
 
-        # print('setSigGenPowerIncr', incr)
         self.MeasurementEquip.setPowerDBmIncr(self.Cfg.SigGen[name]['GPIB'], channel, incr)
-
     def getSigGenPowerDBm(self, name):
         channel = 0
         if 'Channel' in self.Cfg.SigGen[name]:
             channel = self.Cfg.SigGen[name]['Channel']
         val = self.MeasurementEquip.getPowerDBm(self.Cfg.SigGen[name]['GPIB'], channel)
         self.sendEvent('SigGen', name, 'Amplitude', self.dBmToAmp(val))
-        # print("Set Siggen Power")
         return val
-
     def setSigGenFrequency(self, name, freq):
         if freq <= 0: freq = 1000
         channel = 0
@@ -259,14 +257,14 @@ class MeasurementSetup():
                     fScaleFactor = 1
                     if 'FrequencyScaleFactor' in self.Cfg.SigGenConnect[nameC]:
                         fScaleFactor = self.Cfg.SigGenConnect[nameC]['FrequencyScaleFactor']
-                    self.setSigGenFrequency(nameC, freq*fScaleFactor)
+                    self.setSigGenFrequency(nameC, freq * fScaleFactor)
         if name in self.Cfg.SigGenScopeConnect:
             scope = self.Cfg.SigGenScopeConnect[name]['Scope']
             if type(scope) is tuple:
                 for i in range(len(scope)):
-                    self.setScopeTimeRange(scope[i], 1/freq*4)
+                    self.setScopeTimeRange(scope[i], 1 / freq * 4)
             else:
-                self.setScopeTimeRange(scope, 1/freq*4)
+                self.setScopeTimeRange(scope, 1 / freq * 4)
         return val
     def getSigGenFrequency(self, name):
         channel = 0
@@ -275,14 +273,13 @@ class MeasurementSetup():
         val = self.MeasurementEquip.getFrequency(self.Cfg.SigGen[name]['GPIB'], channel)
         self.sendEvent('SigGen', name, 'Frequency', val)
         return val
-    
     def setSigGenPhaseOffsetDeg(self, name, deg):
         channel = 0
         if 'Channel' in self.Cfg.SigGen[name]:
             channel = self.Cfg.SigGen[name]['Channel']
         self.MeasurementEquip.setPhaseOffsetDeg(self.Cfg.SigGen[name]['GPIB'], channel, deg)
         val = self.getSigGenPhaseOffsetDeg(name)
-        #self.sendEvent('Scope', name, 'VoltageRange', val)
+        # self.sendEvent('Scope', name, 'VoltageRange', val)
         return val
     def getSigGenPhaseOffsetDeg(self, name):
         channel = 0
@@ -291,23 +288,10 @@ class MeasurementSetup():
         val = self.MeasurementEquip.getPhaseOffsetDeg(self.Cfg.SigGen[name]['GPIB'], channel)
         self.sendEvent('SigGen', name, 'PhaseOffset', val)
         return val
-#    def setSigGenPowerOffsetDBm(self, name, pwr):
-#        channel = 0
-#        if 'Channel' in self.Cfg.SigGen[name]:
-#            channel = self.Cfg.SigGen[name]['Channel']
-#        self.MeasurementEquip.setPowerOffsetDBm(self.Cfg.SigGen[name]['GPIB'], channel, pwr)
-#        val = self.getSigGenPowerOffsetDBm(name)
-#        #self.sendEvent('Scope', name, 'VoltageRange', val)
-#        return val
-#    def getSigGenPowerOffsetDBm(self, name):
-#        channel = 0
-#        if 'Channel' in self.Cfg.SigGen[name]:
-#            channel = self.Cfg.SigGen[name]['Channel']
-#        val = self.MeasurementEquip.getPowerOffsetDBm(self.Cfg.SigGen[name]['GPIB'], channel)
-#        self.sendEvent('SigGen', name, 'Frequency', val)
-#        return val
-    # Release all the equipment for local control
     def releaseAll(self):
+        '''
+        Release all the equipment for local control
+        '''
         for name in self.Cfg.Supply:
             self.MeasurementEquip.release(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
         for name in self.Cfg.SigGen:
@@ -318,7 +302,6 @@ class MeasurementSetup():
         self.MeasurementEquip.setTimeRange(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'], time)
         val = self.getScopeTimeRange(name)
         return val
-
     def getScopeTimeRange(self, name):
         val = self.MeasurementEquip.getTimeRange(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'])
         self.sendEvent('Scope', name, 'TimeRange', val)
@@ -327,10 +310,8 @@ class MeasurementSetup():
         self.MeasurementEquip.setVoltageRange(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'], volt)
         val = self.getScopeVoltageRange(name)
         return val
-    
     def setScopeAveraging(self, name, avg):
         self.MeasurementEquip.setAveraging(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'], avg)
-
     def getScopeVoltageRange(self, name):
         val = self.MeasurementEquip.getVoltageRange(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'])
         self.sendEvent('Scope', name, 'VoltageRange', val)
@@ -342,24 +323,26 @@ class MeasurementSetup():
     def getScopeAmplitude(self, name):
         val = self.MeasurementEquip.getAmplitude(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'])
         self.sendEvent('Scope', name, 'Amplitude', val)
-        #val = round(val, 4)
+        # val = round(val, 4)
         return val
     def getScopeFrequency(self, name):
         val = self.MeasurementEquip.getFrequency(self.Cfg.Scope[name]['GPIB'], self.Cfg.Scope[name]['Channel'])
         self.sendEvent('Scope', name, 'Frequency', val)
-        #val = round(val, -5)
-        return val
-
-    # The 180 means that the time difference between the channels is calculated from the rising edge
-    # of the first channel to the falling edge of the second channel, i.e. 180 phase shift. Therefore
-    # the optimization is easier to get 0 deg for a clean differential signal.
+        # val = round(val, -5)
     def getScopeTimeDiffToChannel180(self, name):
+        '''
+
+        The 180 means that the time difference between the channels is calculated from the rising edge
+        of the first channel to the falling edge of the second channel, i.e. 180 phase shift. Therefore
+        the optimization is easier to get 0 deg for a clean differential signal.
+
+        :param name(str): Instrument Name
+        '''
         name1 = self.Cfg.ControlSkew[name]['Scope'][0]
         name2 = self.Cfg.ControlSkew[name]['Scope'][1]
         val = self.MeasurementEquip.getTimeDiffToChannel180(self.Cfg.Scope[name1]['GPIB'], self.Cfg.Scope[name1]['Channel'], self.Cfg.Scope[name2]['GPIB'], self.Cfg.Scope[name2]['Channel'])
         self.sendEvent('ControlSkew', name, 'Skew', val)
         return val
-    
     def setSigGenSkew(self, name, targetPhaseSkew):
         self.setupBackgroundModify = True
         clockFreq = self.getSigGenFrequency('Clock')
@@ -379,12 +362,12 @@ class MeasurementSetup():
         sigGenTrigFreq = sigGenFreq
         # The trigger of the sampling scope needs to be <2GHz, therefore divide.
         # In order to get the frequency precise, divide by 2, 5, 10, 20, 50, 100 (only 2 addtional digits needed in siggen)
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2.5
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2.5
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2.5
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2.5
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
         self.setSigGenFrequency('Clock', sigGenTrigFreq)
 
         # refresh precision time reference
@@ -393,7 +376,7 @@ class MeasurementSetup():
 
         # set time range to 2 periods
         for scope in scopeList:
-            self.setScopeTimeRange(scope, 2/sigGenFreq)
+            self.setScopeTimeRange(scope, 2 / sigGenFreq)
         # self.clearScopeDisp(scopeList[0])
             
         # Repeat the iteration twice
@@ -407,28 +390,27 @@ class MeasurementSetup():
             self.clearScopeDisp(scopeList[0])
             measuredSkew = self.getScopeTimeDiffToChannel180(name)
 
-            measuredPhaseOffset = measuredSkew*sigGenFreq*360
+            measuredPhaseOffset = measuredSkew * sigGenFreq * 360
             # print(measuredPhaseOffset)
-            newPhaseOffset = targetPhaseSkew-measuredPhaseOffset
+            newPhaseOffset = targetPhaseSkew - measuredPhaseOffset
 
 #            print('Measured Phase Off:', measuredPhaseOffset)
 #            print('Target Phase Off:', targetPhaseSkew)
-            print('Remaining Phase Off: '+str(newPhaseOffset)+"(needs to be <0.1) N: "+str(n))
+            print('Remaining Phase Off: ' + str(newPhaseOffset) + "(needs to be <0.1) N: " + str(n))
             
             # Stop when precision reached (0.1 deg)
             if abs(newPhaseOffset) < 0.1:
                 break
 
             # Normalize to -180 to 179 deg.
-            newPhaseOffset = (newPhaseOffset+180)%360-180
+            newPhaseOffset = (newPhaseOffset + 180) % 360 - 180
             self.setSigGenPhaseOffsetDeg(sigGenList[0], newPhaseOffset)
-            if self.DEBUGLEVEL>0: print('Target phase on SigGen: '+str(targetPhaseSkew))
+            if self.DEBUGLEVEL > 0: print('Target phase on SigGen: ' + str(targetPhaseSkew))
 #            time.sleep(1)
         self.getScopeTimeDiffToChannel180(name)
 
         self.setSigGenFrequency('Clock', clockFreq)
         self.setupBackgroundModify = False
-        
     def getSigGenSkew(self, name):
         self.setupBackgroundModify = True
         clockFreq = self.getSigGenFrequency('Clock')
@@ -448,12 +430,12 @@ class MeasurementSetup():
         sigGenTrigFreq = sigGenFreq
         # The trigger of the sampling scope needs to be <2GHz, therefore divide.
         # In order to get the frequency precise, divide by 2, 5, 10, 20, 50, 100 (only 2 addtional digits needed in siggen)
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2.5
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2.5
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2.5
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2.5
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
         self.setSigGenFrequency('Clock', sigGenTrigFreq)
 
         # refresh precision time reference
@@ -461,7 +443,7 @@ class MeasurementSetup():
 
         # set time range to 2 periods
         for scope in scopeList:
-            self.setScopeTimeRange(scope, 2/sigGenFreq)
+            self.setScopeTimeRange(scope, 2 / sigGenFreq)
         self.clearScopeDisp(scopeList[0])
             
         measuredSkew = self.getScopeTimeDiffToChannel180(name)
@@ -469,17 +451,16 @@ class MeasurementSetup():
         self.setSigGenFrequency('Clock', clockFreq)
         self.setupBackgroundModify = False
         return measuredSkew
-
     def setSigGenAmplitude(self, name, amplitudeFS, backoff, mismatch):
         self.setupBackgroundModify = True
         clockFreq = self.getSigGenFrequency('Clock')
 
-        amplitude = amplitudeFS*10**(-backoff/20)
+        amplitude = amplitudeFS * 10 ** (-backoff / 20)
         typeC = self.Cfg.ControlAmplitude[name]['Type']
 
         sigGenAmplitude = amplitude
         if typeC.lower() == 'differential':
-            sigGenAmplitude = 0.5*sigGenAmplitude
+            sigGenAmplitude = 0.5 * sigGenAmplitude
         if typeC.lower() == 'hybrid':
             sigGenAmplitude = sigGenAmplitude
         
@@ -492,21 +473,21 @@ class MeasurementSetup():
         sigGenTrigFreq = inFreq
         # The trigger of the sampling scope needs to be <2GHz, therefore divide.
         # In order to get the frequency precise, divide by 2, 5, 10, 20, 50, 100 (only 2 addtional digits needed in siggen)
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2.5
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2.5
-        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq/2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2.5
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2.5
+        if sigGenTrigFreq > 3.2e9: sigGenTrigFreq = sigGenTrigFreq / 2
         self.setSigGenFrequency('Clock', sigGenTrigFreq)
 
         for scope, sigGen in zip(scopeList, sigGenList):
-            voltRange = sigGenAmplitude*self.Cfg.SigGenScopeConnect[sigGen]['AmplitudeScaleFactor']
+            voltRange = sigGenAmplitude * self.Cfg.SigGenScopeConnect[sigGen]['AmplitudeScaleFactor']
             self.setScopeVoltageRange(scope, voltRange)
         # self.clearScopeDisp(scopeList[0])
         for sigGen in sigGenList:
             currentSigGenAmplitudeDBm = self.getSigGenPowerDBm(sigGen)
-            diff = self.AmpToDBm(sigGenAmplitude/2)-self.Cfg.SigGen[sigGen]['Attenuation']-currentSigGenAmplitudeDBm
+            diff = self.AmpToDBm(sigGenAmplitude / 2) - self.Cfg.SigGen[sigGen]['Attenuation'] - currentSigGenAmplitudeDBm
             # self.setSigGenPowerDBm(sigGen, self.AmpToDBm(sigGenAmplitude/2)-self.Cfg.SigGen[sigGen]['Attenuation'])
             self.setSigGenPowerDBmIncr(sigGen, diff)
         
@@ -514,7 +495,7 @@ class MeasurementSetup():
         # refresh precision time reference
         # self.setTimeReference(scopeList[0])
         
-        sigGenAmplitudeList = [sigGenAmplitude, sigGenAmplitude*10**(mismatch/20)]
+        sigGenAmplitudeList = [sigGenAmplitude, sigGenAmplitude * 10 ** (mismatch / 20)]
         # step = 2
         # radix = 1.8
         # n = 10
@@ -557,18 +538,18 @@ class MeasurementSetup():
             maxDiff = 0
             self.clearScopeDisp(scopeList[0])
             for scope, sigGen, sigGenAmplitude in zip(scopeList, sigGenList, sigGenAmplitudeList):
-                #print(sigGen)
-                currentMeasuredFreq = self.getScopeFrequency(scope)
-                #print('Current Freq:', currentMeasuredFreq)
+                # print(sigGen)
+                # currentMeasuredFreq = self.getScopeFrequency(scope)
+                # print('Current Freq:', currentMeasuredFreq)
                 currentMeasuredAmplitude = 0
                 if typeC.lower() == 'hybrid':
                     # calculate the amplitude if the two phases are not correct
                     amp1 = self.getScopeAmplitude(scopeList[0])
                     amp2 = self.getScopeAmplitude(scopeList[1])
                     measuredSkew = self.MeasurementEquip.getTimeDiffToChannel180(self.Cfg.Scope[scopeList[0]]['GPIB'], self.Cfg.Scope[scopeList[0]]['Channel'], self.Cfg.Scope[scopeList[1]]['GPIB'], self.Cfg.Scope[scopeList[1]]['Channel'])
-                    i=1
-                    phaseErrRad = measuredSkew*self.getSigGenFrequency(sigGenList[i])*2*math.pi
-                    currentMeasuredAmplitude = ((amp1+amp2*math.cos(phaseErrRad))**2+amp2*math.sin(phaseErrRad)**2)**0.5
+                    i = 1
+                    phaseErrRad = measuredSkew * self.getSigGenFrequency(sigGenList[i]) * 2 * math.pi
+                    currentMeasuredAmplitude = ((amp1 + amp2 * math.cos(phaseErrRad)) ** 2 + amp2 * math.sin(phaseErrRad) ** 2) ** 0.5
                 if typeC.lower() == 'differential':
                     currentMeasuredAmplitude = self.getScopeAmplitude(scope)
                     # print(str(scope)+': Measured Amp (mV)'+str(currentMeasuredAmplitude))
@@ -602,13 +583,13 @@ class MeasurementSetup():
         #         #     # self.setScopeTimeRange(scopeList[1], 3/currentMeasuredFreq)
         #         self.clearScopeDisp(scopeList[0])
     
-                #print('Current Amplitude:',currentMeasuredAmplitude)
+                # print('Current Amplitude:',currentMeasuredAmplitude)
                 currentSigGenAmplitudeDBm = self.getSigGenPowerDBm(sigGen)
                 currentSigGenAmplitude = self.dBmToAmp(currentSigGenAmplitudeDBm)
-                newSigGenAmplitude = currentSigGenAmplitude/(currentMeasuredAmplitude/sigGenAmplitude)
-                diffDBm = self.AmpToDBm(newSigGenAmplitude)-currentSigGenAmplitudeDBm
+                newSigGenAmplitude = currentSigGenAmplitude / (currentMeasuredAmplitude / sigGenAmplitude)
+                diffDBm = self.AmpToDBm(newSigGenAmplitude) - currentSigGenAmplitudeDBm
                 maxDiff = max([maxDiff, abs(diffDBm)])
-                print(str(sigGen)+': Diff in dBm: '+str(diffDBm)+'(needs to be <0.01) N: '+str(n))
+                print(str(sigGen) + ': Diff in dBm: ' + str(diffDBm) + '(needs to be <0.01) N: ' + str(n))
                 if abs(diffDBm) < 0.01:
                     continue  # with next sigGen
                 # print('Current SigGenAmplitude:', currentSigGenAmplitude)
@@ -625,7 +606,6 @@ class MeasurementSetup():
             # time.sleep(1)
         self.setSigGenFrequency('Clock', clockFreq)
         self.setupBackgroundModify = False
-
     def sendEvent(self, equipType, name, equipProperty, val):
         if equipType == 'Supply':
             equip = self.Cfg.Supply
@@ -644,15 +624,17 @@ class MeasurementSetup():
         return self.Cfg
     
     # -2dBm = 250mVp = 500mVpp
+    
     def dBmToAmp(self, power):
-        return (10**(power/10)/1000*50*2)**0.5
+        return (10 ** (power / 10) / 1000 * 50 * 2) ** 0.5
     def dBmToAmpRms(self, power):
-        return (10**(power/10)/1000*50)**0.5
+        return (10 ** (power / 10) / 1000 * 50) ** 0.5
     def AmpToDBm(self, amp):
         if amp == 0:
             return -135
-        return 10*math.log(amp**2*1000/2/50, 10)
+        return 10 * math.log(amp ** 2 * 1000 / 2 / 50, 10)
     def AmpRmsToDBm(self, amp):
         if amp == 0:
             return -135
-        return 10*math.log(amp**2*1000/50, 10)
+        return 10 * math.log(amp ** 2 * 1000 / 50, 10)
+
