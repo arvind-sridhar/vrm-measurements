@@ -5,8 +5,8 @@ Created on Apr 19, 2017
 '''
 
 
+from PyQt5 import QtWidgets
 from xlrd.formula import num2strg
-from PyQt5 import *
 
 
 class GuiTools(object):

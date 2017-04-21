@@ -10,11 +10,11 @@ from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
 
 class GF1408_BIDI_REGISTERLIST():
 
-    DPWM_EN = [True, 0, 1]
-    DPWM_RST = [True, 1, 1]
-    DPWM_DUTY = [True, 2, 4, "static_mapDUTYcycle2int"]
-    DPWM_DT_N = [True, 6, 3, "static_mapDT2int"]
-    DPWM_DT_P = [True, 9, 3, "static_mapDT2int"]
+    DPWM_EN     = [True, 0, 1]
+    DPWM_RST    = [True, 1, 1]
+    DPWM_DUTY   = [True, 2, 4, "static_mapDUTYcycle2int"]
+    DPWM_DT_N   = [True, 6, 3, "static_mapDT2int"]
+    DPWM_DT_P   = [True, 9, 3, "static_mapDT2int"]
 
     SEL_0 = [True, 12 + 0, 2, "static_mapSEL2int"]
     SEL_1 = [True, 12 + 2, 2, "static_mapSEL2int"]

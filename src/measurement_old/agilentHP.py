@@ -2,7 +2,7 @@ import visa
 import time
 
 class AgilentHP():
-#    def __init__(self):
+#    def instruments_old(self):
 
         
 #        self.initme()

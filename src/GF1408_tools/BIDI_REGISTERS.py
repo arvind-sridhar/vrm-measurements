@@ -8,6 +8,7 @@ import numpy
 import numbers
 from xlrd.formula import num2strg
 
+
 class BIDI_REGISTERS(object):
     '''
     classdocs
@@ -156,10 +157,10 @@ class BIDI_PARAMETER():
         
         newValue_bin_array = numpy.zeros(shape=(Length), dtype=numpy.int)
         
-        i = 0
+        i = len(newValue_bin)-1
         for char in newValue_bin:
             newValue_bin_array[i] = int(char)
-            i = i + 1
+            i = i - 1
         
         print(newValue_bin_array)
         self.BIDI.updateRegister(self, newValue_bin_array)

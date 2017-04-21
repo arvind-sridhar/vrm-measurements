@@ -7,18 +7,14 @@ Created on Apr 12, 2017
 @author: rid
 '''
 
-from GF1408_tools.GF1408_CONST import *
 from PyQt5 import QtWidgets, QtCore
-from GF1408_tools import GF1408_BIDI
-from GF1408_tools.GUI_LoadCTRL import LoadControl_Class
-from GF1408_tools.GUI_Equipment import EquipmentGui_Class
-from GF1408_tools.GUI_DPWM import DPWMControl_Class
-
-
-import hammerhead
 from xlrd.formula import num2strg
 
-
+from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
+from GF1408_tools.GF1408_CONST import *
+from GF1408_tools.GUI_DPWM import DPWMControl_Class
+from GF1408_tools.GUI_Equipment import EquipmentGui_Class
+from GF1408_tools.GUI_LoadCTRL import LoadControl_Class
 
 
 class GF1408_GUI(QtWidgets.QMainWindow):
@@ -28,11 +24,11 @@ class GF1408_GUI(QtWidgets.QMainWindow):
 
     PYQT_SIGNAL = QtCore.pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, _BIDI:BIDI_REGISTERS, _hammerhead):
         super(GF1408_GUI, self).__init__()
-        self.h = hammerhead.Hammerhead()
-        self.BIDI = GF1408_BIDI.GF1408_BIDI(self.h)
-
+        
+        self.h = _hammerhead
+        self.BIDI = _BIDI
         self.initUI()
 
     def initUI(self):

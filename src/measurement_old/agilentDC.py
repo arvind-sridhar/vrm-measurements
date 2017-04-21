@@ -2,7 +2,7 @@ import visa
 import time
 
 class AgilentDC():
-#    def __init__(self):
+#    def instruments_old(self):
 
         
 #        self.initme()

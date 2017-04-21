@@ -1,23 +1,26 @@
 #!/usr/bin/python
-import socket, warnings
-from datetime import datetime
+from telnetlib import Telnet
+import socket
+
 
 class Hammerhead():
+    
+    
+    #HOST = '192.168.1.200'
+    #HOST = '9.4.208.191' #hh2 
+    #HOST = '9.4.208.190' #hh1 -before
+    HOST = '9.4.208.196'  # hh3
+    
     def __init__(self):
-        # super(Hammerhead, self).__init__()
-        
+        super(Hammerhead, self).__init__()
         self.initH()
 
     def initH(self):
-#        self.ADDR = '192.168.1.200'
-
-#       self.ADDR = '9.4.208.191' #hh2 
-#       self.ADDR = '9.4.208.190' #hh1 -before
-
-        self.ADDR = '9.4.208.196'  # hh3
+        
+        self.ADDR = self.__class__.HOST
         
         # TODO: Fix address
-#        self.ADDR = 'hh3'
+#       self.ADDR = 'hh3'
         self.CHANNEL = 0
         self.PORT = 55555
         self.DEBUGLEVEL = 2
@@ -25,11 +28,23 @@ class Hammerhead():
         self.MODE = 0  # 0x33 for old 13s behavior
         self.HHSPEED = 100
     
+    
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.isConnected = False
     
     def connect(self):
         try:
+            
+            # Telnet Part
+            print('Starting Telnet...')
+            tn = Telnet( self.__class__.HOST)
+            tn.read_until("login: ",1)
+            tn.write("root\n")
+            print(tn.read_very_eager())
+            
+            NotImplementedError("TODO")
+            
+            # Standard Part
             self.s.settimeout(3)
             print('connecting...')
             self.s.connect((self.ADDR, self.PORT))
