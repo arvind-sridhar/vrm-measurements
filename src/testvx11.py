@@ -1,4 +1,4 @@
-import visa
+import visa, vxi11
 import time
 
 # old Box
@@ -23,11 +23,10 @@ MODE = 'visa'
 rm = visa.ResourceManager()
 
 for i in range(3, 5):
-    if False and MODE is 'vx11':
-        # instr = vxi11.Instrument(GPIBADDRESS, GPIBNAME+","+str(i))
-        print 1
+    if MODE is 'vx11':
+        instr = vxi11.Instrument(GPIBADDR, GPIBNAME+","+str(i))
     else:
-        instr = visa.instrument("GPIB::%i::INSTR" % i)
+        instr = rm.instrument("GPIB::%i::INSTR" % i)
 
     try:
         print('ID ' + str(i) + ': ' + instr.ask("*IDN?"))

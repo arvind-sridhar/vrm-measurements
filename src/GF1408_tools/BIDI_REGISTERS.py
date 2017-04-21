@@ -78,7 +78,7 @@ class BIDI_REGISTERS(object):
             content = self.registers_Bits[address]
             bitstring = numpy.array2string(content, separator='')[1:-1]
             
-            print(num2strg(address) + " : " +bitstring)
+            print("Write to " + num2strg(address) + " : " +bitstring)
             # TODO: Write the stuff
             # self.HAMMERHEAD.writerd(address, int(bitstring,2))
         return True

@@ -11,9 +11,9 @@ import hammerhead  #
 # import mplCanvas
 # from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 import numpy as np
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 from INSTRUMENTS import *
-from PyQt4.QtGui import *
+from PyQt5.QtWidgets import *
 import xlwt
 import xlrd
 import time
@@ -22,7 +22,7 @@ import time
 from INSTRUMENTS import devices
 
 #
-class SCmeas(QtGui.QMainWindow):
+class SCmeas(QtWidgets.QMainWindow):
     def __init__(self):
         super(SCmeas, self).__init__()
         self.AREA = 1.9680  # converter area incl controller excl load in mm^2 - 4*(0.78*0.8-4*0.1*0.33)
@@ -103,27 +103,27 @@ class SCmeas(QtGui.QMainWindow):
     def initButtons(self):
         v0Box, v0Layout = self.addVWidget()
         
-        btnInitHp = QtGui.QPushButton("Init Freq", self)
+        btnInitHp = QtWidgets.QPushButton("Init Freq", self)
         btnInitHp.clicked.connect(self.initClicked)
-        btnInitAgilent = QtGui.QPushButton("Init Agilent", self)
+        btnInitAgilent = QtWidgets.QPushButton("Init Agilent", self)
         btnInitAgilent.clicked.connect(self.initClicked)
-        btnInitKeithleyIn = QtGui.QPushButton("Init KeithleyIn", self)
+        btnInitKeithleyIn = QtWidgets.QPushButton("Init KeithleyIn", self)
         btnInitKeithleyIn.clicked.connect(self.initClicked)
-        btnInitKeithleyOut = QtGui.QPushButton("Init KeithleyOut", self)
+        btnInitKeithleyOut = QtWidgets.QPushButton("Init KeithleyOut", self)
         btnInitKeithleyOut.clicked.connect(self.initClicked)
-        btnInitKeithleyVoutk = QtGui.QPushButton("Init KeithleyVoutk", self)
+        btnInitKeithleyVoutk = QtWidgets.QPushButton("Init KeithleyVoutk", self)
         btnInitKeithleyVoutk.clicked.connect(self.initClicked)        
-        btnInitVref = QtGui.QPushButton("Init Vref", self)
+        btnInitVref = QtWidgets.QPushButton("Init Vref", self)
         btnInitVref.clicked.connect(self.initClicked)
-        btnInitVinhalfref = QtGui.QPushButton("Init Vinhalfref", self)
+        btnInitVinhalfref = QtWidgets.QPushButton("Init Vinhalfref", self)
         btnInitVinhalfref.clicked.connect(self.initClicked)
-        btnInitVlogic = QtGui.QPushButton("Init Vlogic", self)
+        btnInitVlogic = QtWidgets.QPushButton("Init Vlogic", self)
         btnInitVlogic.clicked.connect(self.initClicked)
-        btnConnectHammerhead = QtGui.QPushButton("Conn. hammerhead", self)
+        btnConnectHammerhead = QtWidgets.QPushButton("Conn. hammerhead", self)
         btnConnectHammerhead.clicked.connect(self.initClicked)
-        btnInitHammerhead = QtGui.QPushButton("Init hammerhead", self)
+        btnInitHammerhead = QtWidgets.QPushButton("Init hammerhead", self)
         btnInitHammerhead.clicked.connect(self.initClicked)
-        btnInitAll = QtGui.QPushButton("Init all", self)
+        btnInitAll = QtWidgets.QPushButton("Init all", self)
         btnInitAll.clicked.connect(self.initClicked)
         
         h0Box, h0Layout = self.addHWidget()
@@ -147,161 +147,161 @@ class SCmeas(QtGui.QMainWindow):
     def setOnMeasButtons(self):
         v0Box, v0Layout = self.addVWidget()
 
-        self.leIinmax = QtGui.QLineEdit(str(self.DEFAULTIINLIM), self)
+        self.leIinmax = QtWidgets.QLineEdit(str(self.DEFAULTIINLIM), self)
         self.leIinmax.setObjectName("Set max Iin [mA]")
         self.leIinmax.returnPressed.connect(self.setClicked)
-        self.btnIinmax = QtGui.QPushButton("Set max Iin [mA]", self)
+        self.btnIinmax = QtWidgets.QPushButton("Set max Iin [mA]", self)
         self.btnIinmax.clicked.connect(self.setClicked)          
-        self.lblIinmax = QtGui.QLabel('-', self)   
+        self.lblIinmax = QtWidgets.QLabel('-', self)   
         v0Layout.addWidget(self.addHTripleWidget(self.leIinmax, self.btnIinmax, self.lblIinmax))        
         
-        self.leFreq = QtGui.QLineEdit(str(self.DEFAULTFREQ), self)
+        self.leFreq = QtWidgets.QLineEdit(str(self.DEFAULTFREQ), self)
         self.leFreq.setObjectName("Set freq [MHz]")
         self.leFreq.returnPressed.connect(self.setClicked)        
-        self.btnFreq = QtGui.QPushButton("Set freq [MHz]", self)
+        self.btnFreq = QtWidgets.QPushButton("Set freq [MHz]", self)
         self.btnFreq.clicked.connect(self.setClicked)            
-        self.lblFreq = QtGui.QLabel('-', self)
+        self.lblFreq = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.leFreq, self.btnFreq, self.lblFreq))    
         
-        self.leFreqAmplitude = QtGui.QLineEdit(str(self.DEFAULTFREQAMPLITUDE), self)
+        self.leFreqAmplitude = QtWidgets.QLineEdit(str(self.DEFAULTFREQAMPLITUDE), self)
         self.leFreqAmplitude.setObjectName("Set freq mag [mV]")
         self.leFreqAmplitude.returnPressed.connect(self.setClicked)        
-        self.btnFreqAmplitude = QtGui.QPushButton("Set freq mag [mV]", self)
+        self.btnFreqAmplitude = QtWidgets.QPushButton("Set freq mag [mV]", self)
         self.btnFreqAmplitude.clicked.connect(self.setClicked)            
-        self.lblFreqAmplitude = QtGui.QLabel('-', self)
+        self.lblFreqAmplitude = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.leFreqAmplitude, self.btnFreqAmplitude, self.lblFreqAmplitude))           
         
-        self.leFreqOffset = QtGui.QLineEdit(str(self.DEFAULTFREQOFFSET), self)
+        self.leFreqOffset = QtWidgets.QLineEdit(str(self.DEFAULTFREQOFFSET), self)
         self.leFreqOffset.setObjectName("Set freq offset [mV]")
         self.leFreqOffset.returnPressed.connect(self.setClicked)        
-        self.btnFreqOffset = QtGui.QPushButton("Set freq offset [mV]", self)
+        self.btnFreqOffset = QtWidgets.QPushButton("Set freq offset [mV]", self)
         self.btnFreqOffset.clicked.connect(self.setClicked)            
-        self.lblFreqOffset = QtGui.QLabel('-', self)
+        self.lblFreqOffset = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.leFreqOffset, self.btnFreqOffset, self.lblFreqOffset))              
 
-        self.leVref = QtGui.QLineEdit(str(self.DEFAULTVREF), self)
+        self.leVref = QtWidgets.QLineEdit(str(self.DEFAULTVREF), self)
         self.leVref.setObjectName("Set Vref [mV]")
         self.leVref.returnPressed.connect(self.setClicked)        
-        self.btnVref = QtGui.QPushButton("Set Vref [mV]", self)
+        self.btnVref = QtWidgets.QPushButton("Set Vref [mV]", self)
         self.btnVref.clicked.connect(self.setClicked)            
-        self.lblVref = QtGui.QLabel('-', self)
+        self.lblVref = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.leVref, self.btnVref, self.lblVref))       
         
-        self.leVinhalfref = QtGui.QLineEdit(str(self.DEFAULTVINHALFREF), self)
+        self.leVinhalfref = QtWidgets.QLineEdit(str(self.DEFAULTVINHALFREF), self)
         self.leVinhalfref.setObjectName("Set Vinhalfref [mV]")
         self.leVinhalfref.returnPressed.connect(self.setClicked)        
-        self.btnVinhalfref = QtGui.QPushButton("Set Vrefinhalf [mV]", self)
+        self.btnVinhalfref = QtWidgets.QPushButton("Set Vrefinhalf [mV]", self)
         self.btnVinhalfref.clicked.connect(self.setClicked)            
-        self.lblVinhalfref = QtGui.QLabel('-', self)
+        self.lblVinhalfref = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.leVinhalfref, self.btnVinhalfref, self.lblVinhalfref))             
         
-        self.leVlogic = QtGui.QLineEdit(str(self.DEFAULTVLOGIC), self)
+        self.leVlogic = QtWidgets.QLineEdit(str(self.DEFAULTVLOGIC), self)
         self.leVlogic.setObjectName("Set Vlogic [mV]")
         self.leVlogic.returnPressed.connect(self.setClicked)
-        self.btnVlogic = QtGui.QPushButton("Set Vlogic [mV]", self)
+        self.btnVlogic = QtWidgets.QPushButton("Set Vlogic [mV]", self)
         self.btnVlogic.clicked.connect(self.setClicked)
-        self.lblVlogic = QtGui.QLabel('-', self)
+        self.lblVlogic = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.leVlogic, self.btnVlogic, self.lblVlogic))    
         
-        self.leVin = QtGui.QLineEdit(str(self.DEFAULTVIN), self)
+        self.leVin = QtWidgets.QLineEdit(str(self.DEFAULTVIN), self)
         self.leVin.setObjectName("Set Vin [mV]")
         self.leVin.returnPressed.connect(self.setClicked)        
-        self.btnVin = QtGui.QPushButton("Set Vin [mV]", self)
+        self.btnVin = QtWidgets.QPushButton("Set Vin [mV]", self)
         self.btnVin.clicked.connect(self.setClicked)            
-        self.lblVin = QtGui.QLabel('-', self)
+        self.lblVin = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.leVin, self.btnVin, self.lblVin))                           
 
-        self.btnMonChan = QtGui.QPushButton("Toggle mon chan", self)
+        self.btnMonChan = QtWidgets.QPushButton("Toggle mon chan", self)
         self.btnMonChan.clicked.connect(self.setClicked) 
-        self.btnSetAll = QtGui.QPushButton("Set all", self)
+        self.btnSetAll = QtWidgets.QPushButton("Set all", self)
         self.btnSetAll.clicked.connect(self.setClicked)        
         v0Layout.addWidget(self.addHTripleWidget(self.btnMonChan, self.btnSetAll, self.lblEmpty()))  
 
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.lblEmpty(), self.lblEmpty()))                      
 #------------------------------------------------------------------------------                          
         
-        self.btnVlogicOn = QtGui.QPushButton("Vlogic on/off", self)
+        self.btnVlogicOn = QtWidgets.QPushButton("Vlogic on/off", self)
         self.btnVlogicOn.clicked.connect(self.onClicked)            
-        self.lblVlogicOn = QtGui.QLabel('-', self)
+        self.lblVlogicOn = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnVlogicOn, self.lblVlogicOn))
         
-        self.btnFreqOn = QtGui.QPushButton("Freq on/off", self)
+        self.btnFreqOn = QtWidgets.QPushButton("Freq on/off", self)
         self.btnFreqOn.clicked.connect(self.onClicked)            
-        self.lblFreqOn = QtGui.QLabel('-', self) 
+        self.lblFreqOn = QtWidgets.QLabel('-', self) 
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnFreqOn, self.lblFreqOn))              
                 
-        self.btnVrefOn = QtGui.QPushButton("Vref on/off", self)
+        self.btnVrefOn = QtWidgets.QPushButton("Vref on/off", self)
         self.btnVrefOn.clicked.connect(self.onClicked)            
-        self.lblVrefOn = QtGui.QLabel('-', self)
+        self.lblVrefOn = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnVrefOn, self.lblVrefOn))    
         
-        self.btnVinhalfrefOn = QtGui.QPushButton("Vinhalfref on/off", self)
+        self.btnVinhalfrefOn = QtWidgets.QPushButton("Vinhalfref on/off", self)
         self.btnVinhalfrefOn.clicked.connect(self.onClicked)            
-        self.lblVinhalfrefOn = QtGui.QLabel('-', self)
+        self.lblVinhalfrefOn = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnVinhalfrefOn, self.lblVinhalfrefOn))            
         
-        self.btnVinOn = QtGui.QPushButton("Vin on/off", self)
+        self.btnVinOn = QtWidgets.QPushButton("Vin on/off", self)
         self.btnVinOn.clicked.connect(self.onClicked)            
-        self.lblVinOn = QtGui.QLabel('-', self)
+        self.lblVinOn = QtWidgets.QLabel('-', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnVinOn, self.lblVinOn))                   
         
-        self.btnAllOn = QtGui.QPushButton("All on/ Init regs", self)
+        self.btnAllOn = QtWidgets.QPushButton("All on/ Init regs", self)
         self.btnAllOn.clicked.connect(self.onClicked)             
-        self.btnAllOff = QtGui.QPushButton("All off", self)
+        self.btnAllOff = QtWidgets.QPushButton("All off", self)
         self.btnAllOff.clicked.connect(self.onClicked)
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnAllOn, self.btnAllOff))    
 
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.lblEmpty(), self.lblEmpty()))
 
-        self.leEnable = QtGui.QLineEdit(str(self.DEFAULTENABLE), self)
+        self.leEnable = QtWidgets.QLineEdit(str(self.DEFAULTENABLE), self)
         self.leEnable.setObjectName("Set Enable")
         self.leEnable.returnPressed.connect(self.setClicked)  
-        self.leLoad = QtGui.QLineEdit(str(self.DEFAULTLOAD), self)
+        self.leLoad = QtWidgets.QLineEdit(str(self.DEFAULTLOAD), self)
         self.leLoad.setObjectName("Set Load")
         self.leLoad.returnPressed.connect(self.setClicked)
-        self.lblEnable = QtGui.QLabel('Enable: -', self)
-        self.lblLoad = QtGui.QLabel('Load: -', self)      
-        self.btnSetEnableLoadReg = QtGui.QPushButton("Set EL Reg", self)
+        self.lblEnable = QtWidgets.QLabel('Enable: -', self)
+        self.lblLoad = QtWidgets.QLabel('Load: -', self)      
+        self.btnSetEnableLoadReg = QtWidgets.QPushButton("Set EL Reg", self)
         self.btnSetEnableLoadReg.clicked.connect(self.setClicked)        
         v0Layout.addWidget(self.addHTripleWidget(self.lblEnable, self.lblLoad, self.lblEmpty()))
         v0Layout.addWidget(self.addHTripleWidget(self.leEnable, self.leLoad, self.btnSetEnableLoadReg))           
 
-        self.leLoadProg = QtGui.QLineEdit(str(self.DEFAULTLOADPROG), self)
+        self.leLoadProg = QtWidgets.QLineEdit(str(self.DEFAULTLOADPROG), self)
         self.leLoadProg.setObjectName("LoadProg")
         self.leLoadProg.returnPressed.connect(self.setClicked)  
-        self.leGearProg = QtGui.QLineEdit(str(self.DEFAULTGEARPROG), self)
+        self.leGearProg = QtWidgets.QLineEdit(str(self.DEFAULTGEARPROG), self)
         self.leGearProg.setObjectName("GearProg")
         self.leGearProg.returnPressed.connect(self.setClicked)
-        self.leGearFixed = QtGui.QLineEdit(str(self.DEFAULTGEARFIXED), self)
+        self.leGearFixed = QtWidgets.QLineEdit(str(self.DEFAULTGEARFIXED), self)
         self.leGearFixed.setObjectName("GearFixed")        
         self.leGearFixed.returnPressed.connect(self.setClicked)
         
-        self.lblLoadProg = QtGui.QLabel('LoadProg: -', self)
-        self.lblGearProg = QtGui.QLabel('GearProg: -', self) 
-        self.lblGearFixed = QtGui.QLabel('GearFixed: -', self)
+        self.lblLoadProg = QtWidgets.QLabel('LoadProg: -', self)
+        self.lblGearProg = QtWidgets.QLabel('GearProg: -', self) 
+        self.lblGearFixed = QtWidgets.QLabel('GearFixed: -', self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblLoadProg, self.lblGearProg, self.lblGearFixed))
         v0Layout.addWidget(self.addHTripleWidget(self.leLoadProg, self.leGearProg, self.leGearFixed))            
         
-        self.leSelectn = QtGui.QLineEdit(str(self.DEFAULTSELECTN), self)
+        self.leSelectn = QtWidgets.QLineEdit(str(self.DEFAULTSELECTN), self)
         self.leSelectn.setObjectName("Selectn")
         self.leSelectn.returnPressed.connect(self.setClicked)  
-        self.leOffsetEnable = QtGui.QLineEdit(str(self.DEFAULTOFFSETENABLE), self)
+        self.leOffsetEnable = QtWidgets.QLineEdit(str(self.DEFAULTOFFSETENABLE), self)
         self.leOffsetEnable.setObjectName("Set Offset Enable")
         self.leOffsetEnable.returnPressed.connect(self.setClicked)
-        self.leOffset = QtGui.QLineEdit(str(self.DEFAULTOFFSET), self)
+        self.leOffset = QtWidgets.QLineEdit(str(self.DEFAULTOFFSET), self)
         self.leOffset.setObjectName("Set Offset")        
         self.leOffset.returnPressed.connect(self.setClicked)        
 
-        self.lblSelectn = QtGui.QLabel('Selectn: -', self)
-        self.lblOffsetEnable = QtGui.QLabel('Offset Enable: -', self) 
-        self.lblOffset = QtGui.QLabel('Offset: -', self)       
+        self.lblSelectn = QtWidgets.QLabel('Selectn: -', self)
+        self.lblOffsetEnable = QtWidgets.QLabel('Offset Enable: -', self) 
+        self.lblOffset = QtWidgets.QLabel('Offset: -', self)       
         v0Layout.addWidget(self.addHTripleWidget(self.lblSelectn, self.lblOffsetEnable, self.lblOffset))
         v0Layout.addWidget(self.addHTripleWidget(self.leSelectn, self.leOffsetEnable, self.leOffset))               
 
   
-        self.btnResetRegs = QtGui.QPushButton("Reset regs", self)
+        self.btnResetRegs = QtWidgets.QPushButton("Reset regs", self)
         self.btnResetRegs.clicked.connect(self.setClicked)                  
-        self.btnConfig = QtGui.QPushButton("Set Config Reg", self)
+        self.btnConfig = QtWidgets.QPushButton("Set Config Reg", self)
         self.btnConfig.clicked.connect(self.setClicked)                
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnResetRegs, self.btnConfig))
 
@@ -310,49 +310,49 @@ class SCmeas(QtGui.QMainWindow):
 #------------------------------------------------------------------------------         
         self.checkMeasAllAdjustVin = QCheckBox("Adj.Vin @ All", self)
         self.checkMeasAllAdjustVin.setChecked(self.DEFAULTADJUSTVIN)
-        self.btnTargetVink = QtGui.QPushButton("Adjust Vink to", self)
+        self.btnTargetVink = QtWidgets.QPushButton("Adjust Vink to", self)
         self.btnTargetVink.clicked.connect(self.measClicked) 
-        self.leTargetVink = QtGui.QLineEdit(str(self.DEFAULTVINTARGET), self)
+        self.leTargetVink = QtWidgets.QLineEdit(str(self.DEFAULTVINTARGET), self)
         self.leTargetVink.setObjectName("Adjust Vink to")
         self.leTargetVink.returnPressed.connect(self.measClicked)
         v0Layout.addWidget(self.addHTripleWidget(self.checkMeasAllAdjustVin, self.btnTargetVink, self.leTargetVink))
         
         self.checkMeasAllAdjustVout = QCheckBox("Adj.Vout @ All", self)
         self.checkMeasAllAdjustVout.setChecked(self.DEFAULTADJUSTVREF)   
-        self.btnTargetVoutk = QtGui.QPushButton("Adjust Voutk to", self)
+        self.btnTargetVoutk = QtWidgets.QPushButton("Adjust Voutk to", self)
         self.btnTargetVoutk.clicked.connect(self.measClicked)
-        self.leTargetVoutk = QtGui.QLineEdit(str(self.DEFAULTVREF), self)
+        self.leTargetVoutk = QtWidgets.QLineEdit(str(self.DEFAULTVREF), self)
         self.leTargetVoutk.setObjectName("Adjust Voutk to")     
         self.leTargetVoutk.returnPressed.connect(self.measClicked)
         v0Layout.addWidget(self.addHTripleWidget(self.checkMeasAllAdjustVout, self.btnTargetVoutk, self.leTargetVoutk))            
     
-        self.btnIin = QtGui.QPushButton("Meas Iin", self)
+        self.btnIin = QtWidgets.QPushButton("Meas Iin", self)
         self.btnIin.clicked.connect(self.measClicked)            
-        self.lblIin = QtGui.QLabel('-', self)
-        self.leRetention = QtGui.QLineEdit(str(self.DEFAULTRETENTION), self)
+        self.lblIin = QtWidgets.QLabel('-', self)
+        self.leRetention = QtWidgets.QLineEdit(str(self.DEFAULTRETENTION), self)
         self.leRetention.setObjectName("Retention")
         self.leRetention.returnPressed.connect(self.measClicked)        
         v0Layout.addWidget(self.addHTripleWidget(self.leRetention, self.btnIin, self.lblIin))      
         
-        self.btnVink = QtGui.QPushButton("Meas Vink", self)
+        self.btnVink = QtWidgets.QPushButton("Meas Vink", self)
         self.btnVink.clicked.connect(self.measClicked)            
-        self.lblVink = QtGui.QLabel('-', self)
-        self.lblRetention = QtGui.QLabel('Retention: {0}'.format(self.DEFAULTRETENTION), self)
+        self.lblVink = QtWidgets.QLabel('-', self)
+        self.lblRetention = QtWidgets.QLabel('Retention: {0}'.format(self.DEFAULTRETENTION), self)
         v0Layout.addWidget(self.addHTripleWidget(self.lblRetention, self.btnVink, self.lblVink))
         
-        self.btnToggleRloadVout = QtGui.QPushButton("toggle Rload/Vout", self)
+        self.btnToggleRloadVout = QtWidgets.QPushButton("toggle Rload/Vout", self)
         self.btnToggleRloadVout.clicked.connect(self.measClicked)        
-        self.btnRloadVout = QtGui.QPushButton("Meas Rload" if self.DEFAULTMODERLOADVOUT == 'Rsense' else "Meas Voutk", self)
+        self.btnRloadVout = QtWidgets.QPushButton("Meas Rload" if self.DEFAULTMODERLOADVOUT == 'Rsense' else "Meas Voutk", self)
         self.btnRloadVout.clicked.connect(self.measClicked)            
-        self.lblRloadVout = QtGui.QLabel('-', self) 
+        self.lblRloadVout = QtWidgets.QLabel('-', self) 
         v0Layout.addWidget(self.addHTripleWidget(self.btnToggleRloadVout, self.btnRloadVout, self.lblRloadVout))           
   
-        self.btnAll = QtGui.QPushButton("Meas All", self)
+        self.btnAll = QtWidgets.QPushButton("Meas All", self)
         self.btnAll.clicked.connect(self.measClicked)            
-        self.lblAll = QtGui.QLabel('-', self) 
+        self.lblAll = QtWidgets.QLabel('-', self) 
         v0Layout.addWidget(self.addHTripleWidget(self.lblEmpty(), self.btnAll, self.lblAll))
         
-        self.btnExit = QtGui.QPushButton("Exit", self)
+        self.btnExit = QtWidgets.QPushButton("Exit", self)
         self.btnExit.clicked.connect(self.exitClicked)       
         v0Layout.addWidget(self.addHTripleWidget(self.btnExit, self.lblEmpty(), self.lblEmpty()))
         
@@ -365,64 +365,64 @@ class SCmeas(QtGui.QMainWindow):
         h0Box, h0Layout = self.addHWidget() 
         v0Layout.addWidget(h0Box)
          
-        self.lblTemp = QtGui.QLabel('Temp [C]', self) 
-        self.leTemp = QtGui.QLineEdit("25", self)
+        self.lblTemp = QtWidgets.QLabel('Temp [C]', self) 
+        self.leTemp = QtWidgets.QLineEdit("25", self)
         self.leTemp.setObjectName("RloadoverTemp")
         self.leTemp.returnPressed.connect(self.measClicked) 
-        self.btnRloadoverTemp = QtGui.QPushButton("RloadoverTemp", self)
+        self.btnRloadoverTemp = QtWidgets.QPushButton("RloadoverTemp", self)
         self.btnRloadoverTemp.clicked.connect(self.measClicked)
         h0Layout.addWidget(self.addVTripleWidget(self.lblTemp, self.leTemp, self.btnRloadoverTemp))
         
-        self.btnClearMessTable = QtGui.QPushButton("Clear table only", self)
+        self.btnClearMessTable = QtWidgets.QPushButton("Clear table only", self)
         self.btnClearMessTable.clicked.connect(self.measClicked)
-        self.btnSweep = QtGui.QPushButton("Sweep Load", self)
+        self.btnSweep = QtWidgets.QPushButton("Sweep Load", self)
         self.btnSweep.clicked.connect(self.measClicked)        
         h0Layout.addWidget(self.addVTripleWidget(self.btnClearMessTable, self.lblEmpty(), self.btnSweep))
         
-        self.btnOpenMeasTable = QtGui.QPushButton("Open in Excel", self)
+        self.btnOpenMeasTable = QtWidgets.QPushButton("Open in Excel", self)
         self.btnOpenMeasTable.clicked.connect(self.measClicked)
-        self.leSaveMeasTable = QtGui.QLineEdit("meas.xls", self)
-        self.btnSaveMeasTable = QtGui.QPushButton("Save table", self)
+        self.leSaveMeasTable = QtWidgets.QLineEdit("meas.xls", self)
+        self.btnSaveMeasTable = QtWidgets.QPushButton("Save table", self)
         self.btnSaveMeasTable.clicked.connect(self.measClicked)
         h0Layout.addWidget(self.addVTripleWidget(self.btnOpenMeasTable, self.leSaveMeasTable, self.btnSaveMeasTable))
         
-        self.leVgear = QtGui.QLineEdit(str(self.DEFAULTVGEAR), self)
-        self.lblVgear = QtGui.QLabel('Vgear change [mV]', self)
+        self.leVgear = QtWidgets.QLineEdit(str(self.DEFAULTVGEAR), self)
+        self.lblVgear = QtWidgets.QLabel('Vgear change [mV]', self)
         h0Layout.addWidget(self.addVTripleWidget(self.lblEmpty(), self.lblVgear, self.leVgear))
                 
-        self.leRloadMin = QtGui.QLineEdit(str(self.DEFAULTRLOADRANGE[0]), self)
-        self.leRloadMax = QtGui.QLineEdit(str(self.DEFAULTRLOADRANGE[1]), self)
-        self.leRloadStep = QtGui.QLineEdit(str(self.DEFAULTRLOADSTEP), self)
+        self.leRloadMin = QtWidgets.QLineEdit(str(self.DEFAULTRLOADRANGE[0]), self)
+        self.leRloadMax = QtWidgets.QLineEdit(str(self.DEFAULTRLOADRANGE[1]), self)
+        self.leRloadStep = QtWidgets.QLineEdit(str(self.DEFAULTRLOADSTEP), self)
         h0Layout.addWidget(self.addVTripleWidget(self.leRloadMin, self.leRloadMax, self.leRloadStep)) 
         
-        self.lblRloadMin = QtGui.QLabel('Rload min', self)
-        self.lblRloadMax = QtGui.QLabel('Rload max', self)
-        self.lblRloadStep = QtGui.QLabel('Rload step', self)
+        self.lblRloadMin = QtWidgets.QLabel('Rload min', self)
+        self.lblRloadMax = QtWidgets.QLabel('Rload max', self)
+        self.lblRloadStep = QtWidgets.QLabel('Rload step', self)
         h0Layout.addWidget(self.addVTripleWidget(self.lblRloadMin, self.lblRloadMax, self.lblRloadStep))         
         
-        self.leVrefMin = QtGui.QLineEdit(str(self.DEFAULTVREFMIN), self)
-        self.leVrefMax = QtGui.QLineEdit(str(self.DEFAULTVREFMAX), self)
-        self.leVrefStep = QtGui.QLineEdit(str(self.DEFAULTVREFSTEP), self)
+        self.leVrefMin = QtWidgets.QLineEdit(str(self.DEFAULTVREFMIN), self)
+        self.leVrefMax = QtWidgets.QLineEdit(str(self.DEFAULTVREFMAX), self)
+        self.leVrefStep = QtWidgets.QLineEdit(str(self.DEFAULTVREFSTEP), self)
         h0Layout.addWidget(self.addVTripleWidget(self.leVrefMin, self.leVrefMax, self.leVrefStep))        
         
-        self.lblVrefMin = QtGui.QLabel('Vref/Vout min [mV]', self)
-        self.lblVrefMax = QtGui.QLabel('Vref/Vout max [mV]', self)
-        self.lblVrefStep = QtGui.QLabel('Vref/Vout step [mV]', self)
+        self.lblVrefMin = QtWidgets.QLabel('Vref/Vout min [mV]', self)
+        self.lblVrefMax = QtWidgets.QLabel('Vref/Vout max [mV]', self)
+        self.lblVrefStep = QtWidgets.QLabel('Vref/Vout step [mV]', self)
         h0Layout.addWidget(self.addVTripleWidget(self.lblVrefMin, self.lblVrefMax, self.lblVrefStep))   
                 
-#        self.btnOpenSweep = QtGui.QPushButton("Open sweep Excel", self)
+#        self.btnOpenSweep = QtWidgets.QPushButton("Open sweep Excel", self)
 #        self.btnOpenSweep.clicked.connect(self.measClicked)
-        self.lblChipNumber = QtGui.QLabel('Chip Name', self)
-        self.leSweepLoadVref = QtGui.QLineEdit("Chip1", self)
-        self.btnSweepLoadVrefVout = QtGui.QPushButton("Sweep Load && Vref", self)
+        self.lblChipNumber = QtWidgets.QLabel('Chip Name', self)
+        self.leSweepLoadVref = QtWidgets.QLineEdit("Chip1", self)
+        self.btnSweepLoadVrefVout = QtWidgets.QPushButton("Sweep Load && Vref", self)
         self.btnSweepLoadVrefVout.clicked.connect(self.measClicked)
         h0Layout.addWidget(self.addVTripleWidget(self.lblChipNumber, self.leSweepLoadVref, self.btnSweepLoadVrefVout))
         
-        self.lblMeasEverythingVin = QtGui.QLabel('Vintarget list', self)
-        self.leMeasEverythingVin = QtGui.QLineEdit(str(self.DEFAULTVIN), self)
-        self.lblMeasEverythingFreq = QtGui.QLabel('Freq list', self)
-        self.leMeasEverythingFreq = QtGui.QLineEdit(str(self.DEFAULTFREQ), self)
-        self.btnMeasEverything = QtGui.QPushButton("Meas Everything!", self)
+        self.lblMeasEverythingVin = QtWidgets.QLabel('Vintarget list', self)
+        self.leMeasEverythingVin = QtWidgets.QLineEdit(str(self.DEFAULTVIN), self)
+        self.lblMeasEverythingFreq = QtWidgets.QLabel('Freq list', self)
+        self.leMeasEverythingFreq = QtWidgets.QLineEdit(str(self.DEFAULTFREQ), self)
+        self.btnMeasEverything = QtWidgets.QPushButton("Meas Everything!", self)
         self.btnMeasEverything.clicked.connect(self.measClicked)
         h0Layout.addWidget(self.addVTripleWidget(self.lblMeasEverythingVin, self.lblMeasEverythingFreq, self.lblEmpty()))
         h0Layout.addWidget(self.addVTripleWidget(self.leMeasEverythingVin, self.leMeasEverythingFreq, self.btnMeasEverything))
@@ -484,7 +484,7 @@ class SCmeas(QtGui.QMainWindow):
         Layout.layout().setContentsMargins(0, 0, 0, 0)
         return Box, Layout
     def lblEmpty(self):
-        return QtGui.QLabel('', self)
+        return QtWidgets.QLabel('', self)
       
     def initClicked(self):
         self.buttonClicked()
@@ -973,12 +973,12 @@ class SCmeas(QtGui.QMainWindow):
         except Exception as e:
             print(str(e))           
     def measVink(self):
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         Vink = self.agilent.measVink()
         self.lblVink.setText(f2(Vink * 1e3) + ' mV')
         return Vink    
     def measVref(self):
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         Vref = self.agilent.measVref()
         self.lblVref.setText(f2(Vref * 1e3) + ' mV')
         if self.modeRloadVout == 'Vsense':
@@ -997,7 +997,7 @@ class SCmeas(QtGui.QMainWindow):
         self.keithleyOut.defaultSetup(self.modeRloadVout)            
     def measVoutk(self):
         if self.vinIsOn():
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
             Voutk = self.keithleyOut.measV()
 #             Voutk = self.agilent.measVoutk()
 #             Voutk = self.keithleyVoutk.measV()
@@ -1009,13 +1009,13 @@ class SCmeas(QtGui.QMainWindow):
         else: self.status('KeithleyIn is not on -> no measurement performed ...')
     def measIin(self):
         if self.vinIsOn():
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
             Iin = self.keithleyIn.measI()
             self.lblIin.setText(f2(Iin * 1e3) + ' mA')
             return Iin 
         else: self.status('KeithleyIn is not on -> no measurement performed ...')
     def measRload(self):
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         self.keithleyOut.outputOn()
         time.sleep(0.1)
         Rload1 = float(self.keithleyOut.measR())
@@ -1026,7 +1026,7 @@ class SCmeas(QtGui.QMainWindow):
         self.keithleyOut.outputOff()
         return Rload
     def measAllRload(self):
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         self.Rload = list()  # reset the list
         if self.vinIsOn():
             self.vinOnOff()
@@ -1089,7 +1089,7 @@ class SCmeas(QtGui.QMainWindow):
     def measRetention(self):
         self.retention = int(self.leRetention.text())
         self.updateRetentionLbl()   
-        QtGui.QApplication.processEvents()  
+        QtWidgets.QApplication.processEvents()  
         return self.retention        
                         
     def measAll(self):
@@ -1113,7 +1113,7 @@ class SCmeas(QtGui.QMainWindow):
             for i in range(0, self.measRetention() + 1):
                 time.sleep(1)
                 self.leRetention.setText(str(i))
-                QtGui.QApplication.processEvents()
+                QtWidgets.QApplication.processEvents()
             Voutk = self.measVoutk()    
             Vink = self.measVink()
             Vref = self.vref.getV()
@@ -1134,7 +1134,7 @@ class SCmeas(QtGui.QMainWindow):
 #                 self.setLoad(i)
 #                 if i % 3 == 0 or i == OldLoad+1: # speeding it up a bit with the slow input supply
 #                     self.adjustVin(sleepTime=0)
-#                 QtGui.QApplication.processEvents()
+#                 QtWidgets.QApplication.processEvents()
 
            
             
@@ -1152,13 +1152,13 @@ class SCmeas(QtGui.QMainWindow):
         rho = Pout / self.AREA
         return eta, rho, Pin, Pout, Iout
 #    def measSweepSingle(self):
-#        QtGui.QApplication.processEvents()
+#        QtWidgets.QApplication.processEvents()
 #        [Vink, Voutk, Iin, Iout, Rload, eta, rho, Pin, Pout] = self.measAll()
 #        rowData = [f1(float(self.leFreq.text())), f2(Iin*1e3), f2(Iout*1e3), f1(Vink*1e3), f1(float(self.keithleyIn.getV())*1e3), f1(Voutk*1e3), 
 #                   f1(float(self.vref.getV())*1e3), f2(Rload), f2(Pin*1e3), f2(Pout*1e3), f2(eta*100), f2(rho)]
 #        return rowData
     def measSweepLoad(self):
-#         QtGui.QApplication.processEvents()
+#         QtWidgets.QApplication.processEvents()
         if self.isAllOn():
             self.clearTable(self.measTbl)
             self.Rload = ()
@@ -1169,7 +1169,7 @@ class SCmeas(QtGui.QMainWindow):
 #             self.setGear(1 if float(self.leVref.text()) >= float(self.leVgear.text()) else 0)
             for i in range(int(self.leRloadMin.text()), int(self.leRloadMax.text()) + 1, int(self.leRloadStep.text())):
                 self.setLoad(i)
-                QtGui.QApplication.processEvents()
+                QtWidgets.QApplication.processEvents()
 #                 [Vink, Voutk, Vref, Iin, Iout, Rload, eta, rho, Pin, Pout] = self.measAll()
                 self.measAll()
 #                 rowData = [f1(float(self.leFreq.text())), f2(Iin*1e3), f2(Iout*1e3), f1(Vink*1e3), f1(float(self.keithleyIn.getV())*1e3), f1(Voutk*1e3), 
@@ -1181,7 +1181,7 @@ class SCmeas(QtGui.QMainWindow):
 #             self.measAll()
 #             self.adjustVin()
     def measSweepLoadVrefVout(self, skipOverwrite):
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         xlsfiles = list()
         if self.isAllOn():
             if not skipOverwrite:
@@ -1223,7 +1223,7 @@ class SCmeas(QtGui.QMainWindow):
     #                print k
                     self.setFreq(float(FreqtargetList[k]))
                     for i in range(0, len(VintargetList)):
-                        print FreqtargetList[k], VintargetList[i]
+                        print(FreqtargetList[k], VintargetList[i])
                         self.leTargetVink.setText(VintargetList[i])
                         self.leSweepLoadVref.setText('{0}_Vin{1}_Freq{2}_fixedVout'.format(chipName, VintargetList[i], FreqtargetList[k]))
                         self.checkMeasAllAdjustVout.setChecked(True)
@@ -1244,7 +1244,7 @@ class SCmeas(QtGui.QMainWindow):
             self.Rload.insert(0, self.leTemp.text())
             self.updateTableColumn(self.measTbl, self.columnNumber, self.Rload)
             self.columnNumber = self.columnNumber + 1
-        else: print 'Vlogic is not turned on'
+        else: print('Vlogic is not turned on')
         
         
 
@@ -1368,7 +1368,7 @@ class SCmeas(QtGui.QMainWindow):
         self.updateVrefOn()
         self.updateVinhalfrefOn()
         self.updateVlogicOn()
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
 #------------------------------------------------------------------------------        
     def buttonClicked(self):
@@ -1411,9 +1411,9 @@ class SCmeas(QtGui.QMainWindow):
     def confirmOverwrite(self, filename):
         if os.path.isfile(filename):
             quit_msg = "Overwrite %s?" % filename
-            reply = QtGui.QMessageBox.question(self, 'Message',
-            quit_msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-            if reply == QtGui.QMessageBox.Yes:
+            reply = QtWidgets.QMessageBox.question(self, 'Message',
+            quit_msg, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+            if reply == QtWidgets.QMessageBox.Yes:
                 self.removeFile(filename)
                 self.status('Old {0} was deleted'.format(filename))  
                 return True
@@ -1445,7 +1445,7 @@ def f0(x):
     return '{:.0f}'.format(x)
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     SCCtrl = SCmeas()
     sys.exit(app.exec_())
 

@@ -3,5 +3,4 @@
 
 Install Packages
 
-
-python -m pip install numpy pyvisa xlrd xlwt PyQt5
+pip install -r requirements.txt

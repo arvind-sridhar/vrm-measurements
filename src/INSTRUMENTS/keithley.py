@@ -105,14 +105,14 @@ class Keithley():
             self.keithley.write("INIT")  # Initialize
             return float(self.keithley.ask("FETC?"))
         else:
-            print 'Cannot measure I when configured to {0}'.format(self.mode)
+            print('Cannot measure I when configured to {0}'.format(self.mode))
             
     def measV(self):
         if self.mode == 'Vsense':
             self.keithley.write("INIT")  # Initialize
             return float(self.keithley.ask("FETC?"))
         else:
-            print 'Cannot measure V when configured to {0}'.format(self.mode)            
+            print('Cannot measure V when configured to {0}'.format(self.mode))            
         
     
     def measR(self):
@@ -124,7 +124,7 @@ class Keithley():
 #            self.outputOff()
             return R    
         else:
-            print 'Cannot measure R when configured to {0}'.format(self.mode)
+            print('Cannot measure R when configured to {0}'.format(self.mode))
             
     def close(self):
         try:

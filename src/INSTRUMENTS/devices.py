@@ -1,10 +1,8 @@
 # from numpy import *
+
+
+from INSTRUMENTS import *
 import visa
-import agilent8648D
-import agilent   
-import agilentDC
-import agilentHP     
-import keithley
         
 class Devices():
     def __init__(self):        
@@ -16,7 +14,7 @@ class Devices():
         
     def findUnique(self, unique):
         for i in range(0, len(self.visaInstrList)):
-            inst = visa.instrument(self.visaInstrList[i] + '::INSTR')
+            inst = visa.ResourceManager().instrument(self.visaInstrList[i] + '::INSTR')
             if isinstance(unique, int):
                 if str(unique) in self.instrList()[i]:
                     return inst
@@ -34,7 +32,7 @@ class Devices():
             #   if not 'GPIB' in self.visaInstrList[i]:
             #      self.visaInstrList.pop(i)
             #     print self.visaInstrList
-            self.visaInstrList = [s for s in visa.get_instruments_list() if 'GPIB' in s]  # Removes all non-GPIB entries from the instrument list 
+            self.visaInstrList = [s for s in visa.ResourceManager().list_resources() if 'GPIB' in s]  # Removes all non-GPIB entries from the instrument list 
 #            print self.visaInstrList
             return self.visaInstrList
 #        y = [s for s in x if len(s) == 2]
@@ -43,8 +41,8 @@ class Devices():
         
     def printInstrList(self):
         for i in range(0, len(self.visaInstrList)):
-            inst = visa.instrument(self.visaInstrList[i] + '::INSTR')
-            print inst.ask("*IDN?")
+            inst = visa.ResourceManager().instrument(self.visaInstrList[i] + '::INSTR')
+            print(inst.ask("*IDN?"))
 #            globals()[self.INSTNAMES[i]]=visa.instrument(self.visaInstrList[i]+'::INSTR')
 #            print globals()[self.INSTNAMES[i]].ask("*IDN?")
         
@@ -56,7 +54,7 @@ if __name__ == '__main__':
     
     print('VinSupply = ' + VinSupply.initme(devs, 'E3633A', 2, 5))
     VinSupply.outputOn()
-    print VinSupply.getI()
+    print(VinSupply.getI())
     VinSupply.outputOn()
     VinSupply.setImax(4)
     VinSupply.setVmax(3)
