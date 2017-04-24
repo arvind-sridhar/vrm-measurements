@@ -6,9 +6,9 @@ import socket
 class Hammerhead():
     
     
-    #HOST = '192.168.1.200'
-    #HOST = '9.4.208.191' #hh2 
-    #HOST = '9.4.208.190' #hh1 -before
+    # HOST = '192.168.1.200'
+    # HOST = '9.4.208.191' #hh2 
+    # HOST = '9.4.208.190' #hh1 -before
     HOST = '9.4.208.196'  # hh3
     
     def __init__(self):
@@ -32,13 +32,13 @@ class Hammerhead():
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.isConnected = False
     
-    def connect(self):
+    def connect(self) -> bool:
         try:
             
             # Telnet Part
             print('Starting Telnet...')
-            tn = Telnet( self.__class__.HOST)
-            tn.read_until("login: ",1)
+            tn = Telnet(self.__class__.HOST)
+            tn.read_until("login: ", 1)
             tn.write("root\n")
             print(tn.read_very_eager())
             
@@ -57,7 +57,7 @@ class Hammerhead():
             print('done.')
         return self.isConnected
     
-    def disconnect(self):
+    def disconnect(self) -> None:
         if(self.isConnected):
             print('disconnecting...')
             self.s.close()
@@ -65,15 +65,23 @@ class Hammerhead():
             self.initH()
             print('done.')
     
-    def write(self, addr, data):
-#        print addr, data
-        self.s.sendall(bytes('w ' + str(addr) + ' ' + str(data) + '\n'))  # , 'ascii'))
-
+    def write(self, addr:int, data:str) -> bool:
+        '''
+        Writes bytes to socket
+        :param addr:int Address of BIDI Register
+        :param data:str String with new register content
+        '''
+        # print addr, data
+        byteData = bytes('w ' + str(addr) + ' ' + str(data) + '\n')
+        numBytes = self.s.sendall(byteData)  # , 'ascii'))
+        
+        return numBytes == len(byteData)
+        
     def read(self, addr):
         self.s.sendall(bytes('r ' + str(addr) + '\n'))  # , 'ascii'))
         return int(self.s.recv(1024))
 
-    def readRange(self, addr):
+    def readRange(self, addr) -> list:
         # addr2=addr[0:100]
         # addr = addr2
         # sendString = ""
@@ -107,13 +115,13 @@ class Hammerhead():
         # print(len(readArrInt))
         return readArrInt
     
-    def writerd(self, addr, data):
+    def writerd(self, addr:int, data:str) -> bool:
         """Write reverse data"""
-        self.write(addr, self.reverseBits(data, 12))    
+        return self.write(addr, self.reverseBits(data, 12))    
   
-    def writera(self, addr, data): 
+    def writera(self, addr:int, data:str) -> bool: 
         """Write reverse address"""
-        self.write(self.reverseBits(addr, 11), data)
+        return self.write(self.reverseBits(addr, 11), data)
 
     def readra(self, addr):
         return self.read(self.reverseBits(addr, 11))

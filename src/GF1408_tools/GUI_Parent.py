@@ -4,9 +4,10 @@ Created on Apr 19, 2017
 @author: rid
 '''
 
-
+import threading
 from PyQt5 import QtWidgets
 from xlrd.formula import num2strg
+
 
 
 class GuiTools(object):
@@ -22,6 +23,9 @@ class GuiTools(object):
         super(GuiTools, self).__init__()
         self.parent = parent
         self.mainLayout = None
+        
+        
+        self.lock = threading.RLock()
     
     @staticmethod
     def layout_widgets(layout):
@@ -80,6 +84,19 @@ class GuiTools(object):
                   
         if BIDI_REG:
             # print BIDI_REG
-            BIDI_REG.set(newContent)
+            self.async_updateBIDIReg( BIDI_REG, newContent)
         
         return CheckBox,regName,newContent
+    
+    
+    def async_updateBIDIReg(self, BIDI_REG, newContent):
+        
+        def updateReg():
+            
+            with self.lock:
+                BIDI_REG.set(newContent)
+        
+        threading.Thread(target=updateReg).start()
+        
+        
+        
