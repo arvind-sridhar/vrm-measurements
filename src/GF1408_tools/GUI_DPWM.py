@@ -72,7 +72,7 @@ class DPWMControl_Class(GuiTools):
         CheckBox_ENPHASES = QtWidgets.QCheckBox(CONST.EN_ALLPHASES, parent)  # Enable all phases
         CheckBox_ENPHASES.setAccessibleName(CONST.EN_ALLPHASES)
         # EN_PHASE
-        def getEN_PHASE(name, attrSHIFT, attrEN):
+        def getEN_PHASE(name, attrSHIFT, attrEN, index):
             CheckBox_ENPHx = QtWidgets.QCheckBox(name, parent)
             CheckBox_ENPHx.setAccessibleName(attrEN)
             ComboBox_ENPHx = QtWidgets.QComboBox(parent)
@@ -81,6 +81,7 @@ class DPWMControl_Class(GuiTools):
                 values += [string]
             ComboBox_ENPHx.setAccessibleName(attrSHIFT)
             ComboBox_ENPHx.addItems(values)
+            ComboBox_ENPHx.setCurrentIndex( index )
             return CheckBox_ENPHx, ComboBox_ENPHx
 
         start_EN = 1
@@ -107,7 +108,7 @@ class DPWMControl_Class(GuiTools):
             attr_SEL = getattr(BIDI, "SEL_" + num2strg(phase)).name
             attr_EN = getattr(BIDI, "EN_PH_" + num2strg(phase)).name
 
-            CheckBox_ENPHx, ComboBox_ENPHx = getEN_PHASE(name, attr_SEL, attr_EN)
+            CheckBox_ENPHx, ComboBox_ENPHx = getEN_PHASE(name, attr_SEL, attr_EN, phase)
             GridLayout.addWidget(CheckBox_ENPHx, start_EN + phase , 0 + colPadd)
             GridLayout.addWidget(ComboBox_ENPHx, start_EN + phase , 1 + colPadd)
             CheckBox_ENPHx.toggled.connect(self.onChangeCheckBox)

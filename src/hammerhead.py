@@ -42,7 +42,7 @@ class Hammerhead():
             tn.write("root\n")
             print(tn.read_very_eager())
             
-            NotImplementedError("TODO")
+            NotImplementedError("Implement Telnet in hammerhead class")
             
             # Standard Part
             self.s.settimeout(3)

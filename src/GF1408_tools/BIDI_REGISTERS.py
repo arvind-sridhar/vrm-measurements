@@ -100,7 +100,8 @@ class BIDI_PARAMETER():
     
     VAL_ISLINEAR = 0
     VAL_BITRANGE = 1
-    VAL_MAPFUN = 3
+    VAL_STDVAL = 3
+    VAL_MAPFUN = 4
             
     @staticmethod
     def linear(name, startBit, Length, BIDI):
@@ -108,6 +109,7 @@ class BIDI_PARAMETER():
     
     @staticmethod
     def fromListe(name, liste, BIDI, Registers):
+        
         self = BIDI_PARAMETER
         
         if(liste[self.VAL_ISLINEAR]):
@@ -118,7 +120,7 @@ class BIDI_PARAMETER():
             bitrange = liste[self.VAL_BITRANGE]
         
         
-        if len(liste) > 3:
+        if len(liste) > (self.VAL_MAPFUN):
             # print liste[self.VAL_MAPFUN]
             fun = getattr(Registers, liste[self.VAL_MAPFUN])
         else:
