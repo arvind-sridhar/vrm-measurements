@@ -201,11 +201,11 @@ class SAR1Control(QtGui.QMainWindow):
         
     def setLoadInt(self):
         if int(self.leR5.text()) < 0:
-            print '%s < 0 is not allowed' % int(self.leR5.text()) 
+            print('%s < 0 is not allowed' % int(self.leR5.text())) 
         elif int(self.leR5.text()) > 31:
-            print '%s > 31 is not allowed' % int(self.leR5.text())
+            print('%s > 31 is not allowed' % int(self.leR5.text()))
         else:                
-            print '{0:011b}'.format(int(self.leR5.text()) << 2), ', ', int('{0:011b}'.format(int(self.leR5.text()) << 2), 2)
+            print('{0:011b}'.format(int(self.leR5.text()) << 2), ', ', int('{0:011b}'.format(int(self.leR5.text()) << 2), 2))
            
             self.h.writera(0, int('{0:011b}'.format(int(self.leR5.text()) << 2), 2))
 

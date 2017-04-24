@@ -1,7 +1,7 @@
 # from numpy import *
 
 
-from INSTRUMENTS import *
+from measurement_old import *
 import visa
         
 class Devices():

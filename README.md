@@ -7,6 +7,7 @@
 
 * Python 3.6
 * Eclipse Neon.3 Release (4.6.3) (Debug only)
+* PyDev for Eclipse	5.7.0.201704111357 (Debug only)
 
 ## Install Packages
 The required packages can be installed through the python 3.6 native package manager pip using the following command:
