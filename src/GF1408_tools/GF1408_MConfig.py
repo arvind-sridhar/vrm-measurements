@@ -15,6 +15,8 @@ class GF1408config(configParent):
     VDD_MAXI = 0.25
     VD_MAXI = 0.02
     FAST_CLK = "FAST_CLK"
+    VDD = 'VDD'
+    VD = 'VD'
     
     def __init__(self):
         '''
@@ -26,7 +28,7 @@ class GF1408config(configParent):
         
         cls = self.__class__
         
-        self.Supply['VDD']  + self.makeSupply(1, 0, False, cls.VDD_MAXI)
+        self.Supply['VDD']  = self.makeSupply(1, 0, False, cls.VDD_MAXI)
         self.Supply['VD']   = self.makeSupply(2, 0, False, cls.VD_MAXI)
         
         CLK_NAME = cls.FAST_CLK

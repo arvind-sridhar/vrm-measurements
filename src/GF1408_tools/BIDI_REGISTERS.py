@@ -7,7 +7,7 @@ Created on Apr 13, 2017
 from xlrd.formula import num2strg
 import numpy
 
-from BIDI_PARAMETER import BIDI_PARAMETER
+from GF1408_tools.BIDI_PARAMETER import BIDI_PARAMETER
 
 
 class BIDI_REGISTERS(object):

@@ -20,11 +20,10 @@ def main():
     
     hh = hammerhead.Hammerhead()
     BIDI = GF1408_BIDI.GF1408_BIDI( hh )
+    config = GF1408config()
+    mSetup = MeasurementSetup( config )
     
-    mSetup = MeasurementSetup( GF1408config.singleton() )
-    print(mSetup)
-    
-    GF1408_GUI.GF1408_GUI(BIDI,hh)
+    GF1408_GUI.GF1408_GUI(BIDI, hh, mSetup)
     sys.exit(app.exec_())
 
 if __name__ == '__main__':

@@ -6,17 +6,16 @@ Created on Apr 18, 2017
 @author: rid
 '''
 
+
 from threading import Thread
-
 from PyQt5 import QtWidgets,QtCore,Qt
-
 from GF1408_tools.GF1408_CONST import CONST
 from GF1408_tools.GUI_Parent import GuiTools
-
+from GF1408_tools.GF1408_MConfig import GF1408config
 
 class EquipmentGui_Class(GuiTools):
     '''
-    classdocs
+    Class modeling the equipment GUI components. 
     '''
 
     WIDTH = 350
@@ -24,11 +23,11 @@ class EquipmentGui_Class(GuiTools):
 
     MAX_VIN = 1600  # mV
     MAX_IIN = 200  # mA
-    MAX_VD = 800
-    MAX_ID = 250
-    MAX_FAC = 800
-    MAX_FDC = 0.0
-    MAX_FF = 8000
+    MAX_VD = 800  # mV
+    MAX_ID = 250  # mA
+    MAX_FAC = 800  # mV
+    MAX_FDC = 0.0  # mV
+    MAX_FF = 8000  # MHz
 
     def __init__(self, parent):
 
@@ -156,26 +155,17 @@ class EquipmentGui_Class(GuiTools):
 
         parent = self.parent
         parent.buttonClicked()  # print out pressed button
-
-        '''
-        try: 
-            self.allOff()
-        except Exception as e:
-            self.status('Fail 1')
-        '''
+        config = parent.setup.Cfg
 
         if parent.sender().accessibleName() == CONST.HAMMERHEAD_CONNECT_AND_INIT:
-            self.connectHammerhead(parent.sender())
+            
+            self.connectHammerhead(parent.sender())            
 
-        try:
-            if parent.sender().text() == CONST.HAMMERHEAD_INIT:
-                self.initHammerhead()
-            if parent.sender().text() == CONST.EXIT:
-                self.close()
-
-        except Exception as e:
-            print(str(e))
-
+        else:
+            
+            print(parent.setup.Cfg.VDD)
+            Thread(target=parent.setup.setSupplyVoltage,args=(config.VDD, 0.01)).start()
+        
     def connectHammerhead(self, button):
 
         button.setEnabled(False);

@@ -13,9 +13,9 @@ from xlrd.formula import num2strg
 from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
 from GF1408_tools.GF1408_CONST import *
 from GF1408_tools.GUI_DPWM import DPWMControl_Class
-from GF1408_tools.GUI_Equipment import EquipmentGui_Class
+from GF1408_tools import GUI_Equipment
 from GF1408_tools.GUI_LoadCTRL import LoadControl_Class
-
+from measurement.setup import MeasurementSetup 
 
 class GF1408_GUI(QtWidgets.QMainWindow):
 
@@ -24,11 +24,13 @@ class GF1408_GUI(QtWidgets.QMainWindow):
 
     PYQT_SIGNAL = QtCore.pyqtSignal()
 
-    def __init__(self, _BIDI:BIDI_REGISTERS, _hammerhead):
+    def __init__(self, _BIDI:BIDI_REGISTERS, _hammerhead, _setup:MeasurementSetup):
         super(GF1408_GUI, self).__init__()
         
         self.h = _hammerhead
         self.BIDI = _BIDI
+        self.setup = _setup
+        
         self.initUI()
 
     def initUI(self):
@@ -52,7 +54,7 @@ class GF1408_GUI(QtWidgets.QMainWindow):
         v0Box, v0Layout = self.addVWidget()
 
         self.Load_GUI = LoadControl_Class(self)
-        self.HammerHead_GUI = EquipmentGui_Class(self)
+        self.HammerHead_GUI = GUI_Equipment.EquipmentGui_Class(self)
         self.DPWM_GUI = DPWMControl_Class(self)
 
         # TODO: remove comment

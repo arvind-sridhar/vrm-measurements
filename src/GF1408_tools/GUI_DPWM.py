@@ -47,7 +47,6 @@ class DPWMControl_Class(GuiTools):
         DoubleSpinBox_DUTY.setAccessibleName(BIDI.DPWM_DUTY.name)
         DoubleSpinBox_DUTY.lineEdit().setReadOnly(True)
         
-
         # Deadtime N and P
 
         DT_SUFFIX = ' ps'
@@ -86,7 +85,7 @@ class DPWMControl_Class(GuiTools):
             CheckBox_ENPHx.toggled.connect(self.onChangeCheckBox)
             ComboBox_ENPHx.currentIndexChanged.connect(self.onChangeComboBox)
             
-            ComboBox_ENPHx.setCurrentIndex( phase )
+            ComboBox_ENPHx.setCurrentIndex( phase ) # Set standard value
             
             return CheckBox_ENPHx, ComboBox_ENPHx
 
@@ -155,3 +154,6 @@ class DPWMControl_Class(GuiTools):
                     checkBox.setChecked(True)
            
         return clickedCheckBox,AttrString,isChecked
+    
+    
+    

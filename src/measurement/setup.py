@@ -27,13 +27,15 @@ class MeasurementSetup():
         self.measSetupInit = False
         self.setupBackgroundModify = False
         
-        self.MeasurementEquip = equipment.MeasurementEquipment(self.Cfg.GPIB['MODE'], self.Cfg.GPIB['ADDR'], self.Cfg.GPIB['NAME'])
+        self.MeasurementEquip = equipment.MeasurementEquipment(self, self.Cfg.GPIB['MODE'], self.Cfg.GPIB['ADDR'], self.Cfg.GPIB['NAME'])
         
         
     def listInstruments(self):
         return self.MeasurementEquip.listInstruments()
 
     def initAllInstr(self):
+        
+        
         if self.measSetupInit:
             return
         for name in self.Cfg.Supply:
@@ -68,6 +70,9 @@ class MeasurementSetup():
             self.getScopeTimeRange(name)
             self.getScopeVoltageRange(name)
         self.measSetupInit = True
+        
+        
+        
     def closeAllInstr(self):
         self.MeasurementEquip.closeAllInstr()
     def resetAllInstr(self):

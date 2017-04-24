@@ -17,17 +17,8 @@ from measurement.instruments.instrParentClass import InstrParent
 # If a function is called on a wrong object and is not available,an error occurs
 class MeasurementEquipment():
 #------------------------------------------------------------------------------ 
-    def __init__(self, gpibMode, gpibAddr=0, gpibName=""):
+    def __init__(self, setup, gpibMode, gpibAddr=0, gpibName=""):
 
-        # Import and decorate functions
-        for fname in dir( InstrParent):
-            
-            def methodX(self, gpibAddr, channel, *kwars):
-                return getattr(self.instrDict[gpibAddr][channel], fname)(*kwars)
-            
-            if not fname.startswith("__"):
-                setattr(self, fname, methodX)
-        
         self.GPIBADDRESS = gpibAddr
         self.GPIBNAME = gpibName
         # self.GPIBADDRESS = "0.4.68.123"
@@ -39,9 +30,23 @@ class MeasurementEquipment():
         # self.MODE = 'vx11'
         # self.MODE = 'visa'
         self.MODE = gpibMode
+        self.setup = setup
         
         if self.MODE is 'visa':
             self.rm = visa.ResourceManager()
+            
+        # Import and decorate functions
+        for fname in dir( InstrParent):
+            
+            def call(_gpibAddr, _channel,*kwars):
+                
+                self.methodX(self,_gpibAddr, _channel,fname, *kwars)
+            
+            if not fname.startswith("__"):
+                setattr(self, fname, call)
+                print(fname)
+                
+        print(self)
         
     def listInstruments(self):
         strRet = ''
@@ -134,7 +139,17 @@ class MeasurementEquipment():
         
         self.instrDict[gpibAddr][channel] = instrObj
         
+    
+    def methodX(self,gpibAddr, channel,fname, *kwars):
         
+        if not self.setup.measSetupInit:
+            
+            #TODO: Auslagern
+            self.setup.initAllInstr()
+            #raise RuntimeError("Equipment is uninitialized")
+            pass
+        return getattr(self.instrDict[gpibAddr][channel],fname)(*kwars)
+    
     '''
     def setVoltage(self, gpibAddr, channel, volt):
         self.instrDict[gpibAddr][channel].setVoltage(volt)
