@@ -81,4 +81,5 @@ class GuiTools(object):
         if BIDI_REG:
             # print BIDI_REG
             BIDI_REG.set(newContent)
-            
+        
+        return CheckBox,regName,newContent

@@ -21,8 +21,8 @@ def main():
     hh = hammerhead.Hammerhead()
     BIDI = GF1408_BIDI.GF1408_BIDI( hh )
     
-    mSetup = MeasurementSetup( GF1408config.singleton() )
-    print(mSetup)
+    #mSetup = MeasurementSetup( GF1408config.singleton() )
+    #print(mSetup)
     
     GF1408_GUI.GF1408_GUI(BIDI,hh)
     sys.exit(app.exec_())

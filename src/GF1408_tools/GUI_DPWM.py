@@ -10,7 +10,7 @@ Created on Apr 18, 2017
 
 from GF1408_tools.GF1408_CONST import CONST
 from GF1408_tools.GUI_Parent import GuiTools
-from PyQt5 import *
+from PyQt5 import QtWidgets,QtCore
 from xlrd.formula import num2strg
 
 
@@ -110,7 +110,7 @@ class DPWMControl_Class(GuiTools):
             CheckBox_ENPHx, ComboBox_ENPHx = getEN_PHASE(name, attr_SEL, attr_EN)
             GridLayout.addWidget(CheckBox_ENPHx, start_EN + phase , 0 + colPadd)
             GridLayout.addWidget(ComboBox_ENPHx, start_EN + phase , 1 + colPadd)
-            CheckBox_ENPHx.clicked.connect(self.onChangeCheckBox)
+            CheckBox_ENPHx.toggled.connect(self.onChangeCheckBox)
             ComboBox_ENPHx.activated.connect(self.onChangeComboBox)
             self.CheckBox_ENPH[ phase ] = CheckBox_ENPHx
             self.ComboBox_ENPH[ phase ] = ComboBox_ENPHx
@@ -131,3 +131,20 @@ class DPWMControl_Class(GuiTools):
 
         self.GroupBox = gb_DPWM
         self.mainLayout = GridLayout
+
+
+    def onChangeCheckBox(self):
+        
+        clickedCheckBox,AttrString,isChecked = super(DPWMControl_Class, self).onChangeCheckBox()
+        if(AttrString == CONST.EN_ALLPHASES):
+            
+            for phase in range(0,4):
+                
+                checkBox = self.CheckBox_ENPH[phase]
+                
+                checkBox.setEnabled(not isChecked)
+                
+                if isChecked and not checkBox.isChecked():
+                    checkBox.setChecked(True)
+           
+        return clickedCheckBox,AttrString,isChecked

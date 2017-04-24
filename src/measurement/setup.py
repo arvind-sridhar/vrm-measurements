@@ -12,8 +12,10 @@ from measurement import equipment
 from measurement.configFiles import configParent
 
 
-# from Common import GF1408_MConfig
 class MeasurementSetup():
+    '''
+    
+    '''
 #------------------------------------------------------------------------------ 
     def __init__(self, config:configParent):
         
