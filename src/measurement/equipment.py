@@ -11,6 +11,7 @@ rid:Edited 2016
 import vxi11, visa
 
 from measurement.instruments import *
+from measurement.instruments.instrParentClass import InstrParent
 
 
 # If a function is called on a wrong object and is not available,an error occurs
@@ -19,10 +20,13 @@ class MeasurementEquipment():
     def __init__(self, gpibMode, gpibAddr=0, gpibName=""):
 
         # Import and decorate functions
-        for fname in dir(instrParentClass.InstrParent) and not fname.startswith("__"):
+        for fname in dir( InstrParent):
+            
             def methodX(self, gpibAddr, channel, *kwars):
                 return getattr(self.instrDict[gpibAddr][channel], fname)(*kwars)
-            setattr(self, fname, methodX)
+            
+            if not fname.startswith("__"):
+                setattr(self, fname, methodX)
         
         self.GPIBADDRESS = gpibAddr
         self.GPIBNAME = gpibName
@@ -116,6 +120,7 @@ class MeasurementEquipment():
         elif instrId == 'Broken':
             instrObj = E8251ABroken(instr, channel, alreadyExisting)
             raise NotImplementedError
+        
         
         else:
             print('Instrument ' + instrId + ' at GPIB port ' + str(gpibAddr) + ' not supported.')

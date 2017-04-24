@@ -22,6 +22,8 @@ class GF1408config(configParent):
         '''
         super(GF1408config, self).__init__()
         
+        
+        
         cls = self.__class__
         
         self.Supply['VDD']  + self.makeSupply(1, 0, False, cls.VDD_MAXI)
