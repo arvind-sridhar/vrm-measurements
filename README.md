@@ -32,8 +32,9 @@ The required packages can be installed through the python 3.6 native package man
 	
 
 ## Bits of the GF1410 CarrICool Chip 
-	
-| register name     | register number |  bits |
+
+
+| Register name     | Register address|  Bits |
 |-------------------|:---------------:|:-----:|
 | EN_DPWM           |        0        |   0   |
 | RESET_COUNT       |        0        |   1   |
@@ -51,5 +52,34 @@ The required packages can be installed through the python 3.6 native package man
 | LOAD_CTRL_EN      |        4        |   8   |
 | LOAD_CTRL_PROG    |        4        |   9   |
 | LOAD_CTRL_SEL_CLK |        4        | 10:11 |
-	
+
+
+### Bit to duty cycle map
+
+| Duty Cycle  | 		Bits<0:3>		|
+|-------------|:------------------:|
+| 0 %         |        0000 	   	|
+| 6.25 %      |        0001 	   	|
+| ...         |        ... 	   		|
+| 93.75 %     |        1111 	   	|
+
+
+### P- and N-MOS switches deadtime map 
+
+| Deadtime in units <0:2>     | Deadtime bit value|
+|-----------------------------|:-----------------:|
+| TODO           		     	  |        TODO       |
+
+### Phase Selection
+
+| SEL_0, SEL_1, SEL_2, SEL_3  | 		Bits		|
+|-----------------------------|:----------------:|
+| 0           		     	  |        00 	   |
+| 90           		     	  |        01 	   |
+| 180           		     	  |        10 	   |
+| 270           		     	  |        11 	   |
+
+
+
+
 	
