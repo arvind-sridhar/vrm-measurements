@@ -16,6 +16,7 @@ from measurement.setup import MeasurementSetup
 
 
 def main():
+    
     app = QtWidgets.QApplication(sys.argv)
     
     hh = hammerhead.Hammerhead()

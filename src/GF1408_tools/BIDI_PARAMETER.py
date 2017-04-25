@@ -7,6 +7,8 @@ Created on Apr 24, 2017
 import numbers
 import numpy
 
+from typing import List, Union, Any
+
 
 
 class BIDI_PARAMETER():
@@ -16,12 +18,9 @@ class BIDI_PARAMETER():
     VAL_STDVAL = 3
     VAL_MAPFUN = 4
             
-    @staticmethod
-    def linear(name, startBit, Length, BIDI):
-        return BIDI_PARAMETER(name, numpy.arange(startBit, startBit + Length), BIDI)
     
     @staticmethod
-    def fromListe(name, liste, bidiRegisters, Registers):
+    def fromListe(name, liste:List[Union[bool,int,int,int,str]], bidiRegisters:"BIDI_REGISTERS", Registers:"GF1408_BIDI_REGISTERLIST")->"BIDI_PARAMETER":
         
         self = BIDI_PARAMETER
         
@@ -41,7 +40,7 @@ class BIDI_PARAMETER():
         
         return  BIDI_PARAMETER(name, bitrange, bidiRegisters, fun)
     
-    def __init__(self, name, bitrange_array, bidiRegisters, mapFun=None):    
+    def __init__(self, name, bitrange_array:numpy.ndarray, bidiRegisters, mapFun=None):    
         
         assert len(bitrange_array.shape) == 1
         assert bitrange_array.size > 0
@@ -54,7 +53,7 @@ class BIDI_PARAMETER():
         
         bidiRegisters.setRegisterParamter(bitrange_array, name)
         
-    def set(self, newValue):
+    def set(self, newValue:Union[Any,int])->None:
         
         if self.mapFun != None:
             newValue = self.mapFun(newValue)

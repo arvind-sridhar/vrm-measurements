@@ -17,7 +17,7 @@ class BIDI_REGISTERS(object):
     WORD_LENGTH = 12
     HAMMERHEAD = None
 
-    def __init__(self, _registerCount:int, _hammerhead, _RegisterListClass):
+    def __init__(self, _registerCount:int, _hammerhead:"hammerhead.Hammerhead", _RegisterListClass):
         '''
         Constructor
         '''
@@ -33,14 +33,14 @@ class BIDI_REGISTERS(object):
     
         self.initRegisters()
         
-    def allBits(self):
+    def allBits(self)->numpy.ndarray:
         return self.registers_Bits.reshape(self.bitCount)
     
     def allRegistersUsage(self)->numpy.ndarray:
         
         return self.registers_Used.reshape(self.bitCount)
         
-    def setRegisterParamter(self, _bitrangeArray, _registerName:str):
+    def setRegisterParamter(self, _bitrangeArray:numpy.ndarray, _registerName:str)->None:
         
         # 1. Check if defined range is available 
         if (self.allRegistersUsage()[_bitrangeArray] != 0).any():
@@ -95,6 +95,7 @@ class BIDI_REGISTERS(object):
         for name, liste in  Registers:
             
             if not ("__") in name and not ("static") in name:
+                
                 BIDIParameter = BIDI_PARAMETER.fromListe(name, liste, self, RegisterClass)
                 setattr(self, name, BIDIParameter)
             

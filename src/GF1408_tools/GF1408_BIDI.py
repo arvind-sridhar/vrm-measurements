@@ -80,7 +80,7 @@ class GF1408_BIDI(BIDI_REGISTERS):
 
     BIDI_SIZE = 24
 
-    def __init__(self, _hammerhead):
+    def __init__(self, _hammerhead:"hammerhead.Hammerhead"):
         '''
         Constructor
         '''
