@@ -30,4 +30,26 @@ The required packages can be installed through the python 3.6 native package man
 1. lkuluu
 	* example implementation of a measurement setup using the new objects
 	
+
+## Bits of the GF1410 CarrICool Chip 
+	
+| register name     | register number |  bits |
+|-------------------|:---------------:|:-----:|
+| EN_DPWM           |        0        |   0   |
+| RESET_COUNT       |        0        |   1   |
+| DUTY              |        0        |  2:5  |
+| Deadtime NMOS     |        0        |  6:8  |
+| Deadtime PMOS     |        0        |  9:11 |
+| SEL_0             |        1        |  0:1  |
+| SEL_1             |        1        |  2:3  |
+| SEL_2             |        1        |  4:5  |
+| SEL_3             |        1        |  6:7  |
+| EN_PH             |        1        |  8:11 |
+| LOAD_EN           |        2        |  0:11 |
+| LOAD_EN           |        3        |  0:11 |
+| LOAD_EN           |        4        |  0:7  |
+| LOAD_CTRL_EN      |        4        |   8   |
+| LOAD_CTRL_PROG    |        4        |   9   |
+| LOAD_CTRL_SEL_CLK |        4        | 10:11 |
+	
 	
