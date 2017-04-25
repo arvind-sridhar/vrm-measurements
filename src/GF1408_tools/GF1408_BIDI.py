@@ -11,7 +11,7 @@ from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
 class GF1408_BIDI_REGISTERLIST():
     '''
     Class holding the BIDI Registers of the 1410 Tapeout
-    
+
     For linear registers the following arrangement was used:
     {List} = [Is_linear:bool, Startbit:int, Bitcount:int, Standardvalue:int, mapfuncname:str]
     '''
@@ -32,17 +32,17 @@ class GF1408_BIDI_REGISTERLIST():
     EN_PH_2 = [True, 12 + 10, 1, 1]
     EN_PH_3 = [True, 12 + 11, 1, 1]
 
-    LOAD_EN = [True, 2 * 12 + 0, 32,0, "static_mapLOADEN2int"]
-    LOAD_CTRL_EN = [True, 4 * 12 + 8, 1,1]
-    LOAD_CTRL_PROG = [True, 4 * 12 + 9, 1,1]
-    LOAD_CTRL_SEL_CLK = [True, 4 * 12 + 10, 2,1, "static_mapLOADCLK2int"]
+    LOAD_EN = [True, 2 * 12 + 0, 32, 0, "static_mapLOADEN2int"]
+    LOAD_CTRL_EN = [True, 4 * 12 + 8, 1, 1]
+    LOAD_CTRL_PROG = [True, 4 * 12 + 9, 1, 1]
+    LOAD_CTRL_SEL_CLK = [True, 4 * 12 + 10, 2, 1, "static_mapLOADCLK2int"]
 
     @classmethod
     def static_mapSEL2int(BIDI_PARAM, degree_String:str) -> int:
         return GF1408_CONST.CONST.DEG_STR.index(degree_String)
 
     @classmethod
-    def static_mapLOADEN2int(BIDI_PARAM, loaden_int:int):
+    def static_mapLOADEN2int(BIDI_PARAM, loaden_int:int) -> int:
 
         ResblockCount = 4
         LoadCount = int(loaden_int)

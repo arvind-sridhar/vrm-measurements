@@ -15,6 +15,8 @@ class Hammerhead():
         super(Hammerhead, self).__init__()
         self.initH()
 
+
+
     def initH(self):
         
         self.ADDR = self.__class__.HOST
@@ -57,13 +59,14 @@ class Hammerhead():
             print('done.')
         return self.isConnected
     
-    def disconnect(self) -> None:
+    def disconnect(self) -> bool:
         if(self.isConnected):
             print('disconnecting...')
             self.s.close()
             self.isConnected = False
             self.initH()
             print('done.')
+        return self.isConnected==False
     
     def write(self, addr:int, data:str) -> bool:
         '''
@@ -77,7 +80,7 @@ class Hammerhead():
         
         return numBytes == len(byteData)
         
-    def read(self, addr):
+    def read(self, addr:int) -> int:
         self.s.sendall(bytes('r ' + str(addr) + '\n'))  # , 'ascii'))
         return int(self.s.recv(1024))
 
@@ -123,16 +126,16 @@ class Hammerhead():
         """Write reverse address"""
         return self.write(self.reverseBits(addr, 11), data)
 
-    def readra(self, addr):
+    def readra(self, addr:int) -> int:
         return self.read(self.reverseBits(addr, 11))
 
-    def readraRange(self, addr):
+    def readraRange(self, addr:int)-> list:
         addrR = list()
         for i in addr:
             addrR.append(self.reverseBits(i, 11))
         return self.readRange(addrR)
     
-    def init(self):
+    def init(self) -> None:
         print('Initializing...')
         self.s.sendall(bytes('debug ' + str(self.DEBUGLEVEL) + '\n'))  # , 'ascii'))
         self.s.sendall(bytes('c ' + str(self.CHANNEL) + '\n'))  # , 'ascii'))
@@ -141,7 +144,7 @@ class Hammerhead():
         self.s.sendall(bytes('i\n'))  # , 'ascii'))
         print('done.')
 
-    def reverseBits(self, i, nbits):
+    def reverseBits(self, i:int, nbits:int) -> int:
         ibin = bin(i)[2:]
         ibin = '0' * (nbits - len(ibin)) + ibin
 #        print ibin

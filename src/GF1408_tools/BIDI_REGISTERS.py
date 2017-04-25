@@ -33,14 +33,14 @@ class BIDI_REGISTERS(object):
     
         self.initRegisters()
         
-    def allBits(self)->numpy.ndarray:
+    def allBits(self) -> numpy.ndarray:
         return self.registers_Bits.reshape(self.bitCount)
     
-    def allRegistersUsage(self)->numpy.ndarray:
+    def allRegistersUsage(self) -> numpy.ndarray:
         
         return self.registers_Used.reshape(self.bitCount)
         
-    def setRegisterParamter(self, _bitrangeArray:numpy.ndarray, _registerName:str)->None:
+    def setRegisterParamter(self, _bitrangeArray:numpy.ndarray, _registerName:str) -> None:
         
         # 1. Check if defined range is available 
         if (self.allRegistersUsage()[_bitrangeArray] != 0).any():
@@ -81,13 +81,13 @@ class BIDI_REGISTERS(object):
             content = self.registers_Bits[address]
             bitstring = numpy.array2string(content, separator='')[1:-1]
             
-            print("Write to " + num2strg(address) + " : " +bitstring)
+            print("Write to " + num2strg(address) + " : " + bitstring)
             
             # TODO: Write the stuff
-            #success = success and self.HAMMERHEAD.writerd(address, int(bitstring,2))
+            # success = success and self.HAMMERHEAD.writerd(address, int(bitstring,2))
         return success
 
-    def initRegisters(self):
+    def initRegisters(self) -> None:
         
         RegisterClass = self.RegisterListClass
         Registers = self.RegisterListClass.__dict__.items()
