@@ -16,7 +16,7 @@ from measurement.instruments.instrParentClass import InstrParent
 
 # If a function is called on a wrong object and is not available,an error occurs
 class MeasurementEquipment():
-#------------------------------------------------------------------------------ 
+
     def __init__(self, setup, gpibMode, gpibAddr=0, gpibName=""):
 
         self.GPIBADDRESS = gpibAddr

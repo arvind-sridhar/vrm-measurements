@@ -72,12 +72,12 @@ The required packages can be installed through the python 3.6 native package man
 
 ### Phase Selection
 
-| SEL_0, SEL_1, SEL_2, SEL_3  | 		Bits		|
+| SEL_X  | 		Bits		|
 |-----------------------------|:----------------:|
-| 0           		     	  |        00 	   |
-| 90           		     	  |        01 	   |
-| 180           		     	  |        10 	   |
-| 270           		     	  |        11 	   |
+| 0°          		     	  |        00 	   |
+| 90°           		     	  |        01 	   |
+| 180°           		     	  |        10 	   |
+| 270°           		     	  |        11 	   |
 
 
 
