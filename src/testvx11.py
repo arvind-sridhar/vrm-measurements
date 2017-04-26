@@ -9,7 +9,7 @@ GPIBNAME = 'hpib'
 # GPIBADDR = "0.4.68.123"
 MODE = 'visa'
 
-# rm = visa.ResourceManager()
+rm = visa.ResourceManager()
 
 
 # import visa
@@ -19,19 +19,19 @@ MODE = 'visa'
 # inst = rm.open_resource("TCPIP::9.4.68.124::GPIB::%i::INSTR" % 5)
 # print(inst.query("*IDN?"))
 
-
-rm = visa.ResourceManager()
+pwrsuppTest = True
 
 for i in range(3, 5):
     if MODE is 'vx11':
         instr = vxi11.Instrument(GPIBADDR, GPIBNAME+","+str(i))
     else:
-        instr = rm.instrument("GPIB::%i::INSTR" % i)
+        instr = rm.open_resource("GPIB::%i::INSTR" % i)
 
     try:
         print('ID ' + str(i) + ': ' + instr.ask("*IDN?"))
-    except:
+    except Exception as e:
         print('ID ' + str(i) + ':')
+        #print(e)
 
          
 # listInstruments(GPIBADDR)
@@ -81,9 +81,12 @@ if (siggenTestV2):
 #    print('siggen pow:'+siggen.ask('POW?'))
 
 # E3644A
-pwrsuppTest = False
+
 if (pwrsuppTest):
-    pwrsupp = vxi11.Instrument(GPIBADDR, "hpib,30")
+    pwrsupp = vxi11.Instrument(GPIBADDR, "hpib,3")
+    
+    
+    
     pwrsupp.write("*RST")
     pwrsupp.write("*CLS")
     pwrsupp.write("*VOLT:PROT:LEV 1.4V")

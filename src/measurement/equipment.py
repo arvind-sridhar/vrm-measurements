@@ -10,7 +10,16 @@ rid:Edited 2016
 
 import vxi11, visa
 
-from measurement.instruments import *
+from measurement.instruments.E3644A import E3644A
+from measurement.instruments.E8251A import E8251A
+from measurement.instruments.E8251ABroken import E8251ABroken
+from measurement.instruments.H8780A import H8780A
+from measurement.instruments.I86100C import I86100C
+from measurement.instruments.N6705A import N6705A
+from measurement.instruments.N6705B import N6705B
+from measurement.instruments.SMU2420 import SMU2420
+
+
 from measurement.instruments.instrParentClass import InstrParent
 
 
@@ -38,17 +47,20 @@ class MeasurementEquipment():
         # Import and decorate functions
         for fname in dir( InstrParent):
             
-            def call(_gpibAddr, _channel,*kwars):
-                
-                self.methodX(self,_gpibAddr, _channel,fname, *kwars)
-            
             if not fname.startswith("__"):
+                call = self.getFuncCall(fname)
                 setattr(self, fname, call)
-                #print(fname)
+
+    
+    def getFuncCall(self,_fname):
+        def call(_gpibAddr, _channel,*kwars):
                 
-        print(self)
-        
-    def listInstruments(self):
+                return self.methodX(_gpibAddr, _channel,_fname, *kwars)
+            
+        call.__name__ = _fname
+        return call
+    
+    def listInstruments(self)->str:
         strRet = ''
         for i in range(0, 31):
             if self.MODE is 'vx11':
@@ -98,7 +110,9 @@ class MeasurementEquipment():
         instrId = typeName
         if typeName == '':
             try:
+                
                 instrId = instr.ask("*IDN?").split(',')[1].strip()
+                
             except Exception as e:
                 raise Exception('GPIB: Something\'s wrong with GPIB %d (wrong ID, not connected, powered off?). Exception type is %s' % (gpibAddr, e))
                 
@@ -142,12 +156,13 @@ class MeasurementEquipment():
     
     def methodX(self,gpibAddr, channel,fname, *kwars):
         
-        if not self.setup.measSetupInit:
-            
-            #TODO: Auslagern
-            self.setup.initAllInstr()
-            #raise RuntimeError("Equipment is uninitialized")
-            pass
+        
+        print(gpibAddr)
+        print(channel)
+        print(fname)
+        print(kwars)
+        
+        
         return getattr(self.instrDict[gpibAddr][channel],fname)(*kwars)
     
     '''

@@ -28,9 +28,14 @@ class GF1408config(configParent):
         
         cls = self.__class__
         
-        self.Supply['VDD']  = self.makeSupply(1, 0, False, cls.VDD_MAXI)
-        self.Supply['VD']   = self.makeSupply(2, 0, False, cls.VD_MAXI)
+        self.Supply['VDD']  = self.makeSupply(3, 0, False, cls.VDD_MAXI)
+        self.Supply['VD']   = self.makeSupply(4, 0, False, cls.VD_MAXI)
         
+        for name in self.Supply:
+            print(name)
+        
+        
+        '''
         CLK_NAME = cls.FAST_CLK
         self.SigGen[CLK_NAME] = {'GPIB': 17}
         self.SigGenConnect['Input2'] = {'SigGen': CLK_NAME, 'Connect': list(['Frequency'])}
@@ -58,3 +63,4 @@ class GF1408config(configParent):
         
         # Type: Differential means that the skew of the siggen is adjusted in order to make
         # sure the phase offset at the scope is 180deg.
+        '''

@@ -39,6 +39,9 @@ class MeasurementSetup():
         if self.measSetupInit:
             return
         for name in self.Cfg.Supply:
+            
+            print(name)
+            
             self.MeasurementEquip.addInstr(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'])
             self.MeasurementEquip.setMaxCurrent(self.Cfg.Supply[name]['GPIB'], self.Cfg.Supply[name]['Channel'], self.Cfg.Supply[name]['MaxCurrent'])
             # Reassure that the setting is correct
@@ -52,6 +55,7 @@ class MeasurementSetup():
             # by calling the 'get' function, the GUI is updated through the sendEvent function
             self.getSupplyVoltage(name)
             self.getSupplyMaxCurrent(name)
+            
         for name in self.Cfg.SigGen:
             typeName = ''
             if 'Type' in self.Cfg.SigGen[name]:

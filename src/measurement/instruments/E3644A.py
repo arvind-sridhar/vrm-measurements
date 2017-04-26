@@ -20,7 +20,7 @@ class E3644A(InstrParent):
         # Double protection: set max voltage in pwr supply
         # and do not allow setting of higher voltage in Python
         self.voltageProtectionLevel = voltageProtectionLevel
-        return
+
         # Reset is currently called separately when the button is
         # pressed.
         

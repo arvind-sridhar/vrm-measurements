@@ -18,7 +18,9 @@ class InstrParent():
     def release(self): raise NotImplementedError
     def set4Point(self, is4Point:bool) -> None: raise NotImplementedError
     def get4Point(self)                     : raise NotImplementedError
+    
     # def reduce_harmonics(self, gpibAddr, mode): raise NotImplementedError
+    
     def optimize_snr(self, mode)             : raise NotImplementedError
     def reduce_phasenoise(self, mode)       : raise NotImplementedError
     def optimize_pll_phasenoise(self, mode): raise NotImplementedError

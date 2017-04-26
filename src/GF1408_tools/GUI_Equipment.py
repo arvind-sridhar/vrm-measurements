@@ -163,8 +163,8 @@ class EquipmentGui_Class(GuiTools):
 
         else:
             
-            print(parent.setup.Cfg.VDD)
-            Thread(target=parent.setup.setSupplyVoltage,args=(config.VDD, 0.01)).start()
+            parent.setup.initAllInstr()
+            #Thread(target=parent.setup.setSupplyVoltage,args=(config.VDD, 0.01)).start()
         
     def connectHammerhead(self, button):
 
