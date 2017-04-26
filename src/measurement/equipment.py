@@ -44,7 +44,7 @@ class MeasurementEquipment():
             
             if not fname.startswith("__"):
                 setattr(self, fname, call)
-                print(fname)
+                #print(fname)
                 
         print(self)
         

@@ -57,9 +57,9 @@ class GF1408_GUI(QtWidgets.QMainWindow):
         self.HammerHead_GUI = GUI_Equipment.EquipmentGui_Class(self)
         self.DPWM_GUI = DPWMControl_Class(self)
 
-        # TODO: remove comment
-        # self.DPWM_GUI.setEnabled(False)
-        # self.Load_GUI.setEnabled(False)
+        # GUI are deactivated initially until after the user initializes
+        self.DPWM_GUI.setEnabled(False)
+        self.Load_GUI.setEnabled(False)
 
         v0Layout.addWidget(self.HammerHead_GUI.GroupBox)
         v0Layout.addWidget(self.DPWM_GUI.GroupBox)
@@ -122,6 +122,10 @@ class GF1408_GUI(QtWidgets.QMainWindow):
 
 
     def closeEvent (self, eventQCloseEvent):
+        if not self.h.isConnected:
+            eventQCloseEvent.accept()
+            return
+        
         answer = QtWidgets.QMessageBox.question (
             self,
             'Exit',

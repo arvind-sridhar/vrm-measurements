@@ -85,8 +85,6 @@ class DPWMControl_Class(GuiTools):
             CheckBox_ENPHx.toggled.connect(self.onChangeCheckBox)
             ComboBox_ENPHx.currentIndexChanged.connect(self.onChangeComboBox)
             
-            ComboBox_ENPHx.setCurrentIndex( phase ) # Set standard value
-            
             return CheckBox_ENPHx, ComboBox_ENPHx
 
         start_EN = 1
@@ -135,6 +133,8 @@ class DPWMControl_Class(GuiTools):
         # gb_DPWM.setFixedHeight( self.HEIGHT )
         gb_DPWM.setAlignment(QtCore.Qt.AlignHCenter)
 
+        self.CheckBox_ENPHASES = CheckBox_ENPHASES
+        
         self.GroupBox = gb_DPWM
         self.mainLayout = GridLayout
 
@@ -155,5 +155,16 @@ class DPWMControl_Class(GuiTools):
            
         return clickedCheckBox,AttrString,isChecked
     
-    
+    def setEnabled(self, en):
+        super(DPWMControl_Class, self).setEnabled(en)
+        
+        if not en:
+            return
+
+        for phase in range(0, 4):
+            
+            self.ComboBox_ENPH[ phase ].setCurrentIndex( phase ) # Set standard value
+            
+        
+        #ComboBox_ENPHx.setCurrentIndex( phase )
     

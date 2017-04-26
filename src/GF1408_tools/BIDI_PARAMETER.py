@@ -76,6 +76,6 @@ class BIDI_PARAMETER():
             newValue_bin_array[i] = int(char)
             i = i - 1
         
-        print(newValue_bin_array)
-        print(self.BIDI.updateRegister(self, newValue_bin_array))
+        #print(newValue_bin_array)
+        self.BIDI.updateRegister(self, newValue_bin_array)
     

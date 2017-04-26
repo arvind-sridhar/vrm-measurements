@@ -170,10 +170,11 @@ class EquipmentGui_Class(GuiTools):
 
         button.setEnabled(False);
         parent = self.parent
-        connected = parent.h.isConnected
-
+        
         def finishedConnect():
-
+            
+            connected = parent.h.isConnected
+            
             button.setEnabled(True);
             if(connected):
                 parent.status('Connected')
@@ -183,10 +184,10 @@ class EquipmentGui_Class(GuiTools):
                 newtext = CONST.HAMMERHEAD_CONNECT_AND_INIT
 
             button.setText(newtext)
+            parent.isConnected(connected)
 
         parent.PYQT_SIGNAL.connect(finishedConnect)
-        Thread(target=self.async_connectHH).start()
-        parent.isConnected(connected)
+        Thread(target=self.async_connectHH).start()        
 
     def async_connectHH(self):
 

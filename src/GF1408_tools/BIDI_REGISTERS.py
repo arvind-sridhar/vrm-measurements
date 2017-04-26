@@ -59,7 +59,7 @@ class BIDI_REGISTERS(object):
         self.allRegistersUsage()[_bitrangeArray] = 1
         for i in _bitrangeArray:
             self.register_Names[i] = _registerName
-        print(self.register_Names)
+        #print(self.register_Names)
 
     def updateRegister(self, bidi_parameter:BIDI_PARAMETER, value_array:numpy.ndarray) -> bool:
         
@@ -84,7 +84,8 @@ class BIDI_REGISTERS(object):
             print("Write to " + num2strg(address) + " : " + bitstring)
             
             # TODO: Write the stuff
-            # success = success and self.HAMMERHEAD.writerd(address, int(bitstring,2))
+            success = success and self.HAMMERHEAD.write( address,int(bitstring,2) )
+            
         return success
 
     def initRegisters(self) -> None:

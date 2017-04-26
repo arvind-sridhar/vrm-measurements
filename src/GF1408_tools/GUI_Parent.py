@@ -54,7 +54,7 @@ class GuiTools(object):
         BIDI_REG = self.getRegOrNone(regName)
     
         if BIDI_REG:
-            BIDI_REG.set(content_Str)
+            self.async_updateBIDIReg( BIDI_REG, content_Str)
     
     def onChangeSpinBox(self):
         
@@ -68,9 +68,10 @@ class GuiTools(object):
         
         if BIDI_REG:
             if SpinBox.__class__ == QtWidgets.QDoubleSpinBox:
-                BIDI_REG.set(float(newContent))
+                newContent=float(newContent)
             else:
-                BIDI_REG.set(int(newContent))
+                newContent=int(newContent)
+            self.async_updateBIDIReg( BIDI_REG, newContent)
             
     def onChangeCheckBox(self):
         
@@ -97,6 +98,7 @@ class GuiTools(object):
                 BIDI_REG.set(newContent)
         
         threading.Thread(target=updateReg).start()
-        
+    
+    
         
         
