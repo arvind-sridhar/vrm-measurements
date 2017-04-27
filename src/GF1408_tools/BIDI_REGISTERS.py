@@ -95,7 +95,7 @@ class BIDI_REGISTERS(object):
         
         for name, liste in  Registers:
             
-            if not ("__") in name and not ("static") in name:
+            if not ("__") in name and not ("static") in name and not liste==None:
                 
                 BIDIParameter = BIDI_PARAMETER.fromListe(name, liste, self, RegisterClass)
                 setattr(self, name, BIDIParameter)

@@ -33,7 +33,10 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         Label_LOADCLK = QtWidgets.QLabel(CONST.LOADCLK + ":", parent)
         ComboBox_LOADCLK = QtWidgets.QComboBox(parent)  
         values = CONST.LOAD_CK_ARR
-        ComboBox_LOADCLK.setAccessibleName(parent.BIDI.LOAD_CTRL_SEL_CLK.name)
+        if hasattr(parent.BIDI, "LOAD_CTRL_SEL_CLK"):
+            ComboBox_LOADCLK.setAccessibleName(parent.BIDI.LOAD_CTRL_SEL_CLK.name)
+        else:
+            ComboBox_LOADCLK.hide()
         ComboBox_LOADCLK.addItems(values)
         
         
@@ -71,4 +74,3 @@ class LoadControl_Class(GUI_Parent.GuiTools):
         
        
        
-        

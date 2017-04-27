@@ -10,12 +10,13 @@ Created on Apr 12, 2017
 from PyQt5 import QtWidgets, QtCore
 from xlrd.formula import num2strg
 
+from GF1408_tools import GUI_Equipment
 from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
 from GF1408_tools.GF1408_CONST import *
 from GF1408_tools.GUI_DPWM import DPWMControl_Class
-from GF1408_tools import GUI_Equipment
 from GF1408_tools.GUI_LoadCTRL import LoadControl_Class
 from measurement.setup import MeasurementSetup 
+
 
 class GF1408_GUI(QtWidgets.QMainWindow):
 

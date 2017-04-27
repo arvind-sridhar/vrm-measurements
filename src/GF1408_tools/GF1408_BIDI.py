@@ -76,15 +76,40 @@ class GF1408_BIDI_REGISTERLIST():
     def static_mapLOADCLK2int(BIDI_PARAM, CKString:str) -> int:
         return GF1408_CONST.CONST.LOAD_CK_ARR.index(CKString)
 
+
+class IBM32_BIDI_REGISTERLIST(GF1408_BIDI_REGISTERLIST):
+    
+    DPWM_EN =   [True, 2*12+0, 1, 1]
+    DPWM_RST =  [True, 0*12+0, 1, 0]
+    DPWM_DUTY = [True, 1*12+0, 4, 2 ** 3, "static_mapDUTYcycle2int"]
+    DPWM_DT_N = [True, 2*12+5, 3, 0, "static_mapDT2int"]
+    DPWM_DT_P = [True, 2*12+8, 4, 0, "static_mapDT2int"]
+
+    SEL_0 =     [True, 1*12 + 4,    2, 0, "static_mapSEL2int"]
+    SEL_1 =     [True, 1*12 + 6,    2, 1, "static_mapSEL2int"]
+    SEL_2 =     [True, 1*12 + 8,    2, 2, "static_mapSEL2int"]
+    SEL_3 =     [True, 1*12 + 10,   2, 3, "static_mapSEL2int"]
+
+    EN_PH_0 =   [True, 2*12 + 1 , 1, 1]
+    EN_PH_1 =   [True, 2*12 + 2 , 1, 1]
+    EN_PH_2 =   [True, 2*12 + 3 , 1, 1]
+    EN_PH_3 =   [True, 2*12 + 4 , 1, 1]
+
+    LOAD_EN =           [True, 0 * 12 + 3, 5, 0]
+    LOAD_CTRL_EN =      [True, 0 * 12 + 1, 1, 1]
+    LOAD_CTRL_PROG =    [True, 0 * 12 + 2, 1, 1]
+    LOAD_CTRL_SEL_CLK = None
+                              
+
 class GF1408_BIDI(BIDI_REGISTERS):
 
     BIDI_SIZE = 24
 
-    def __init__(self, _hammerhead:"hammerhead.Hammerhead"):
+    def __init__(self, _hammerhead:"hammerhead.Hammerhead",_BidiListClass:GF1408_BIDI_REGISTERLIST):
         '''
         Constructor
         '''
-        super(GF1408_BIDI, self).__init__(self.BIDI_SIZE, _hammerhead, GF1408_BIDI_REGISTERLIST)
+        super(GF1408_BIDI, self).__init__(self.BIDI_SIZE, _hammerhead, _BidiListClass)
 
 
 
