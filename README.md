@@ -266,6 +266,39 @@ The required packages can be installed through the python 3.6 native package man
 | 270°           		     	  |        11 	   |
 
 
+## List of equipment
+
+-Input voltage node
+	- Source: Keithley 2400 or 2602
+	- Measurement:
+		- Current: Keithley 2400 or 2602
+		- Voltage: Agilent 34970 Data Acquisition/Switch
+		- Voltage ripple: Oscilloscope Tektronix DSA72004
+- Output voltage node
+	- Measurement:
+		- Output voltage ripple: Tektronix DSA72004
+		- Voltage: Agilent 34970 Data Acquisition/Switch
+- Vx node
+	- Measurement: Oscilloscope Tektronix DSA72004
+- High-frequency clock node:
+	- Source: Signal generator Agilent 8648 D
+- Vd node:
+	- Source: DC power supply Agilent E3642A
+- Communication board:
+	- In-house customized interface board
+- Inductor characterization:
+	- 8360L Series Swept CW generator: 10MHz - 50 GHz (excitation)
+	- HP8510C: Vector network analyzer
+	- HP8517B: 45MHz - 50 GHz s-parameter test set
+- Temperature measurement
+	- Thermal camera
+- Connections
+	- DC and high-frequency cables
 
 
+## TODO
+
+- [x] Communication with hammerhead
+- [x] Communication with instruments
+- [ ] GUI-instruments binding
 	
