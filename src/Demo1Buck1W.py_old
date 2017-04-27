@@ -60,7 +60,7 @@ class Demo1Buck1W(QtGui.QMainWindow):
         self.DEFAULTRESETCOUNTER = 0
         self.DEFAULTLOADENABLE = 1
         self.DEFAULTLOADPROG = 1        
-        self.DEFAULTRLOAD = 10        
+        self.DEFAULTRLOAD = 10   # varies from 0 to 10     
  # Reg 01 Constants              
         self.DEFAULTDUTYCYCLE = 8  # varies from 0 to 15
         self.DEFAULTWAVESEL0 = 0  # varies from 0 to 3

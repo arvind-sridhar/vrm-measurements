@@ -31,27 +31,143 @@ The required packages can be installed through the python 3.6 native package man
 	* example implementation of a measurement setup using the new objects
 	
 
-## Bits of the GF1410 CarrICool Chip 
+## Bits of the CarrICool Chip 
 
 
-| Register name     | Register address|  Bits |
-|-------------------|:---------------:|:-----:|
-| EN_DPWM           |        0        |   0   |
-| RESET_COUNT       |        0        |   1   |
-| DUTY              |        0        |  2:5  |
-| Deadtime NMOS     |        0        |  6:8  |
-| Deadtime PMOS     |        0        |  9:11 |
-| SEL_0             |        1        |  0:1  |
-| SEL_1             |        1        |  2:3  |
-| SEL_2             |        1        |  4:5  |
-| SEL_3             |        1        |  6:7  |
-| EN_PH             |        1        |  8:11 |
-| LOAD_EN           |        2        |  0:11 |
-| LOAD_EN           |        3        |  0:11 |
-| LOAD_EN           |        4        |  0:7  |
-| LOAD_CTRL_EN      |        4        |   8   |
-| LOAD_CTRL_PROG    |        4        |   9   |
-| LOAD_CTRL_SEL_CLK |        4        | 10:11 |
+### Open-Loop and Load Settings
+
+<table style="text-align:center">
+	<thead>
+      <tr>
+         <th></th>
+         <th colspan="2">IBM32</th>
+         <th colspan="2">GF1408</th>
+      </tr>
+      <tr>
+         <th>Register name</th>
+         <th>Address</th>
+         <th>Bits</th>
+         <th>Address</th>
+         <th>Bits</th>
+      </tr>
+   </thead>
+   <tbody>
+    	<tr>
+         <td>EN_DPWM</td>
+         <td>2</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+      </tr>
+      <tr>
+         <td>RESET_COUNT</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>1</td>
+      </tr>
+      <tr>
+         <td>DUTY</td>
+         <td>1</td>
+         <td>0:3</td>
+         <td>0</td>
+         <td>2:5</td>
+      </tr>
+      <tr>
+         <td>Deadtime NMOS</td>
+         <td>2</td>
+         <td>5:7</td>
+         <td>0</td>
+         <td>6:8</td>
+      </tr>
+      <tr>
+         <td>Deadtime PMOS</td>
+         <td>2</td>
+         <td>8:11</td>
+         <td>0</td>
+         <td>9:11</td>
+      </tr>
+      <tr>
+         <td>SEL_0</td>
+         <td>1</td>
+         <td>4:5</td>
+         <td>1</td>
+         <td>0:1</td>
+      </tr>
+      <tr>
+         <td>SEL_1</td>
+         <td>1</td>
+         <td>6:7</td>
+         <td>1</td>
+         <td>2:3</td>
+      </tr>
+      <tr>
+         <td>SEL_2</td>
+         <td>1</td>
+         <td>8:9</td>
+         <td>1</td>
+         <td>4:5</td>
+      </tr>
+      <tr>
+         <td>SEL_3</td>
+         <td>1</td>
+         <td>10:11</td>
+         <td>1</td>
+         <td>6:7</td>
+      </tr>
+      <tr>
+         <td>EN_PH</td>
+         <td>2</td>
+         <td>1:4</td>
+         <td>1</td>
+         <td>8:11</td>
+      </tr>
+      <tr>
+         <td>LOAD_EN_1</td>
+         <td>1</td>
+         <td>3:7</td>
+         <td>2</td>
+         <td>0:11</td>
+      </tr>
+      <tr>
+         <td>LOAD_EN_2</td>
+         <td>-</td>
+         <td>-</td>
+         <td>3</td>
+         <td>0:11</td>
+      </tr>
+      <tr>
+         <td>LOAD_EN_3</td>
+         <td>-</td>
+         <td>-</td>
+         <td>4</td>
+         <td>0:7</td>
+      </tr>
+      <tr>
+         <td>LOAD_CTRL_EN</td>
+         <td>0</td>
+         <td>1</td>
+         <td>4</td>
+         <td>8</td>
+      </tr>
+      <tr>
+         <td>LOAD_CTRL_PROG</td>
+         <td>0</td>
+         <td>2</td>
+         <td>4</td>
+         <td>9</td>
+      </tr>
+      <tr>
+         <td>LOAD_CTRL_SEL_CLK</td>
+         <td>-</td>
+         <td>-</td>
+         <td>4</td>
+         <td>10:11</td>
+      </tr>
+   </tbody>
+</table>
+
+
 
 
 ### Bit to duty cycle map
