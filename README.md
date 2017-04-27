@@ -64,6 +64,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>0</td>
          <td>0</td>
          <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>RESET_COUNT</td>
@@ -71,6 +75,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>0</td>
          <td>0</td>
          <td>1</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>DUTY</td>
@@ -78,6 +86,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>0:3</td>
          <td>0</td>
          <td>2:5</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>Deadtime NMOS</td>
@@ -85,6 +97,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>5:7</td>
          <td>0</td>
          <td>6:8</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>Deadtime PMOS</td>
@@ -92,6 +108,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>8:11</td>
          <td>0</td>
          <td>9:11</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>SEL_0</td>
@@ -99,6 +119,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>4:5</td>
          <td>1</td>
          <td>0:1</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>SEL_1</td>
@@ -106,6 +130,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>6:7</td>
          <td>1</td>
          <td>2:3</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>SEL_2</td>
@@ -113,6 +141,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>8:9</td>
          <td>1</td>
          <td>4:5</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>SEL_3</td>
@@ -120,6 +152,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>10:11</td>
          <td>1</td>
          <td>6:7</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>EN_PH</td>
@@ -127,6 +163,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>1:4</td>
          <td>1</td>
          <td>8:11</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>LOAD_EN_1</td>
@@ -134,6 +174,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>3:7</td>
          <td>2</td>
          <td>0:11</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>LOAD_EN_2</td>
@@ -141,6 +185,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>-</td>
          <td>3</td>
          <td>0:11</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>LOAD_EN_3</td>
@@ -148,6 +196,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>-</td>
          <td>4</td>
          <td>0:7</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>LOAD_CTRL_EN</td>
@@ -155,6 +207,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>1</td>
          <td>4</td>
          <td>8</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>LOAD_CTRL_PROG</td>
@@ -162,6 +218,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>2</td>
          <td>4</td>
          <td>9</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
       <tr>
          <td>LOAD_CTRL_SEL_CLK</td>
@@ -169,6 +229,10 @@ The required packages can be installed through the python 3.6 native package man
          <td>-</td>
          <td>4</td>
          <td>10:11</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
+         <td>0</td>
       </tr>
    </tbody>
 </table>
