@@ -32,6 +32,13 @@ class GF1408config(configParent):
         self.Supply['ANALYZER_CH2']   = self.makeSupply(23, 2, True, cls.VD_MAXI)
         self.Supply['ANALYZER_CH3']   = self.makeSupply(23, 3, True, cls.VD_MAXI)
         
+        # HH Supply 1.6 E36 1.6 and 12
+        # 8648 Freq
+        
+        #n6705
+        
+        
+        
         for name in self.Supply:
             print(name)
         

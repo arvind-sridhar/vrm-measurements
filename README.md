@@ -1,4 +1,4 @@
-# CARRICOOL PYTHON
+# CarriCool Python
 
 
 ## Introduction
@@ -268,7 +268,7 @@ The required packages can be installed through the python 3.6 native package man
 
 ## List of equipment
 
--Input voltage node
+- Input voltage node
 	- Source: Keithley 2400 or 2602
 	- Measurement:
 		- Current: Keithley 2400 or 2602

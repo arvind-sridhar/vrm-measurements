@@ -53,6 +53,7 @@ class N6705A(InstrParent):
     def measureVoltage(self):
         return float(self.instr.ask("MEAS:VOLT? (@" + str(self.channel) + ")"))
     def measureCurrent(self):
+        # Returns Average Output Current
         return float(self.instr.ask("MEAS:CURR? (@" + str(self.channel) + ")"))
     def clearProtection(self):
         self.instr.write("POW:PROT:CLE (@" + str(self.channel) + ")")
@@ -75,3 +76,5 @@ class N6705A(InstrParent):
         return self.instr
     def close(self):
         self.instr.close()
+        
+    #TODO: AddFDatalog Functions
