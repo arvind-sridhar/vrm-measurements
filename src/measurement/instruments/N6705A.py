@@ -46,7 +46,10 @@ class N6705A(InstrParent):
     def setMaxCurrent(self, curr):
         self.instr.write("CURR:LEV " + str(curr) + "A,(@" + str(self.channel) + ")")
     def getMaxCurrent(self):
+        
+        print(1)
         return float(self.instr.ask("CURR:LEV? (@" + str(self.channel) + ")"))
+    
     def measureVoltage(self):
         return float(self.instr.ask("MEAS:VOLT? (@" + str(self.channel) + ")"))
     def measureCurrent(self):

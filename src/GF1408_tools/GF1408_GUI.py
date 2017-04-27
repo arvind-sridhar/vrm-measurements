@@ -10,11 +10,12 @@ Created on Apr 12, 2017
 from PyQt5 import QtWidgets, QtCore
 from xlrd.formula import num2strg
 
-from GF1408_tools import GUI_Equipment
+ 
 from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
 from GF1408_tools.GF1408_CONST import *
 from GF1408_tools.GUI_DPWM import DPWMControl_Class
 from GF1408_tools.GUI_LoadCTRL import LoadControl_Class
+from GF1408_tools.GUI_Equipment import EquipmentGui_Class
 from measurement.setup import MeasurementSetup 
 
 
@@ -23,7 +24,6 @@ class GF1408_GUI(QtWidgets.QMainWindow):
     WINDOW_SIZE = (370, 725)
     WINDOW_NAME = 'CarrICool GF1408 - Control Window'
 
-    PYQT_SIGNAL = QtCore.pyqtSignal()
 
     def __init__(self, _BIDI:BIDI_REGISTERS, _hammerhead, _setup:MeasurementSetup):
         super(GF1408_GUI, self).__init__()
@@ -54,13 +54,14 @@ class GF1408_GUI(QtWidgets.QMainWindow):
 
         v0Box, v0Layout = self.addVWidget()
 
-        self.Load_GUI = LoadControl_Class(self)
-        self.HammerHead_GUI = GUI_Equipment.EquipmentGui_Class(self)
-        self.DPWM_GUI = DPWMControl_Class(self)
+        self.Load_GUI        = LoadControl_Class(self)
+        self.HammerHead_GUI  = EquipmentGui_Class(self)
+        self.DPWM_GUI        = DPWMControl_Class(self)
 
-        # GUI are deactivated initially until after the user initializes
+        # GUIs are deactivated initially until after the user initializes
         self.DPWM_GUI.setEnabled(False)
         self.Load_GUI.setEnabled(False)
+        self.HammerHead_GUI.setEnabled(False)
 
         v0Layout.addWidget(self.HammerHead_GUI.GroupBox)
         v0Layout.addWidget(self.DPWM_GUI.GroupBox)
@@ -104,9 +105,7 @@ class GF1408_GUI(QtWidgets.QMainWindow):
         except Exception as e:
             print(str(e))
 
-
     def onChangeComboBox(self):
-
 
         sender = self.sender()
         self.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + sender.currentText())
@@ -120,7 +119,6 @@ class GF1408_GUI(QtWidgets.QMainWindow):
     def onChangeCheckBox(self):
         sender = self.sender()
         self.statusBar().showMessage(sender.accessibleName() + ' was changed to ' + num2strg(sender.isChecked()))
-
 
     def closeEvent (self, eventQCloseEvent):
         if not self.h.isConnected:
@@ -139,6 +137,9 @@ class GF1408_GUI(QtWidgets.QMainWindow):
         else:
             eventQCloseEvent.ignore()
 
-    def isConnected(self, connected:bool):
+    def isConnected(self, connected:bool)->None:
         self.DPWM_GUI.setEnabled(connected)
         self.Load_GUI.setEnabled(connected)
+        
+    def isInitialized(self,initialized:bool)->None:
+        pass

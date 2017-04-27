@@ -31,7 +31,7 @@ The required packages can be installed through the python 3.6 native package man
 	* example implementation of a measurement setup using the new objects
 	
 
-## Bits of the CarrICool Chip 
+## Bits of the CarrICool Chips
 
 
 ### Open-Loop and Load Settings
@@ -42,9 +42,15 @@ The required packages can be installed through the python 3.6 native package man
          <th></th>
          <th colspan="2">IBM32</th>
          <th colspan="2">GF1408</th>
+         <th colspan="2">GF1409</th>
+         <th colspan="2">GF1410</th>
       </tr>
       <tr>
          <th>Register name</th>
+         <th>Address</th>
+         <th>Bits</th>
+         <th>Address</th>
+         <th>Bits</th>
          <th>Address</th>
          <th>Bits</th>
          <th>Address</th>
@@ -124,7 +130,7 @@ The required packages can be installed through the python 3.6 native package man
       </tr>
       <tr>
          <td>LOAD_EN_1</td>
-         <td>1</td>
+         <td>0</td>
          <td>3:7</td>
          <td>2</td>
          <td>0:11</td>

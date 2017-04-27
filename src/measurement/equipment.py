@@ -46,11 +46,9 @@ class MeasurementEquipment():
             
         # Import and decorate functions
         for fname in dir( InstrParent):
-            
             if not fname.startswith("__"):
                 call = self.getFuncCall(fname)
                 setattr(self, fname, call)
-
     
     def getFuncCall(self,_fname):
         def call(_gpibAddr, _channel,*kwars):
@@ -156,88 +154,8 @@ class MeasurementEquipment():
     
     def methodX(self,gpibAddr, channel,fname, *kwars):
         
-        
-        print(gpibAddr)
-        print(channel)
-        print(fname)
-        print(kwars)
-        
-        
+        #print(gpibAddr)
+        #print(channel)
+        #print(fname)
+        #print(kwars)
         return getattr(self.instrDict[gpibAddr][channel],fname)(*kwars)
-    
-    '''
-    def setVoltage(self, gpibAddr, channel, volt):
-        self.instrDict[gpibAddr][channel].setVoltage(volt)
-    def getVoltage(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getVoltage()
-    def setVoltageProtection(self, gpibAddr, channel, volt):
-        self.instrDict[gpibAddr][channel].setVoltageProtection(volt)
-    def getVoltageProtection(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getVoltageProtection()
-    def clearDisplay(self, gpibAddr, channel):
-        self.instrDict[gpibAddr][channel].clearDisplay()
-    def setMaxCurrent(self, gpibAddr, channel, curr):
-        self.instrDict[gpibAddr][channel].setMaxCurrent(curr)
-    def getMaxCurrent(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getMaxCurrent()
-    def measureVoltage(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].measureVoltage()
-    def measureCurrent(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].measureCurrent()
-    def release(self, gpibAddr, channel):
-        self.instrDict[gpibAddr][channel].release()
-    def set4Point(self, gpibAddr, channel, is4Point):
-        self.instrDict[gpibAddr][channel].set4Point(is4Point)
-    def get4Point(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].get4Point()
-    def reduce_harmonics(self, gpibAddr, mode):
-        self.instrDict[gpibAddr][0].lowband_filter(mode)
-    def optimize_snr(self, gpibAddr, mode):
-        self.instrDict[gpibAddr][0].optimize_snr(mode)
-    def reduce_phasenoise(self, gpibAddr, mode):
-        self.instrDict[gpibAddr][0].reduce_phasenoise(mode)
-    def optimize_pll_phasenoise(self, gpibAddr, mode):
-        self.instrDict[gpibAddr][0].optimize_pll_phasenoise(mode)
-    def setPowerDBm(self, gpibAddr, channel, pwr):
-        self.instrDict[gpibAddr][channel].setPowerDBm(pwr)
-    def setPowerDBmIncr(self, gpibAddr, channel, incr):
-        self.instrDict[gpibAddr][channel].setPowerDBmIncr(incr)
-    def getPowerDBm(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getPowerDBm()
-    def setFrequency(self, gpibAddr, channel, freq):
-        self.instrDict[gpibAddr][channel].setFrequency(freq)
-    def getFrequency(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getFrequency()
-    def setTimeReference(self, gpibAddr, channel):
-        self.instrDict[gpibAddr][channel].setTimeReference()
-    def setTimeRange(self, gpibAddr, channel, time):
-        self.instrDict[gpibAddr][channel].setTimeRange(time)
-    def getTimeRange(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getTimeRange()
-    def setVoltageRange(self, gpibAddr, channel, volt):
-        self.instrDict[gpibAddr][channel].setVoltageRange(volt)
-    def getVoltageRange(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getVoltageRange()
-    def clearProtection(self, gpibAddr, channel):
-        self.instrDict[gpibAddr][channel].clearProtection()
-    def isProtectionTriggered(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].isProtectionTriggered()
-    def getAmplitude(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getAmplitude()
-    def setAveraging(self, gpibAddr, channel, avg):
-        self.instrDict[gpibAddr][channel].setAveraging(avg)
-    def getTimeDiffToChannel180(self, gpibAddr, channel, gpibAddr2, channel2):
-        return self.instrDict[gpibAddr][channel].getTimeDiffToChannel180(self.instrDict[gpibAddr2][channel2].getSourceName())
-    def setPhaseOffsetDeg(self, gpibAddr, channel, deg):
-        self.instrDict[gpibAddr][channel].setPhaseOffsetDeg(deg)
-    def getPhaseOffsetDeg(self, gpibAddr, channel):
-        return self.instrDict[gpibAddr][channel].getPhaseOffsetDeg()
-    def setSkew(self, gpibAddr, channel, skew):
-        self.instrDict[gpibAddr][channel].setSkew(skew)
-#    def setPowerOffsetDBm(self, gpibAddr, channel, pwr):
-#        self.instrDict[gpibAddr][channel].setPowerOffsetDBm(pwr)
-#    def getPowerOffsetDBm(self, gpibAddr, channel):
-#        return self.instrDict[gpibAddr][channel].getPowerOffsetDBm()
-
-    '''
-

@@ -13,7 +13,7 @@ class CONST():
 
 
     HAMMERHEAD_CONNECT_AND_INIT = "Init Hammerhead"
-    HAMMERHEAD_DISCONNECT = "Disconnect"
+    HAMMERHEAD_DISCONNECT = "Disconnect Hammerhead"
     HAMMERHEAD_INIT = "Init"
     EXIT = "Exit"
     DPWM = "DPWM Control"
@@ -25,7 +25,8 @@ class CONST():
     PHASE = "Phase"
     SHIFT = "Shift"
     EN_ALLPHASES = "Enable all phases"
-
+    CONNECTING = "Connecting..."
+    
     DUTY_BITS = 4
     DT_BITS_N = 3
     DT_BITS_P = 3
@@ -62,6 +63,7 @@ class CONST():
     NAME = "Name"
     REFERENCE = "Reference"
     INSTRUMENTS_CONNECT_AND_INIT = "Init instruments"
+    INSTRUMENTS_DISCONNECT = "Disconnect instruments"
     ONOFF = "On/Off"
     VINon = "VinOn"
     Vdon = "VdOn"

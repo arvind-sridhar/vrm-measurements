@@ -23,17 +23,17 @@ class GF1408config(configParent):
         Constructor
         '''
         super(GF1408config, self).__init__()
-        
-        
-        
         cls = self.__class__
         
         self.Supply['VDD']  = self.makeSupply(3, 0, False, cls.VDD_MAXI)
         self.Supply['VD']   = self.makeSupply(4, 0, False, cls.VD_MAXI)
         
+        self.Supply['ANALYZER_CH1']   = self.makeSupply(23, 1, True, cls.VD_MAXI)
+        self.Supply['ANALYZER_CH2']   = self.makeSupply(23, 2, True, cls.VD_MAXI)
+        self.Supply['ANALYZER_CH3']   = self.makeSupply(23, 3, True, cls.VD_MAXI)
+        
         for name in self.Supply:
             print(name)
-        
         
         '''
         CLK_NAME = cls.FAST_CLK

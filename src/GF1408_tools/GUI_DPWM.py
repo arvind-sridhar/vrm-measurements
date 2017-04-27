@@ -138,7 +138,6 @@ class DPWMControl_Class(GuiTools):
         self.GroupBox = gb_DPWM
         self.mainLayout = GridLayout
 
-
     def onChangeCheckBox(self):
         
         clickedCheckBox,AttrString,isChecked = super(DPWMControl_Class, self).onChangeCheckBox()

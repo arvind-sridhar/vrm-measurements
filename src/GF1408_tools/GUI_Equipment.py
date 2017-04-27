@@ -9,9 +9,13 @@ Created on Apr 18, 2017
 
 from threading import Thread
 from PyQt5 import QtWidgets,QtCore,Qt
+from PyQt5.QtCore import pyqtSignal
 from GF1408_tools.GF1408_CONST import CONST
 from GF1408_tools.GUI_Parent import GuiTools
 from GF1408_tools.GF1408_MConfig import GF1408config
+from PyQt5.Qt import QPushButton
+
+from typing import List
 
 class EquipmentGui_Class(GuiTools):
     '''
@@ -28,8 +32,13 @@ class EquipmentGui_Class(GuiTools):
     MAX_FAC = 800  # mV
     MAX_FDC = 0.0  # mV
     MAX_FF = 8000  # MHz
+    
+    PYQT_SIGNAL_HH = pyqtSignal()
+    PYQT_SIGNAL_INST = pyqtSignal()
 
     def __init__(self, parent):
+        
+        super(EquipmentGui_Class, self).__init__(parent)
 
         Layout1 = QtWidgets.QVBoxLayout()
         Layout_Inner = QtWidgets.QHBoxLayout()
@@ -58,6 +67,10 @@ class EquipmentGui_Class(GuiTools):
         Layout_Inner.addWidget(Button_Connect)
         Layout_Inner.addWidget(Button_ConnectINST)
         Layout1.addWidget(Box)
+        
+        self.Button_Connect = Button_Connect
+        self.Button_ConnectINST = Button_ConnectINST
+        
         Layout1.addWidget(Box2)
 
         ################ Equipemt Table ################
@@ -150,45 +163,75 @@ class EquipmentGui_Class(GuiTools):
 
         self.GroupBox = gb_Hammerhead
         self.parent = parent
+        self.mainLayout = GridLayout
 
     def onClickButton(self):
 
         parent = self.parent
         parent.buttonClicked()  # print out pressed button
-        config = parent.setup.Cfg
 
         if parent.sender().accessibleName() == CONST.HAMMERHEAD_CONNECT_AND_INIT:
-            
             self.connectHammerhead(parent.sender())            
-
+        elif parent.sender().accessibleName() == CONST.INSTRUMENTS_CONNECT_AND_INIT:
+            self.connectInstruments(parent.sender())            
         else:
+            print(parent.sender().accessibleName())
             
-            parent.setup.initAllInstr()
-            #Thread(target=parent.setup.setSupplyVoltage,args=(config.VDD, 0.01)).start()
+    def connectInstruments(self,button):
+    
+        parent = self.parent
+        button.setEnabled(False);
+        button.setText(CONST.CONNECTING)
         
+        textList = [CONST.INSTRUMENTS_CONNECT_AND_INIT,CONST.INSTRUMENTS_DISCONNECT]
+        fun = self.defineConnCheckFunction(parent.setup,"measSetupInit", button, textList, "isInitialized")
+        
+        self.PYQT_SIGNAL_INST.connect(fun)
+        Thread(target=self.async_connectINST).start()
+    
     def connectHammerhead(self, button):
 
-        button.setEnabled(False);
+        button.setEnabled(False)
+        button.setText(CONST.CONNECTING)
         parent = self.parent
+        
+        textList = [CONST.HAMMERHEAD_CONNECT_AND_INIT,CONST.HAMMERHEAD_DISCONNECT]
+        fun = self.defineConnCheckFunction(parent.h,"isConnected", button, textList, "isConnected")
+        self.PYQT_SIGNAL_HH.connect(fun)
+        Thread(target=self.async_connectHH).start()        
+        
+    def defineConnCheckFunction(self,_checkObj,_checkAttr:str, _button:QPushButton, _textList:List[str],_signalFun:str):
+        '''
+        Defines a function that checks the reult of the asynchronous connection process.
+        The "Connect"-Button is updated accordingly and the parent GUI is notified of the (un-)successful
+        Connection procedure
+        
+        :param _checkObj:    The Object on which the Connection Attribute is checked
+        :param _checkAttr:   The connection attribute
+        :param _button:      The Button which contains the text that is updated 
+        :param _textList:    The different Button texts
+        :param _signalFun:   The function name which is called on self.parent at the end
+        '''
         
         def finishedConnect():
             
-            connected = parent.h.isConnected
+            parent = self.parent
+            connected = getattr(_checkObj, _checkAttr)
             
-            button.setEnabled(True);
+            _button.setEnabled(True);
+            
             if(connected):
                 parent.status('Connected')
-                newtext = CONST.HAMMERHEAD_DISCONNECT
+                newtext = _textList[0]               
             else:
                 parent.status('Disconnected')
-                newtext = CONST.HAMMERHEAD_CONNECT_AND_INIT
+                newtext = _textList[0]
 
-            button.setText(newtext)
-            parent.isConnected(connected)
-
-        parent.PYQT_SIGNAL.connect(finishedConnect)
-        Thread(target=self.async_connectHH).start()        
-
+            _button.setText(newtext)
+            getattr(parent, _signalFun)(connected)
+        
+        return finishedConnect
+    
     def async_connectHH(self):
 
         parent = self.parent
@@ -201,6 +244,21 @@ class EquipmentGui_Class(GuiTools):
         except Exception as e:
             print(str(e))
 
-        parent.PYQT_SIGNAL.emit()
-
-
+        self.PYQT_SIGNAL_HH.emit()
+    
+    def async_connectINST(self):
+        
+        setup = self.parent.setup
+        try:
+            if(setup.measSetupInit):
+                setup.closeAllInstr()
+            else:
+                setup.initAllInstr()
+        except Exception as e:
+            print(str(e))
+        
+        self.PYQT_SIGNAL_INST.emit()
+    
+    def setEnabled(self, en:bool)->None:
+        
+        super(EquipmentGui_Class, self).setEnabled(en,[self.Button_Connect,self.Button_ConnectINST])

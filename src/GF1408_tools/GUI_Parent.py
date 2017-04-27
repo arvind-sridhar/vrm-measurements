@@ -5,22 +5,22 @@ Created on Apr 19, 2017
 '''
 
 import threading
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets,QtCore
 from xlrd.formula import num2strg
 
 
 
-class GuiTools(object):
+class GuiTools(QtCore.QObject):
     '''
     classdocs
     '''
 
 
-    def __init__(self, parent):
+    def __init__(self,parent):
         '''
         Constructor
         '''
-        super(GuiTools, self).__init__()
+        super(GuiTools, self).__init__(parent)
         self.parent = parent
         self.mainLayout = None
         
@@ -32,13 +32,13 @@ class GuiTools(object):
         return (layout.itemAt(i).widget() for i in range(layout.count()))
 
 
-    def setEnabled(self, en):
+    def setEnabled(self, en, ignores=[]):
         if(self.mainLayout == None):
             return
         for obj in GuiTools.layout_widgets(self.mainLayout):
-            if hasattr(obj, 'isEnabled'):
+            if hasattr(obj, 'isEnabled') and obj not in ignores:
                 obj.setEnabled(en)
-
+                
     def getRegOrNone(self, regName):
         if hasattr(self.parent.BIDI, regName):
             return getattr(self.parent.BIDI, regName)

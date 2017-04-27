@@ -10,16 +10,12 @@ Created on Apr 12, 2017
 import sys
 import hammerhead
 
-
 from PyQt5 import QtWidgets
 from GF1408_tools import GF1408_GUI,GF1408_BIDI
 from GF1408_tools.GF1408_MConfig import GF1408config
 from measurement.setup import MeasurementSetup
 
-
-
 def main():
-    
     
     app = QtWidgets.QApplication(sys.argv)
     

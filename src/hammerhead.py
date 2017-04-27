@@ -188,3 +188,5 @@ class Hammerhead():
     
     def bytes(self,intx:int)->bytes:
         return bytes(intx,"ascii")
+
+
