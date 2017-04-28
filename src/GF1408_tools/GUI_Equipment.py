@@ -40,19 +40,24 @@ class EquipmentGui_Class(GuiTools):
         
         super(EquipmentGui_Class, self).__init__(parent)
 
-        Layout1 = QtWidgets.QVBoxLayout()
+        Layout_Container = QtWidgets.QVBoxLayout()
         Layout_Inner = QtWidgets.QHBoxLayout()
-
+        Layout_Inner2 = QtWidgets.QVBoxLayout()
         GridLayout = QtWidgets.QGridLayout();
 
         Box = QtWidgets.QWidget()
         Box.setLayout(Layout_Inner)
         Box.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
         Layout_Inner.layout().setContentsMargins(0, 0, 0, 0)
-
+        
         Box2 = QtWidgets.QWidget()
-        Box2.setLayout(GridLayout)
+        Box2.setLayout(Layout_Inner2)
         Box2.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        Layout_Inner2.layout().setContentsMargins(0, 0, 0, 0)
+
+        Box3 = QtWidgets.QWidget()
+        Box3.setLayout(GridLayout)
+        Box3.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
 
 
         # Connect and Init Hammerhead
@@ -64,14 +69,17 @@ class EquipmentGui_Class(GuiTools):
         Button_ConnectINST.setAccessibleName(CONST.INSTRUMENTS_CONNECT_AND_INIT)
         Button_ConnectINST.clicked.connect(self.onClickButton)
 
-        Layout_Inner.addWidget(Button_Connect)
-        Layout_Inner.addWidget(Button_ConnectINST)
-        Layout1.addWidget(Box)
-        
         self.Button_Connect = Button_Connect
         self.Button_ConnectINST = Button_ConnectINST
         
-        Layout1.addWidget(Box2)
+        Layout_Inner.addWidget(Button_Connect)
+        Layout_Inner.addWidget(Button_ConnectINST)
+        
+        Layout_Inner2.addWidget(Box3)
+        
+        Layout_Container.addWidget(Box)
+        Layout_Container.addWidget(Box2)
+        
 
         ################ Equipemt Table ################
 
@@ -139,8 +147,8 @@ class EquipmentGui_Class(GuiTools):
         createTurnOnBox(CONST.VINon, 1, 2)
         createTurnOnBox(CONST.Vdon, 3, 2)
         createTurnOnBox(CONST.FGon, 5, 3)
-
-
+        
+        
         _POS = 5 + 4;
         createTurnOnBox(CONST.VOuton, _POS, 1)
         Label = QtWidgets.QLabel(CONST.EQ_VOUT, parent)
@@ -157,23 +165,24 @@ class EquipmentGui_Class(GuiTools):
         GridLayout.addWidget(CheckBox_Sync, _POS, 4)
 
         gb_Hammerhead = QtWidgets.QGroupBox(CONST.EQUIPMENT)
-        gb_Hammerhead.setLayout(Layout1)
+        gb_Hammerhead.setLayout(Layout_Container)
         gb_Hammerhead.setMaximumWidth(self.WIDTH)
         gb_Hammerhead.setAlignment(QtCore.Qt.AlignHCenter)
 
         self.GroupBox = gb_Hammerhead
         self.parent = parent
-        self.mainLayout = GridLayout
+        self.mainLayout = Layout_Inner2
 
     def onClickButton(self):
 
         parent = self.parent
         parent.buttonClicked()  # print out pressed button
-
-        if parent.sender().accessibleName() == CONST.HAMMERHEAD_CONNECT_AND_INIT:
+        name = parent.sender().accessibleName()
+        
+        if name == CONST.HAMMERHEAD_CONNECT_AND_INIT:
             self.connectHammerhead(parent.sender())            
-        elif parent.sender().accessibleName() == CONST.INSTRUMENTS_CONNECT_AND_INIT:
-            self.connectInstruments(parent.sender())            
+        elif name == CONST.INSTRUMENTS_CONNECT_AND_INIT:
+            self.connectInstruments(parent.sender())                
         else:
             print(parent.sender().accessibleName())
             
@@ -219,14 +228,14 @@ class EquipmentGui_Class(GuiTools):
             connected = getattr(_checkObj, _checkAttr)
             
             _button.setEnabled(True);
-            
+            newtext = _textList[0] 
             if(connected):
+                print(1)
                 parent.status('Connected')
-                newtext = _textList[0]               
+                newtext = _textList[1]              
             else:
                 parent.status('Disconnected')
-                newtext = _textList[0]
-
+            
             _button.setText(newtext)
             getattr(parent, _signalFun)(connected)
         

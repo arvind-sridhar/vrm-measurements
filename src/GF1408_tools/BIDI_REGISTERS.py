@@ -4,8 +4,9 @@ Created on Apr 13, 2017
 @author: rid
 '''
 
-from xlrd.formula import num2strg
+import threading
 import numpy
+from xlrd.formula import num2strg
 
 from GF1408_tools.BIDI_PARAMETER import BIDI_PARAMETER
 
@@ -30,6 +31,8 @@ class BIDI_REGISTERS(object):
         
         self.HAMMERHEAD = _hammerhead;
         self.RegisterListClass = _RegisterListClass
+        
+        self.lock = threading.RLock()
     
         self.initRegisters()
         
@@ -78,13 +81,7 @@ class BIDI_REGISTERS(object):
         success = True
         for address in numpy.nditer(UpdatedRegisters):
             
-            content = self.registers_Bits[address]
-            bitstring = numpy.array2string(content, separator='')[1:-1]
-            
-            print("Write to " + num2strg(address) + " : " + bitstring)
-            
-            # TODO: Write the stuff
-            success = success and self.HAMMERHEAD.write( address,int(bitstring,2) )
+            success = success and self.writeRegister(address)
             
         return success
 
@@ -99,4 +96,19 @@ class BIDI_REGISTERS(object):
                 
                 BIDIParameter = BIDI_PARAMETER.fromListe(name, liste, self, RegisterClass)
                 setattr(self, name, BIDIParameter)
-            
+    
+    def updateAllRegisters(self)->bool:
+        
+        success = True
+        for address in range(0,self.registerCount):
+            success = success and self.writeRegister(address)
+        return success
+        
+    def writeRegister(self,address:int)->bool:
+        with self.lock:
+            assert address in range(0,self.registerCount)
+            content = self.registers_Bits[address]
+            bitstring = numpy.array2string(content, separator='')[1:-1]
+            print("Write to " + num2strg(address) + " : " + bitstring)
+            return self.HAMMERHEAD.write( address,int(bitstring,2) )    
+    

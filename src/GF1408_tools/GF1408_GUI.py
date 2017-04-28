@@ -21,7 +21,7 @@ from measurement.setup import MeasurementSetup
 
 class GF1408_GUI(QtWidgets.QMainWindow):
 
-    WINDOW_SIZE = (370, 725)
+    WINDOW_SIZE = (370, 745)
     WINDOW_NAME = 'CarrICool GF1408 - Control Window'
 
 

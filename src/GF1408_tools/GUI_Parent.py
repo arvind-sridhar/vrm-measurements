@@ -23,9 +23,6 @@ class GuiTools(QtCore.QObject):
         super(GuiTools, self).__init__(parent)
         self.parent = parent
         self.mainLayout = None
-        
-        
-        self.lock = threading.RLock()
     
     @staticmethod
     def layout_widgets(layout):
@@ -93,12 +90,13 @@ class GuiTools(QtCore.QObject):
     def async_updateBIDIReg(self, BIDI_REG, newContent):
         
         def updateReg():
-            
-            with self.lock:
-                BIDI_REG.set(newContent)
-        
+            BIDI_REG.set(newContent)
         threading.Thread(target=updateReg).start()
     
-    
+    def async_updateAllBIDIReg(self):
+        
+        def updateAllReg():
+            self.parent.BIDI.updateAllRegisters()
+        threading.Thread(target=updateAllReg).start()
         
         

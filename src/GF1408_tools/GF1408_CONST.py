@@ -14,6 +14,7 @@ class CONST():
 
     HAMMERHEAD_CONNECT_AND_INIT = "Init Hammerhead"
     HAMMERHEAD_DISCONNECT = "Disconnect Hammerhead"
+    SET_ALL_REGISTERS = "Set all registers"
     HAMMERHEAD_INIT = "Init"
     EXIT = "Exit"
     DPWM = "DPWM Control"

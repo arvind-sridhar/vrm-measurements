@@ -10,7 +10,7 @@ class Hammerhead():
     # HOST = '192.168.1.200'
     # HOST = '9.4.208.191' #hh2 
     # HOST = '9.4.208.190' #hh1 -before
-    HOST = '9.4.208.196'  # hh3
+    HOST = 'hh3'  # hh3
     BOOL_START_TELNET = True
     BOOL_PRINT_TELNET = True
     
@@ -43,6 +43,9 @@ class Hammerhead():
             # Telnet Part
             print('Starting Telnet...')
             tn = Telnet(self.ADDR)
+            
+            tn.write(b"cd ~\r")
+            tn.write(b"mount /microsd \r")
             tn.write(b"cd miromico\r")
             tn.write(b"killall bidisrv.speedy_v2\r")
             
@@ -95,8 +98,8 @@ class Hammerhead():
         '''
         assert self.isConnected
         byteData = self.bytes('w ' + str(addr) + ' ' + str(data) + '\n')
-        numBytes = self.s.sendall(byteData)
-        
+        self.s.sendall(byteData)
+        #numBytes = 
         self.printTelnet()
         
         return True#numBytes == len(byteData)

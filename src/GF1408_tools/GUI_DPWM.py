@@ -29,6 +29,16 @@ class DPWMControl_Class(GuiTools):
         
         BIDI = parent.BIDI
         
+        Layout_Container = QtWidgets.QVBoxLayout()
+        
+        
+        # ADD Set all registers button
+        Button_SetAllRegisters = QtWidgets.QPushButton(CONST.SET_ALL_REGISTERS, parent)
+        Button_SetAllRegisters.setAccessibleName(CONST.SET_ALL_REGISTERS)
+        Button_SetAllRegisters.clicked.connect(self.async_updateAllBIDIReg)
+        
+        Layout_Container.addWidget(Button_SetAllRegisters)
+        
         CheckBox_ENDPWM = QtWidgets.QCheckBox(CONST.EN_DPWM, parent)  # Enable DPWM
         CheckBox_ENDPWM.setAccessibleName(BIDI.DPWM_EN.name)
         CheckBox_RSTDPWM = QtWidgets.QCheckBox(CONST.RST_DPWM, parent)  # Reset DPWM
@@ -127,8 +137,14 @@ class DPWMControl_Class(GuiTools):
             if hasattr(button, 'valueChanged'):
                 button.valueChanged.connect(self.onChangeSpinBox)
 
+
+        BoxGrid = QtWidgets.QWidget()
+        BoxGrid.setLayout(GridLayout)
+        BoxGrid.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        Layout_Container.addWidget(BoxGrid)
+        
         gb_DPWM = QtWidgets.QGroupBox(CONST.DPWM)
-        gb_DPWM.setLayout(GridLayout)
+        gb_DPWM.setLayout(Layout_Container)
         gb_DPWM.setFixedWidth(self.WIDTH)
         # gb_DPWM.setFixedHeight( self.HEIGHT )
         gb_DPWM.setAlignment(QtCore.Qt.AlignHCenter)
@@ -136,7 +152,7 @@ class DPWMControl_Class(GuiTools):
         self.CheckBox_ENPHASES = CheckBox_ENPHASES
         
         self.GroupBox = gb_DPWM
-        self.mainLayout = GridLayout
+        self.mainLayout = Layout_Container
 
     def onChangeCheckBox(self):
         
@@ -161,9 +177,4 @@ class DPWMControl_Class(GuiTools):
             return
 
         for phase in range(0, 4):
-            
             self.ComboBox_ENPH[ phase ].setCurrentIndex( phase ) # Set standard value
-            
-        
-        #ComboBox_ENPHx.setCurrentIndex( phase )
-    
