@@ -47,19 +47,19 @@ The required packages can be installed through the python 3.6 native package man
       </tr>
       <tr>
          <th>Register name</th>
-         <th>Address</th>
+         <th>Reg #</th>
          <th>Bits</th>
-         <th>Address</th>
+         <th>Reg #</th>
          <th>Bits</th>
-         <th>Address</th>
+         <th>Reg #</th>
          <th>Bits</th>
-         <th>Address</th>
+         <th>Reg #</th>
          <th>Bits</th>
       </tr>
    </thead>
    <tbody>
     	<tr>
-         <td>EN_DPWM</td>
+         <td style="text-align:center">EN_DPWM</td>
          <td>2</td>
          <td>0</td>
          <td>0</td>
