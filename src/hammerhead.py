@@ -1,7 +1,8 @@
 #!/usr/bin/python
+
 from telnetlib import Telnet
+from datetime import datetime
 import socket
-import time
 import re
 
 class Hammerhead():
@@ -19,6 +20,7 @@ class Hammerhead():
         self.initH()
 
         self.tn = None;
+        self.LOG = ""
 
     def initH(self):
         
@@ -42,7 +44,9 @@ class Hammerhead():
             
             # Telnet Part
             print('Starting Telnet...')
+            
             tn = Telnet(self.ADDR)
+            
             
             tn.write(b"cd ~\r")
             tn.write(b"mount /microsd \r")
@@ -66,7 +70,6 @@ class Hammerhead():
             self.isConnected = False
         else:
             self.isConnected = True
-            self.printTelnet()
             print('done.')
             
         return self.isConnected
@@ -79,7 +82,6 @@ class Hammerhead():
             if self.tn!=None:
                 
                 self.tn.write(b'\x03')
-                self.printTelnet()
                 self.tn.close()
                 self.tn = None
             
@@ -100,7 +102,6 @@ class Hammerhead():
         byteData = self.bytes('w ' + str(addr) + ' ' + str(data) + '\n')
         self.s.sendall(byteData)
         #numBytes = 
-        self.printTelnet()
         
         return True#numBytes == len(byteData)
         
@@ -176,20 +177,25 @@ class Hammerhead():
         # print ibin
         return int(ibin[::-1], 2)
     
-    def printTelnet(self):
+    def printTelnetNew(self):
         
-        if Hammerhead.BOOL_PRINT_TELNET:
+        if self.tn==None:
             return
         
-        time.sleep(0.005)
         string = str(self.tn.read_very_eager(),'ascii')
         if len(string)==0:
             return
-        string=re.sub('\n', '', string)
+        string=re.sub('\n\n', '\n', string)
         string=re.sub('\r', '\n', string)
-        print("HH: "+ string)
+        
+        print("diese")
+        
+        now = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+        string = now+" : "+string+" \n"
+        self.LOG+=string
+
     
     def bytes(self,intx:int)->bytes:
         return bytes(intx,"ascii")
 
-
+    

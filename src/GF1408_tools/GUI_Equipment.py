@@ -7,12 +7,14 @@ Created on Apr 18, 2017
 '''
 
 
+from threading import Timer
 from threading import Thread
 from PyQt5 import QtWidgets,QtCore,Qt
 from PyQt5.QtCore import pyqtSignal
 from GF1408_tools.GF1408_CONST import CONST
 from GF1408_tools.GUI_Parent import GuiTools
 from GF1408_tools.GF1408_MConfig import GF1408config
+from GF1408_tools.GF1408_LogView import LogView
 from PyQt5.Qt import QPushButton
 
 from typing import List
@@ -35,25 +37,37 @@ class EquipmentGui_Class(GuiTools):
     
     PYQT_SIGNAL_HH = pyqtSignal()
     PYQT_SIGNAL_INST = pyqtSignal()
+    PYQT_SIGNAL_LOG = pyqtSignal()
 
     def __init__(self, parent):
         
         super(EquipmentGui_Class, self).__init__(parent)
-
+        
         Layout_Container = QtWidgets.QVBoxLayout()
         Layout_Inner = QtWidgets.QHBoxLayout()
+        
+        TabWidget = QtWidgets.QTabWidget(parent)
+        
         Layout_Inner2 = QtWidgets.QVBoxLayout()
         GridLayout = QtWidgets.QGridLayout();
 
-        Box = QtWidgets.QWidget()
-        Box.setLayout(Layout_Inner)
-        Box.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        BoxButtons = QtWidgets.QWidget()
+        BoxButtons.setLayout(Layout_Inner)
+        BoxButtons.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
         Layout_Inner.layout().setContentsMargins(0, 0, 0, 0)
         
-        Box2 = QtWidgets.QWidget()
-        Box2.setLayout(Layout_Inner2)
-        Box2.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+        BoxControls = QtWidgets.QWidget()
+        BoxControls.setLayout(Layout_Inner2)
+        BoxControls.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
         Layout_Inner2.layout().setContentsMargins(0, 0, 0, 0)
+        
+        logView = LogView(parent);
+        self.logView = logView
+        
+        self.PYQT_SIGNAL_LOG.connect(self.updateLog)
+        
+        TabWidget.addTab(BoxControls, "Controls")
+        TabWidget.addTab(logView , "Log")
 
         Box3 = QtWidgets.QWidget()
         Box3.setLayout(GridLayout)
@@ -77,8 +91,8 @@ class EquipmentGui_Class(GuiTools):
         
         Layout_Inner2.addWidget(Box3)
         
-        Layout_Container.addWidget(Box)
-        Layout_Container.addWidget(Box2)
+        Layout_Container.addWidget(BoxButtons)
+        Layout_Container.addWidget(TabWidget)
         
 
         ################ Equipemt Table ################
@@ -172,6 +186,8 @@ class EquipmentGui_Class(GuiTools):
         self.GroupBox = gb_Hammerhead
         self.parent = parent
         self.mainLayout = Layout_Inner2
+        
+        
 
     def onClickButton(self):
 
@@ -250,11 +266,16 @@ class EquipmentGui_Class(GuiTools):
             else:
                 parent.h.connect()
                 parent.h.init()
+                t = Timer(0.1, self.readLog)
+                t.start()
         except Exception as e:
             print(str(e))
 
         self.PYQT_SIGNAL_HH.emit()
-    
+        
+        
+        
+        
     def async_connectINST(self):
         
         setup = self.parent.setup
@@ -267,7 +288,25 @@ class EquipmentGui_Class(GuiTools):
             print(str(e))
         
         self.PYQT_SIGNAL_INST.emit()
-    
+
     def setEnabled(self, en:bool)->None:
         
         super(EquipmentGui_Class, self).setEnabled(en,[self.Button_Connect,self.Button_ConnectINST])
+    
+    def readLog(self):
+        
+        self.parent.h.printTelnetNew()
+        self.PYQT_SIGNAL_LOG.emit()
+        
+        if self.parent.h.isConnected:
+            t = Timer(0.5, self.readLog)
+            t.start()
+        
+    
+    def updateLog(self):
+        
+        self.logView.textEdit.setPlainText(self.parent.h.LOG)
+        
+        
+    
+    

@@ -21,7 +21,7 @@ from measurement.setup import MeasurementSetup
 
 class GF1408_GUI(QtWidgets.QMainWindow):
 
-    WINDOW_SIZE = (370, 745)
+    WINDOW_SIZE = (370, 785)
     WINDOW_NAME = 'CarrICool GF1408 - Control Window'
 
 
@@ -51,7 +51,8 @@ class GF1408_GUI(QtWidgets.QMainWindow):
         self.show()
 
     def getGUIElements(self):
-
+        
+       
         v0Box, v0Layout = self.addVWidget()
 
         self.Load_GUI        = LoadControl_Class(self)
@@ -66,6 +67,7 @@ class GF1408_GUI(QtWidgets.QMainWindow):
         v0Layout.addWidget(self.HammerHead_GUI.GroupBox)
         v0Layout.addWidget(self.DPWM_GUI.GroupBox)
         v0Layout.addWidget(self.Load_GUI.GroupBox)
+        
         return v0Box
 
     def addVWidget(self):

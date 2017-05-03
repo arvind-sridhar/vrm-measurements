@@ -24,7 +24,7 @@ def main():
     config = GF1408config()
     mSetup = MeasurementSetup( config )
     
-    GF1408_GUI.GF1408_GUI(BIDI, hh, mSetup)
+    gui=GF1408_GUI.GF1408_GUI(BIDI, hh, mSetup)
     
     sys.exit(app.exec_())
 
