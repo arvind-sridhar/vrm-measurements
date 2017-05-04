@@ -25,9 +25,6 @@ class Hammerhead():
     def initH(self):
         
         self.ADDR = self.__class__.HOST
-        
-        # TODO: Fix address
-#       self.ADDR = 'hh3'
         self.CHANNEL = 0
         self.PORT = 55555
         self.DEBUGLEVEL = 2
@@ -92,16 +89,24 @@ class Hammerhead():
             
         return self.isConnected==False
     
-    def write(self, addr:int, data:str) -> bool:
+    def write(self, addr:int, data:int) -> bool:
         '''
         Writes bytes to socket
         :param addr:int Address of BIDI Register
-        :param data:str String with new register content
+        :param data:int String with new register content
         '''
+        #assert isinstance(data, str)
         assert self.isConnected
-        byteData = self.bytes('w ' + str(addr) + ' ' + str(data) + '\n')
-        self.s.sendall(byteData)
-        #numBytes = 
+        
+        self.s.setblocking(True)
+        CODE = 'w ' + str(addr) + ' ' + str(data) + '\n';
+        byteData = self.bytes(CODE)
+        numbytes = self.s.sendall(byteData)
+        
+        
+        if self.DEBUGLEVEL > 0:
+            print(CODE +"| Send: " + str(numbytes));
+            print('HH write: addr=0x%03x, data=0x%03x \n' % (addr, data))
         
         return True#numBytes == len(byteData)
         
@@ -172,10 +177,7 @@ class Hammerhead():
         print('done.')
 
     def reverseBits(self, i:int, nbits:int) -> int:
-        ibin = bin(i)[2:]
-        ibin = '0' * (nbits - len(ibin)) + ibin
-        # print ibin
-        return int(ibin[::-1], 2)
+        return int(bin(i)[2:].zfill(nbits)[::-1], 2)
     
     def printTelnetNew(self):
         
@@ -185,17 +187,18 @@ class Hammerhead():
         string = str(self.tn.read_very_eager(),'ascii')
         if len(string)==0:
             return
-        string=re.sub('\n\n', '\n', string)
-        string=re.sub('\r', '\n', string)
-        
-        print("diese")
+        stringArr=string.split('dbg:',1)
         
         now = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        string = now+" : "+string+" \n"
+        output = ""
+        for newString in stringArr:
+            newString = newString.replace("\n","")
+            newString = newString.replace("\r","")
+            output+= (now+" : "+newString+" \n")
         self.LOG+=string
 
     
-    def bytes(self,intx:int)->bytes:
-        return bytes(intx,"ascii")
+    def bytes(self,intx:str)->bytes:
+        return bytes(intx,'ascii')
 
     

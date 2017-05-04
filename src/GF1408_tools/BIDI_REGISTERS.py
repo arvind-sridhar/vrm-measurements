@@ -81,7 +81,8 @@ class BIDI_REGISTERS(object):
         success = True
         for address in numpy.nditer(UpdatedRegisters):
             
-            success = success and self.writeRegister(address)
+            
+            success = success and self.writeRegister( address.item(0) )
             
         return success
 
@@ -107,8 +108,19 @@ class BIDI_REGISTERS(object):
     def writeRegister(self,address:int)->bool:
         with self.lock:
             assert address in range(0,self.registerCount)
+            
+            assert isinstance( address, int )
+            
+            newadress = '{0:011b}1'.format(address);
+            
+            '''deco = 0
+            newdeco = '{0:03b}'.format(deco);
+            dbus = '{0:08b}'.format(address);
+            newadress = "{0}{1}".format(newdeco,dbus);#'''
+            
             content = self.registers_Bits[address]
             bitstring = numpy.array2string(content, separator='')[1:-1]
-            print("Write to " + num2strg(address) + " : " + bitstring)
-            return self.HAMMERHEAD.write( address,int(bitstring,2) )    
+            intContent = int(bitstring,2)
+            print("Write to " + num2strg(address) + " : " + bitstring + " : " + "{0}".format(intContent))
+            return self.HAMMERHEAD.write(  newadress, intContent) #int(bitstring,2)    
     

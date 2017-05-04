@@ -246,7 +246,6 @@ class EquipmentGui_Class(GuiTools):
             _button.setEnabled(True);
             newtext = _textList[0] 
             if(connected):
-                print(1)
                 parent.status('Connected')
                 newtext = _textList[1]              
             else:
@@ -299,14 +298,14 @@ class EquipmentGui_Class(GuiTools):
         self.PYQT_SIGNAL_LOG.emit()
         
         if self.parent.h.isConnected:
-            t = Timer(0.5, self.readLog)
+            t = Timer(1, self.readLog)
             t.start()
+        
         
     
     def updateLog(self):
         
-        self.logView.textEdit.setPlainText(self.parent.h.LOG)
-        
+       self.logView.setPlainText(self.parent.h.LOG)
         
     
     

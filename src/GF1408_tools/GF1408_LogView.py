@@ -4,7 +4,7 @@ Created on May 3, 2017
 @author: rid
 '''
 
-from PyQt5 import QtWidgets,QtCore
+from PyQt5 import QtWidgets,QtCore, QtGui
 
 class LogView(QtWidgets.QWidget):
     '''
@@ -29,8 +29,13 @@ class LogView(QtWidgets.QWidget):
         
         self.textEdit = textEdit
         
-    def addText(self, text_new):
+    def setPlainText(self, text_new):
         
-        self.textEdit.plainText.append(text_new)
+        self.textEdit.setPlainText(text_new)
+        cursor =  self.textEdit.textCursor()
+        cursor.movePosition(QtGui.QTextCursor.End);
+        self.textEdit.setTextCursor(cursor);
+
+
     
     

@@ -32,9 +32,9 @@ class GF1408_BIDI_REGISTERLIST():
     EN_PH_2 = [True, 12 + 10, 1, 1]
     EN_PH_3 = [True, 12 + 11, 1, 1]
 
-    LOAD_EN = [True, 2 * 12 + 0, 32, 0, "static_mapLOADEN2int"]
-    LOAD_CTRL_EN = [True, 4 * 12 + 8, 1, 1]
-    LOAD_CTRL_PROG = [True, 4 * 12 + 9, 1, 1]
+    LOAD_EN =           [True, 2 * 12 + 0, 32, 0, "static_mapLOADEN2int"]
+    LOAD_CTRL_EN =      [True, 4 * 12 + 8, 1, 1]
+    LOAD_CTRL_PROG =    [True, 4 * 12 + 9, 1, 1]
     LOAD_CTRL_SEL_CLK = [True, 4 * 12 + 10, 2, 1, "static_mapLOADCLK2int"]
 
     @classmethod
@@ -103,7 +103,7 @@ class IBM32_BIDI_REGISTERLIST(GF1408_BIDI_REGISTERLIST):
 
 class GF1408_BIDI(BIDI_REGISTERS):
 
-    BIDI_SIZE = 24
+    BIDI_SIZE = 9
 
     def __init__(self, _hammerhead:"hammerhead.Hammerhead",_BidiListClass:GF1408_BIDI_REGISTERLIST):
         '''
