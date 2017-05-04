@@ -10,8 +10,6 @@ class LogView(QtWidgets.QWidget):
     '''
     classdocs
     '''
-
-
     def __init__(self, parent):
         '''
         Constructor
@@ -26,7 +24,6 @@ class LogView(QtWidgets.QWidget):
         
         self.setLayout(Layout_Log)
         self.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
-        
         self.textEdit = textEdit
         
     def setPlainText(self, text_new):
@@ -35,7 +32,3 @@ class LogView(QtWidgets.QWidget):
         cursor =  self.textEdit.textCursor()
         cursor.movePosition(QtGui.QTextCursor.End);
         self.textEdit.setTextCursor(cursor);
-
-
-    
-    

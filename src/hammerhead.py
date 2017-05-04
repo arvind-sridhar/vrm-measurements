@@ -3,7 +3,6 @@
 from telnetlib import Telnet
 from datetime import datetime
 import socket
-import re
 
 class Hammerhead():
     
@@ -106,7 +105,7 @@ class Hammerhead():
         
         if self.DEBUGLEVEL > 0:
             print(CODE +"| Send: " + str(numbytes));
-            print('HH write: addr=0x%03x, data=0x%03x \n' % (addr, data))
+            #print('HH write: addr=0x%03x, data=0x%03x \n' % (addr, data))
         
         return True#numBytes == len(byteData)
         

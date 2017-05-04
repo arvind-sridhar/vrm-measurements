@@ -111,16 +111,20 @@ class BIDI_REGISTERS(object):
             
             assert isinstance( address, int )
             
-            newadress = '{0:011b}1'.format(address);
+            #newadress = '{0:011b}1'.format(address);
             
-            '''deco = 0
+            deco = 0
             newdeco = '{0:03b}'.format(deco);
             dbus = '{0:08b}'.format(address);
-            newadress = "{0}{1}".format(newdeco,dbus);#'''
+            newadress = "{0}{1}".format(dbus,newdeco);#'''
+            # 1. 8 Bits MSB first adress, then 3 Bits Deco
             
             content = self.registers_Bits[address]
             bitstring = numpy.array2string(content, separator='')[1:-1]
-            intContent = int(bitstring,2)
-            print("Write to " + num2strg(address) + " : " + bitstring + " : " + "{0}".format(intContent))
-            return self.HAMMERHEAD.write(  newadress, intContent) #int(bitstring,2)    
+            
+            address_int = int(newadress,2)
+            content_int = int(bitstring,2)
+            
+            print("Write to " + newadress + " : " + bitstring + " : " + "{0}".format(content_int))
+            return self.HAMMERHEAD.write(  address_int, content_int)      
     

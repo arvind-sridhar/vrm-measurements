@@ -79,8 +79,8 @@ class GF1408_BIDI_REGISTERLIST():
 
 class IBM32_BIDI_REGISTERLIST(GF1408_BIDI_REGISTERLIST):
     
-    DPWM_EN =   [True, 2*12+0, 1, 1]
-    DPWM_RST =  [True, 0*12+0, 1, 0]
+    DPWM_EN   = [True, 2*12+0, 1, 1]
+    DPWM_RST  = [True, 0*12+0, 1, 0]
     DPWM_DUTY = [True, 1*12+0, 4, 2 ** 3, "static_mapDUTYcycle2int"]
     DPWM_DT_N = [True, 2*12+5, 3, 0, "static_mapDT2int"]
     DPWM_DT_P = [True, 2*12+8, 4, 0, "static_mapDT2int"]
@@ -110,6 +110,4 @@ class GF1408_BIDI(BIDI_REGISTERS):
         Constructor
         '''
         super(GF1408_BIDI, self).__init__(self.BIDI_SIZE, _hammerhead, _BidiListClass)
-
-
 

@@ -48,7 +48,7 @@ class EquipmentGui_Class(GuiTools):
         
         TabWidget = QtWidgets.QTabWidget(parent)
         
-        Layout_Inner2 = QtWidgets.QVBoxLayout()
+        BoxControls_Layout = QtWidgets.QVBoxLayout()
         GridLayout = QtWidgets.QGridLayout();
 
         BoxButtons = QtWidgets.QWidget()
@@ -57,9 +57,9 @@ class EquipmentGui_Class(GuiTools):
         Layout_Inner.layout().setContentsMargins(0, 0, 0, 0)
         
         BoxControls = QtWidgets.QWidget()
-        BoxControls.setLayout(Layout_Inner2)
+        BoxControls.setLayout(BoxControls_Layout)
         BoxControls.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
-        Layout_Inner2.layout().setContentsMargins(0, 0, 0, 0)
+        BoxControls_Layout.layout().setContentsMargins(0, 0, 0, 0)
         
         logView = LogView(parent);
         self.logView = logView
@@ -89,7 +89,7 @@ class EquipmentGui_Class(GuiTools):
         Layout_Inner.addWidget(Button_Connect)
         Layout_Inner.addWidget(Button_ConnectINST)
         
-        Layout_Inner2.addWidget(Box3)
+        BoxControls_Layout.addWidget(Box3)
         
         Layout_Container.addWidget(BoxButtons)
         Layout_Container.addWidget(TabWidget)
@@ -185,7 +185,7 @@ class EquipmentGui_Class(GuiTools):
 
         self.GroupBox = gb_Hammerhead
         self.parent = parent
-        self.mainLayout = Layout_Inner2
+        self.mainLayout = BoxControls_Layout
         
         
 
