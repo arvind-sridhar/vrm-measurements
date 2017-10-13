@@ -16,6 +16,8 @@ from GF1408_tools.GF1408_MConfig import GF1408config
 from measurement.setup import MeasurementSetup
 
 def main():
+
+	a=1 # dummy command- to test git new branch
     
     app = QtWidgets.QApplication(sys.argv)
     
