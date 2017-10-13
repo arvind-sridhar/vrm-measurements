@@ -10,9 +10,14 @@ class Hammerhead():
     # HOST = '192.168.1.200'
     # HOST = '9.4.208.191' #hh2 
     # HOST = '9.4.208.190' #hh1 -before
-    HOST = 'hh3'  # hh3
-    BOOL_START_TELNET = True
-    BOOL_PRINT_TELNET = True
+    # HOST = hh3
+    HOST = '9.4.208.192'  # hh4
+    # BOOL_START_TELNET = True
+    # BOOL_PRINT_TELNET = True
+    
+    BOOL_START_TELNET = False
+    BOOL_PRINT_TELNET = False
+    #
     
     def __init__(self):
         super(Hammerhead, self).__init__()
@@ -44,10 +49,10 @@ class Hammerhead():
             tn = Telnet(self.ADDR)
             
             
-            tn.write(b"cd ~\r")
-            tn.write(b"mount /microsd \r")
+            #tn.write(b"cd ~\r")
+            #tn.write(b"mount /microsd \r")
             tn.write(b"cd miromico\r")
-            tn.write(b"killall bidisrv.speedy_v2\r")
+            #tn.write(b"killall bidisrv.speedy_v2\r")
             
             if(self.BOOL_START_TELNET):
                 print('Starting bidisrv...')

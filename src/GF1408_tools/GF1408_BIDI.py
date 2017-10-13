@@ -11,7 +11,7 @@ from GF1408_tools.BIDI_REGISTERS import BIDI_REGISTERS
 class GF1408_BIDI_REGISTERLIST():
     '''
     Class holding the BIDI Registers of the 1410 Tapeout
-
+    
     For linear registers the following arrangement was used:
     {List} = [Is_linear:bool, Startbit:int, Bitcount:int, Standardvalue:int, mapfuncname:str]
     '''

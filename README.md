@@ -301,5 +301,5 @@ The required packages can be installed through the python 3.6 native package man
 - [x] Communication with hammerhead
 - [x] Communication with instruments
 - [ ] GUI-instruments binding
-- [ ] Logging of Telnet/Websocket activity
+- [x] Logging of Telnet/Websocket activity
 	
